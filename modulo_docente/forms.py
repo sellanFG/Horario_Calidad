@@ -1,0 +1,12 @@
+from django import forms
+from .models import disponibilidad_docente
+
+class dispo_form(forms.ModelForm):
+    class Meta:
+        model: disponibilidad_docente
+        fields = ['__all__']
+
+
+class UploadCSVForm(forms.Form):
+    csv_file = forms.FileField(required=False)
+    excel_file = forms.FileField(required=False)

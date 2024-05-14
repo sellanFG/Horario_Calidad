@@ -1,0 +1,125 @@
+{% load i18n static %}
+{% block title %} Cursos en plan de estudio {% endblock %}
+{% block content %}
+
+    <section class="content-info" style="margin-top: 20px; margin-bottom: 20px">
+        <div class="container">
+            <div class="row">
+
+                <form class="col-md-6" id="form_cursos" method="post" action="{% url 'grupoHorario' %}">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        <label>Escuela: </label>
+                        <select name="escuela" id="escuela">
+                            <option value="">Selecciona una Escuela</option>
+                            {% for esc in escuela %}
+                                <option value="{{ esc.nombre_escuela }}"
+                                        {% if esc.nombre_escuela == escuela_select %}selected{% endif %}>{{ esc.nombre_escuela }}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Plan de estudio: </label>
+                        <select name="plan_estudio" id="plan_estudio">
+                            <option value="">Selecciona un plan de estudio</option>
+                            {% for plan in plan_estudio %}
+                                <option value="{{ plan.plan_nombre }}"
+                                        {% if plan.plan_nombre == plan_select %}selected{% endif %}>{{ plan.plan_nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- Tabla para los cursos -->
+                <div class="col-md-6">
+                    <table class="table-striped table-responsive table-hover result-point">
+                        <br>
+                        <thead>
+                        <tr>
+                            <th>CURSOS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for curso in cursos %}
+                            <tr>
+                                <td>{{ curso.codigo_curso }}</td>
+                                <td>{{ curso.ciclo_curso }}</td>
+                                <td>{{ curso.nombre_curso }}</td>
+                                <td><input type="number" name="cantidad_{{ curso.id }}" value="0" min="0" step="1"></td>
+                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}"></td>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+            <!--<div class="row">
+                 Tabla para los cursos 
+                <div class="col-md-6">
+                    <table class="table-striped table-responsive table-hover result-point">
+                        <br>
+                        <thead>
+                        <tr>
+                            <th>CURSOS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for curso in cursos %}
+                            <tr>
+                                <td>{{ curso.codigo_curso }}</td>
+                                <td>{{ curso.ciclo_curso }}</td>
+                                <td>{{ curso.nombre_curso }}</td>
+                                <td><input type="number" name="cantidad_{{ curso.codigo_curso }}" value="0" min="0" step="1"></td>
+                                <td><input type="checkbox" name="seleccionado_{{ curso.codigo_curso }}"></td>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>-->
+        </div>
+    </section>
+
+    <style>
+        select {
+            width: auto;
+            padding: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            color: #333;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: rgba(67, 183, 22, 0.78);
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #e7e5e5;
+            color: black;
+        }
+    </style>
+
+    <script>
+        document.getElementById('escuela').addEventListener('change', function () {
+            document.getElementById('plan_estudio').innerHTML = '<option value="">Selecciona un plan de estudio</option>';
+            document.getElementById('form_cursos').submit();
+        });
+
+        document.getElementById('plan_estudio').addEventListener('change', function () {
+            document.getElementById('form_cursos').submit();
+        });
+    </script>
+
+{% endblock %}
