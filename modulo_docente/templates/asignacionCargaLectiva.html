@@ -1,0 +1,296 @@
+{% load static %} {% block title %} {% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asignación de carga lectiva</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="box-tittle">
+        <h1 id="tittle">Asignación de carga lectiva</h1>
+    </div>
+
+    <div class="box-form">
+        <form id="form_lectiva" method="post" action="{% url 'asignacionCargaLectiva' %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-12">
+                    <label for="ciclo_ac">Ciclo académico: </label>
+                    <select name="ciclo_ac" id="ciclo_ac">
+                        <option value="">Selecciona un ciclo académico</option>
+                        {% for ciclo in ciclo_select %}
+                            <option value="{{ ciclo }}"
+                                    {% if ciclo == ciclo_seleccionado %}selected{% endif %}>{{ ciclo }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label for="esc">Escuela: </label>
+                    <select name="esc" id="esc">
+                        <option value="">Selecciona una escuela</option>
+                        {% for escuela in escuela_select %}
+                            <option value="{{ escuela.nombre_escuela }}"
+                                    {% if escuela.nombre_escuela == escuela_seleccionada %}selected{% endif %}>{{ escuela.nombre_escuela }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <input type="hidden" id="cicloSeleccionado2" name="ciclo_seleccionado2">
+                <input type="hidden" id="escuelaSeleccionada2" name="escuela_seleccionada2">
+                
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="buscarCurso" style="display: inline-block; width: 100px">Buscar curso:</label>
+                <input type="text" id="filtro" placeholder="Buscar...">
+                <button type="button" class="btn btn-secondary" id="limpiarBtn">Limpiar</button>
+            </div>
+
+            <div class="box-table">
+                <table class="table" id="tabla">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Ciclo</th>
+                            <th scope="col">Nombre del curso</th>
+                            <th scope="col">Grupo Horario</th>
+                            <th scope="col">Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for curso in cursos %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td id="curso">{{ curso.0 }}</td>
+                            <td>{{ curso.1 }}</td>
+                            <td>
+                                <input value="{{ curso.2 }}" disabled> 
+                                <button type="button" class="btn btn-primary seleccionarDocenteBtn" id="{{ curso.3 }}">Seleccionar Docente</button>
+                            </td>
+                            
+                        </tr>
+                    {% endfor %}
+
+                    
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="modalDocentes">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo">Asignar docente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for docente in docentes %}
+                    <div class="form-check">
+                        <input type="checkbox" value="{{ docente }}" class="checkvalues">{{ docente }}
+                    </div>
+                    {% endfor %}
+                    <input type="hidden" id="txtvalues" name="checkvalue">
+                    <input type="hidden" id="grupoIdValue" name="grupoId">
+                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button id="bt1" type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
+</body>
+</html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .form-container {
+        margin-bottom: 20px;
+    }
+
+    .select-box,
+    .search-input {
+        width: 200px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+
+    .data-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .data-table th,
+    .data-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .data-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+
+    .button-container {
+        margin-top: 20px;
+    }
+
+    .cancel-button,
+    .save-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .cancel-button:hover,
+    .save-button:hover {
+        background-color: #f2f2f2;
+    }
+</style>
+
+
+<script>
+
+$(document).ready(function(){
+
+$('.checkvalues').click(function(){
+    var valorCheckbox = "";
+    $('.checkvalues:checked').each(function(){
+        valorCheckbox = $(this).val();
+    });
+    $('#txtvalues').val(valorCheckbox); 
+   
+});
+
+});
+
+
+$(document).ready(function(){
+    var grupoId = ""; 
+
+
+    $('#bt1').click(function(){
+        grupoId = $('.seleccionarDocenteBtn.clicked').attr('id');
+        $('#grupoIdValue').val(grupoId);        
+        var cicloSeleccionado = $('#ciclo_ac').val();
+        var escuelaSeleccionada = $('#esc').val();
+        $('#cicloSeleccionado2').val(cicloSeleccionado);
+        $('#escuelaSeleccionada2').val(escuelaSeleccionada);
+    });
+
+    $('.seleccionarDocenteBtn').click(function(){
+        $('.seleccionarDocenteBtn').removeClass('clicked'); 
+        $(this).addClass('clicked'); 
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var cicloSelector = document.getElementById('ciclo_ac');
+    var escuelaSelector = document.getElementById('esc');
+    var form = document.getElementById('form_lectiva');
+
+    cicloSelector.addEventListener('change', function () {
+        if (escuelaSelector.value !== '') {
+            form.submit();
+        }
+    });
+
+    escuelaSelector.addEventListener('change', function () {
+        if (cicloSelector.value !== '') {
+            form.submit();
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var filtroInput = document.getElementById("filtro");
+    var limpiarBtn = document.getElementById("limpiarBtn");
+    var tabla = document.querySelector(".table");
+    var nombreColumnaIndex = 2; 
+
+    function filtrarTabla() {
+        var filtro = filtroInput.value.toLowerCase();
+        var filas = tabla.getElementsByTagName("tr");
+        
+        for (var i = 0; i < filas.length; i++) {
+            var celdaNombre = filas[i].getElementsByTagName("td")[nombreColumnaIndex];
+            if (celdaNombre) {
+                var textoCelda = celdaNombre.innerText.toLowerCase();
+                var fila = filas[i];
+                if (textoCelda.indexOf(filtro) > -1) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
+                }
+            }
+        }
+    }
+
+    filtroInput.addEventListener("keyup", filtrarTabla);
+
+    limpiarBtn.addEventListener("click", function() {
+        filtroInput.value = ""; 
+        filtrarTabla(); 
+    });
+    
+});
+
+var seleccionarDocenteBtns = document.querySelectorAll(".seleccionarDocenteBtn");
+
+seleccionarDocenteBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+        var filaCurso = this.closest("tr");
+        var curso = filaCurso.querySelector("td:nth-child(3)").textContent;
+        var grupo = filaCurso.querySelector("td:nth-child(4)").textContent;
+
+        var modalTitulo = document.querySelector("#modalDocentes .modal-title");
+        modalTitulo.textContent = "Asignar docente para el curso " + curso +" ("+ grupo+")";
+
+        $("#modalDocentes").modal("show");
+
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                checkboxes.forEach(function(cb) {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}
