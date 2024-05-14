@@ -7,3 +7,8 @@ py -3 -m venv .venv
 Instalar dependenias
 
 pip install -r requerimientos.txt
+
+Nombre de usuario y contraseña
+admin
+123
+
