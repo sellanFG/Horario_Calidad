@@ -1,115 +1,211 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horarios-Generados</title>
+    <title>Horarios asignados por ambiente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
-        /* Estilos para el panel izquierdo */
-        .panel {
-            width: 2%; /* Ancho inicial más pequeño */
-            background-color: #d61212; /* Rojo vino */
-            float: left;
-            padding: 20px;
-            height: 100vh; /* Altura igual al 100% del viewport */
-            overflow: hidden; /* Ocultar contenido que exceda el panel */
-            transition: width 0.3s ease; /* Animación de transición */
-        }
-        .panel.expandido {
-            width: 10%; /* Ancho expandido */
-        }
-        /* Estilos para la tabla */
-        .tabla-container {
-            display: flex;
-            justify-content: center; /* Centrar horizontalmente */
-            align-items: center; /* Centrar verticalmente */
-            margin: 20px auto; /* Márgenes automáticos */
-            max-width: 800px; /* Ancho máximo de la tabla */
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
-        /* Estilos responsivos */
-        @media screen and (max-width: 768px) {
-            .panel, table {
-                width: 100%;
-                margin-left: 0;
-            }
-        }
-        /* Estilos para el encabezado */
-        header {
-            background-color: #d61212; /* Rojo vino */
-            color: white;
-            text-align: center;
-            padding: 10px;
+        .card-header{
+            color: rgb(255, 255, 255);
+            background-color: #E33439;
+            border: #E33439;
         }
     </style>
-    <script>
-        // Función para expandir o minimizar el panel
-        function togglePanel() {
-            const panel = document.querySelector('.panel');
-            panel.classList.toggle('expandido');
-        }
-    </script>
+
 </head>
-<body>
-    <header>
-        <h1>Generar Horario de docentes 2024</h1>
-    </header>
-    <div class="panel">
-        <!-- Contenido del panel izquierdo -->
-        <p>Panel Izquierdo</p>
-        <button onclick="togglePanel()">Expandir</button>
+<body style="background-color: #E2E3E5;">
+  <div class="container-fluid p-0 m-auto">
+    <nav class="navbar navbar-expand bg-white mx-auto">
+      <div class="container-fluid w-100 d-block">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 m-auto my-2">
+            <a class="navbar-brand" href="#">
+              <img class="img-fluid ms-1 me-4" src="http://www.usat.edu.pe/web/wp-content/uploads/2023/05/logo_usat25.png" alt="Logo usat">
+            </a>
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-6 m-auto">
+            <h3><strong>Bienvenido, NICHO</strong><br /><h6 style="color: #909090	;">Realiza tus procesos ahora!</h6></h3>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 my-sm-4 mx-auto">
+            <div class="container-fluid w-100 d-block">
+              <div class="row">
+                <div class="col-3 m-auto p-0 text-end">
+                  <button type="button" class="btn position-relative mb-0 p-0 mt-3">
+                    <i class="fa fa-bell-o mt-3 me-2"></i>
+                    <span class="position-absolute top-0 translate-middle badge rounded-pill bg-dark mt-1" style="left: 82%;">4</span>
+                  </button>
+                </div>
+                <div class="col-9 m-auto p-0 text-center">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-4 mx-0 p-0 d-block text-end">
+                        <img class="rounded-circle img-fluid h-75 mt-xl-3 mt-md-3 mt-sm-2 mx-0" style="width: 35%;" alt="user" src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"/>
+                      </div>
+                      <div class="col-8 mx-0 p-0">
+                        <div class="dropdown d-block text-start mt-xl-3 mt-md-3 mt-sm-2">
+                          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ernesto, Nicho
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Ajustes</a></li>
+                            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  <div class="container-fluid overflow-hidden">
+    <div class="row vh-100 overflow-auto">
+        <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger">
+            <div  id="sidebar-nav"  class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white  sticky-top">
+                <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+                    <div class="dropdown mt-3 mb-4">
+                      <a class="btn shadow-none border-0 dropdown-toggle" style="color: white;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        <i class="fs-4 my-0 py-0 fa fa-th-large me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Actividades</span>
+                      </a>
+                      <ul class="dropdown-menu text-small border-0 d-block" style="background-color: transparent;">
+                        <li><a class="dropdown-item active bg-black rounded-pill" href="#"><i class="fs-5 my-0 py-0 fa fa-align-left me-3 ms-2" style="color: white;"></i>Resumen</a></li>
+                        <li><a class="dropdown-item rounded" href="#"><i class="fs-5 my-0 py-0 fa fa-filter me-3 ms-2" style="color: white;"></i>Custom view</a></li>
+                      </ul>
+                    </div>
+                    <div class="mt-5 pt-2">
+                      <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-envelope-o me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Messages</span>
+                        <span class="badge rounded-pill bg-dark me-4">2</span>
+                      </a>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-book me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horarios</span>
+                      </a>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-users me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docentes</span>
+                      </a>
+                    </div>
+                    <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
+                    <div class="mt-3 mb-3">
+                      <a class="btn shadow-none border-0 pb-3" style="color: white;" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-cog me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Configuración</span>
+                      </a>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
+                        <span class="my-auto ms-2 d-none d-sm-inline text-white">Help</span>
+                      </a>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
+                        <span class="my-auto ms-2 d-none d-sm-inline text-white">Contact us</span>
+                      </a>
+                    </div>
+                    <div class="mt-3 ms-2">
+                      <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-deaf me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Logout</span>
+                      </a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="col d-flex flex-column h-sm-100">
+            <main class="row overflow-auto">
+              <div class="container-fluid col">
+                <h1 class="text-start pt-4 pb-2 px-lg-2 mx-lg-2">                
+                  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="rounded-3 p-1 text-decoration-none"><i class="fa fa-arrow-circle-left" style="color: #E33439;"></i></a>
+                  </h1>                 
+                  <form class="px-lg-2 mx-lg-2 py-0 my-0">
+                  <table class="table table-sm align-middle table-borderless w-100 mx-auto">
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
+                  <div class="container-fluid m-0 p-0">
+                    <div class="row align-items-center mx-0 px-0">
+                      
+
+                        <div class="container justify-content-center">
+                            <div class="row" >
+                
+                
+                                <div class="col-md-3">
+                                    <div class="card mb-4 rounded-3 shadow-sm ">
+                                        <div class="card-header py-3 ">
+                                            <h4 class="my-0 fw-normal">HORARIOS</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3><small class="text-body-secondary fw-light">Generar horarios </small></h3>
+                                            <button type="button" class="w-100 btn-lg btn-primary">Ver</button>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                
+                                <div class="col-md-3">
+                                    <div class="card mb-4 rounded-3 shadow-sm ">
+                                        <div class="card-header py-3">
+                                            <h4 class="my-0 fw-normal">Docente</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3><small class="text-body-secondary fw-light">Disponibilidad Docente </small></h3>
+                                            <button type="button" class="w-100 btn-lg btn-primary">Ver</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="card mb-4 rounded-3 shadow-sm ">
+                                        <div class="card-header py-3">
+                                            <h4 class="my-0 fw-normal">Curso</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3><small class="text-body-secondary fw-light">Asignar cursos </small></h3>
+                                            <button type="button" class="w-100 btn-lg btn-primary">Ver</button>
+                                        </div>
+                                    </div>
+                                </div> 
+
+                                <div class="col-md-3">
+                                    <div class="card mb-4 rounded-3 shadow-sm ">
+                                        <div class="card-header py-3">
+                                            <h4 class="my-0 fw-normal">Grupo</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3><small class="text-body-secondary fw-light">Generar Grupos </small></h3>
+                                            <button type="button" class="w-100 btn-lg btn-primary">Ver</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+
+
+                    </div>
+                  </div>
+                  <div class="overflow-auto px-0 mx-auto py-0 my-0 w-100" style="max-height: 410px;">
+                    
+                  </div>
+                </form>
+              </div>
+            </main>
+        </div>
     </div>
-    <div class="tabla-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Columna 1</th>
-                    <th>Columna 2</th>
-                    <th>Columna 3</th>
-                    <th>Columna 4</th>
-                    <th>Columna 5</th>
-                    <th>Columna 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Filas y celdas de la tabla -->
-                <tr>
-                    <td>Fila 1, Celda 1</td>
-                    <td>Fila 1, Celda 2</td>
-                    <td>Fila 1, Celda 3</td>
-                    <td>Fila 1, Celda 4</td>
-                    <td>Fila 1, Celda 5</td>
-                    <td>Fila 1, Celda 6</td>
-                </tr>
-                <tr>
-                    <td>Fila 2, Celda 1</td>
-                    <td>Fila 2, Celda 2</td>
-                    <td>Fila 2, Celda 3</td>
-                    <td>Fila 2, Celda 4</td>
-                    <td>Fila 2, Celda 5</td>
-                    <td>Fila 2, Celda 6</td>
-                </tr>
-                <tr>
-                    <td>Fila 3, Celda 1</td>
-                    <td>Fila 3, Celda 2</td>
-                    <td>Fila 3, Celda 3</td>
-                    <td>Fila 3, Celda 4</td>
-                    <td>Fila 3, Celda 5</td>
-                    <td>Fila 3, Celda 6</td>
-                </tr>
-                <!-- Otras filas aquí... -->
-            </tbody>
-        </table>
-    </div>
+  </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 </body>
 </html>
