@@ -18,8 +18,6 @@ from modulo_docente.models import docente_grupo
 
 
 # Create your views here.
-def docente(request):
-    return HttpResponse("Ver docentes")
 
 def upload_file(request):
     if request.method == 'POST':
@@ -113,12 +111,11 @@ def obtenerGruposHorariosDocentePorEscuelaCiclo(escuela_seleccion, ciclo_selecci
     
     return enviar
 
-def obtenerDocentesPorDepartamento(departamento,estado):
+def obtenerDocentesPorEstado(estado):
     
     enviardoc=[]
     
-    docentes = docente.objects.filter(
-                FKdepartamentoacademico=departamento, doc_estado=estado)
+    docentes = docente.objects.filter(doc_estado=estado)
     
     for docente_obj in docentes:
                 nombre = docente_obj.doc_nombres
@@ -161,7 +158,7 @@ def asignacionCargaLectiva(request):
             ciclo_seleccion = obtenerCicloConcatenado_Obj(ciclo_seleccionado)
             escuela_seleccion = escuela.objects.get(nombre_escuela=escuela_seleccionada)
             enviar= obtenerGruposHorariosDocentePorEscuelaCiclo(escuela_seleccion,ciclo_seleccion)
-            enviardoc= obtenerDocentesPorDepartamento(1,'disponible')
+            enviardoc= obtenerDocentesPorEstado('disponible')
             
 
             datos = {
@@ -205,7 +202,7 @@ def asignacionCargaLectiva(request):
             ciclo_seleccion = obtenerCicloConcatenado_Obj(ciclo_seleccionado2)
             escuela_seleccion = escuela.objects.get(nombre_escuela=escuela_seleccionada2)
             enviar= obtenerGruposHorariosDocentePorEscuelaCiclo(escuela_seleccion,ciclo_seleccion)
-            enviardoc= obtenerDocentesPorDepartamento(1,'disponible')
+            enviardoc= obtenerDocentesPorEstado('D')
             
             datos = {
                 'ciclo_select': ciclos,
