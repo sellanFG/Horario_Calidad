@@ -63,7 +63,9 @@ class curso(models.Model):
     def Validacion_horas(self):
         if self.horas_practicas + self.horas_teoricas != self.horas_totales:
             raise ValidationError("La suma de las horas prácticas y teóricas debe ser igual a las horas totales.")
-        
+    
+    def __str__(self):
+        return self.nombre_curso
     
     class Meta:
         verbose_name_plural="Curso"
