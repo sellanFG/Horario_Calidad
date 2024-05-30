@@ -51,3 +51,16 @@ class disponibilidad_docente(models.Model):
     class Meta:
         verbose_name_plural="Disponibilidad docente"
         ordering=['FKdocente']
+
+
+class docente_grupo(models.Model):
+     id = models.AutoField(primary_key=True)
+     FKgrupo = models.ForeignKey('modulo_horario.grupo_horario', on_delete=models.CASCADE)
+     FKdocente = models.ForeignKey(docente, on_delete=models.CASCADE)
+
+     def __str__(self):
+         return str(self.id)
+    
+     class Meta:
+         verbose_name_plural="Docente grupo"
+         ordering=['id']

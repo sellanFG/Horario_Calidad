@@ -6,9 +6,18 @@ import csv, io, openpyxl
 from .models import disponibilidad_docente
 from .forms import dispo_form,UploadCSVForm
 from datetime import datetime, time
+
+from modulo_docente.models import docente
+from modulo_curso.models import escuela
+from modulo_horario.models import ciclo_academico
+from modulo_curso.models import curso
+from modulo_curso.models import plan_estudio
+from modulo_horario.models import grupo_horario
+from modulo_docente.models import docente_grupo
+
+
+
 # Create your views here.
-def docente(request):
-    return HttpResponse("Ver docentes")
 
 def upload_file(request):
     if request.method == 'POST':
@@ -57,7 +66,3 @@ def upload_file(request):
     else:
         form = UploadCSVForm()
     return render(request, './csv.html', {'form': form})
-
-
-
-
