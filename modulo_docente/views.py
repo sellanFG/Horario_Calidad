@@ -57,3 +57,7 @@ def upload_file(request):
     else:
         form = UploadCSVForm()
     return render(request, './csv.html', {'form': form})
+
+
+
+
