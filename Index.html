@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - Múltiples Módulos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://semanarioexpresion.com/Presentacion/img/noticias/cl_sociales//usat1075.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .top-bar {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    .top-bar .login-btn {
+      margin-left: 1150px; /* Ajuste aquí */
+      padding: 10px 20px;
+      background-color: #F62626;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    .top-bar .login-btn:hover {
+      background-color: #d62222;
+    }
+    .interactive-images {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+    .interactive-image {
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .interactive-image:hover {
+      transform: scale(1.1);
+    }
+    .date-time {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button class="login-btn">Iniciar Sesión</button>
+  </div>
+  <div class="interactive-images">
+    <a href="https://www.google.com">
+      <img class="interactive-image" src="https://media1.giphy.com/media/xT0BKiomXaQpuMXAs8/giphy.gif" alt="GIF 1">
+    </a>
+    <a href="https://www.wikipedia.org">
+      <img class="interactive-image" src="https://media4.giphy.com/media/S8rjcvtnM6xEU0HeOh/giphy.gif" alt="GIF 2">
+    </a>
+    <a href="https://www.github.com">
+      <img class="interactive-image" src="https://media2.giphy.com/media/gd2yqVe9TioN2/giphy.gif" alt="GIF 3">
+    </a>
+  </div>
+  <div class="date-time">
+    <p id="datetime"></p>
+  </div>
+
+  <script>
+    function updateDateTime() {
+      var now = new Date();
+      var datetimeElement = document.getElementById("datetime");
+      var options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+      };
+      var formattedDateTime = now.toLocaleDateString("es-ES", options);
+      datetimeElement.textContent = formattedDateTime;
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000); // Actualizar cada segundo
+  </script>
+</body>
+</html>
