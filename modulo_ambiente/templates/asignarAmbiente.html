@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        .card-header {
+            color: rgb(255, 255, 255);
+            background-color: #E33439;
+            border: #E33439;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #e8ebf1;
+            font-size: 15px;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+
+        /* Letras */
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        h7 {
+            font-family: "Roboto Condensed", sans-serif;
+            color: #181B22;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .card-header {
+            color: rgb(255, 255, 255);
+            background-color: #E33439;
+            border: #E33439;
+        }
+
+        .caja {
+            padding: 0px;
+            width: 100%;
+            margin: 0px;
+        }
+
+        .row {
+            margin-bottom: 1rem;
+        }
+
+        #user {
+            width: 100px;
+        }
+
+        .col1,
+        .col3 {
+            width: 16%;
+        }
+
+        .col2 {
+            width: 60%;
+        }
+
+        .btnVer {
+            background-color: #181B22;
+            border: 1px solid transparent;
+            border-color: #181B22;
+            border-radius: 10px;
+            color: #fff;
+            padding: 0.375rem 0.75rem;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .btnSubir {
+            background-color: #181B22;
+            border: 1px solid transparent;
+            border-color: #181B22;
+            border-radius: 10px;
+            color: #fff;
+            padding: 0.375rem 0.75rem;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #E2E3E5;">
+
+    <div class="container-fluid p-0 m-auto">
+
+        <div class="caja" style="height: 100px; background-color: white;">
+            <div class="row">
+                <div class="col1" style="margin-left: 30px;">
+                    <a class="navbar-brand" href="#">
+                        <img style="width: 180px; height: 80px;"
+                            src="http://www.usat.edu.pe/web/wp-content/uploads/2023/05/logo_usat25.png" alt="Logo usat">
+                    </a>
+                </div>
+                <div class="col2" style="padding: 20px; text-align: left; margin-left: 60px;">
+                    <h7> <strong> Bienvenido, NICHO </strong> <br> </h7>
+                    <p>Ahora puedes realizar tus procesos</p>
+                </div>
+
+                <div class="col3" style="padding: 20px; text-align: right;">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ernesto, Nicho
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid overflow-hidden">
+
+            <div class="row vh-100 overflow-auto">
+
+                <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
+                    <div id="sidebar-nav" class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
+                      <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+                        <div class="mt-3">
+                          <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
+                            <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
+                          </a>
+                          <div class="collapse" id="menuHorario">
+                            <ul class="list-unstyled ps-4">
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuCurso" role="button" aria-expanded="false" aria-controls="menuCurso">
+                            <i class="fs-4 my-0 py-0 fa fa-book me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
+                          </a>
+                          <div class="collapse" id="menuCurso">
+                            <ul class="list-unstyled ps-4">
+                                <br>
+                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuDocente" role="button" aria-expanded="false" aria-controls="menuDocente">
+                            <i class="fs-4 my-0 py-0 fa fa-users me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
+                          </a>
+                          <div class="collapse" id="menuDocente">
+                            <ul class="list-unstyled ps-4">
+                                <br>
+                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuAmbiente" role="button" aria-expanded="false" aria-controls="menuAmbiente">
+                            <i class="fs-4 my-0 py-0 fa fa-building me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
+                          </a>
+                          <div class="collapse" id="menuAmbiente">
+                            <ul class="list-unstyled ps-4">
+                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <br>
+                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
+                        <div class="mt-3 mb-3">
+                          <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
+                            <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
+                          </a>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+                  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+ 
+                  
+                <div class="col d-flex flex-column h-sm-100">
+                    <main class="row overflow-auto">
+                        <div class="container-fluid col">
+                            <form class="px-lg-2 mx-lg-2 py-0 my-0">
+
+                                <div class="container-fluid m-0 p-0">
+
+                                    <div class="row align-items-center mx-0 px-0"
+                                        style="overflow-x: hidden; margin-top: 5px; margin-bottom: 20;">
+
+                                        <div class="container justify-content-center">
+
+                                            <div class="row">
+
+                                                <section class="content-info"
+                                                    style="margin-top: 5px; margin-bottom: 30px">
+                                                    <div class="container">
+                                                        <div class="card mb-3">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <h5 class="card-title">Semestre:</h5>
+                                                                        <select class="m-2 w-75" name="semestre"
+                                                                            id="listSemestre" required>
+                                                                            <option value="0" selected disabled>
+                                                                                Seleccionar Semestre</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <h5 class="card-title">Escuela Profesional:</h5>
+                                                                        <select class="m-2 w-75" name="escuela"
+                                                                            id="listEscuelaProfesional" required>
+                                                                            <option value="0" selected disabled>
+                                                                                Seleccionar Escuela Profesional</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <ul class="nav nav-tabs" id="navTabs">
+
+                                                                </ul>
+
+                                                                <div id="listasContenido">
+
+                                                                </div>
+
+                                                                <hr>
+                                                                <div class="botones">
+                                                                    <div class="d-flex justify-content-end gap-2">
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary">Cancelar</button>
+
+                                                                        <button type="button"
+                                                                            class="btn btn-success btnGuardar">Guardar</button>
+
+                                                                        <a class="btnVer"
+                                                                            style="margin-left: 10px; margin-top: 5px;"
+                                                                            href="/menuAmbiente">Regresar </a>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </section>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </main>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <style>
+        select {
+            width: auto;
+            padding: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            color: #333;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        /*#listasContenido{
+        width: 100%; 
+        max-width: 300px; 
+    } */
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+        integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+
+
+</body>
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    let ambientesSeleccionados = [];
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        fetch('/obtener-semestre/')
+            .then(response => response.json())
+            .then(data => {
+                const selectElement = document.getElementById('listSemestre');
+                data.forEach(semestre => {
+                    const option = document.createElement('option');
+                    option.value = semestre.id;
+                    option.textContent = semestre.cic_año + ' - ' + semestre.cic_semestre;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+        fetch('/obtener-escuelas/')
+            .then(response => response.json())
+            .then(data => {
+                const selectElement = document.getElementById('listEscuelaProfesional');
+                data.forEach(escuela => {
+                    const option = document.createElement('option');
+                    option.value = escuela.id;
+                    option.textContent = escuela.nombre_escuela;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        document.getElementById('listSemestre').addEventListener('change', fetchAmbientes);
+        document.getElementById('listEscuelaProfesional').addEventListener('change', fetchAmbientes);
+
+
+        fetch('/obtener-edificios-ambientes/')
+            .then(response => response.json())
+            .then(data => {
+                const navTabs = document.getElementById('navTabs');
+                const listasContenido = document.getElementById('listasContenido');
+                navTabs.innerHTML = ''; // Clear existing content
+                listasContenido.innerHTML = ''; // Clear existing content
+
+                data.forEach((edificio, index) => {
+                    // Create the tab
+                    const li = document.createElement('li');
+                    li.classList.add('nav-item');
+                    const a = document.createElement('a');
+                    a.classList.add('nav-link');
+                    if (index === 0) a.classList.add('active');
+                    a.href = '#';
+                    a.textContent = edificio.nombre_edificio;
+                    a.onclick = function () {
+                        mostrarContenido(`contenidoList${index + 1}`, this);
+                    };
+                    li.appendChild(a);
+                    navTabs.appendChild(li);
+
+                    // Create the content list
+                    const contenidoDiv = document.createElement('div');
+                    contenidoDiv.id = `contenidoList${index + 1}`;
+                    contenidoDiv.classList.add('contenido');
+                    contenidoDiv.style.display = index === 0 ? 'block' : 'none';
+
+                    // Group ambientes by piso
+                    const pisos = {};
+                    edificio.ambientes.forEach(ambiente => {
+                        if (!pisos[ambiente.piso]) pisos[ambiente.piso] = [];
+                        pisos[ambiente.piso].push(ambiente);
+                    });
+
+                    Object.keys(pisos).forEach(piso => {
+                        const pisoDiv = document.createElement('div');
+                        pisoDiv.classList.add(`piso${piso}`, 'mb-3', 'mt-2');
+                        const pisoTitle = document.createElement('h5');
+                        pisoTitle.classList.add('card-title');
+                        pisoTitle.textContent = `Piso ${piso}:`;
+                        pisoDiv.appendChild(pisoTitle);
+
+                        const listaDiv = document.createElement('div');
+                        listaDiv.classList.add('lista', 'd-flex', 'flex-wrap', 'gap-2');
+
+                        pisos[piso].forEach(ambiente => {
+                            console.log(ambiente)
+                            const ambienteDiv = document.createElement('div');
+                            ambienteDiv.classList.add('border', 'p-2', 'd-flex', 'justify-content-center', 'flex-column');
+
+                            const id = document.createElement('h5');
+                            id.classList.add('id');
+                            id.classList.add('d-none');
+                            id.textContent = ambiente.id;
+                            ambienteDiv.appendChild(id);
+
+                            const nombre = document.createElement('h5');
+                            nombre.classList.add('nombre');
+                            nombre.textContent = ambiente.nombre_ambiente;
+                            ambienteDiv.appendChild(nombre);
+
+                            const capacidad = document.createElement('p');
+                            capacidad.classList.add('capacidad', 'rounded', 'bg-primary', 'text-white', 'p-1', 'text-center');
+                            capacidad.textContent = `Aforo (${ambiente.capacidad_ambiente})`;
+                            ambienteDiv.appendChild(capacidad);
+
+                            const button = document.createElement('button');
+                            button.classList.add('btnAmbiente', 'btn', 'btn-success');
+                            button.type = 'button';
+                            button.textContent = '+';
+                            ambienteDiv.appendChild(button);
+
+                            listaDiv.appendChild(ambienteDiv);
+                        });
+
+                        pisoDiv.appendChild(listaDiv);
+                        contenidoDiv.appendChild(pisoDiv);
+                    });
+
+                    listasContenido.appendChild(contenidoDiv);
+                });
+                manejarEventosAmbiente();
+                guardarAmbientes(ambientesSeleccionados);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+
+
+
+
+    });
+
+    function manejarEventosAmbiente() {
+
+        const botonesAmbiente = document.querySelectorAll('.btnAmbiente');
+        botonesAmbiente.forEach(boton => {
+            boton.addEventListener('click', function () {
+                const idAmbiente = this.parentNode.querySelector('.id').textContent;
+
+
+                // Cambiar contenido y clases del botón
+                if (this.classList.contains('btn-success')) {
+                    ambientesSeleccionados.push(idAmbiente);
+                    console.log(ambientesSeleccionados);
+                    this.textContent = '-';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-danger');
+                } else {
+                    const index = ambientesSeleccionados.indexOf(idAmbiente);
+                    ambientesSeleccionados.splice(index, 1);
+                    console.log(ambientesSeleccionados);
+                    this.textContent = '+';
+                    this.classList.remove('btn-danger');
+                    this.classList.add('btn-success');
+                }
+
+                // Aquí puedes almacenar el ID en una lista temporal o realizar cualquier otra acción que desees
+            });
+        });
+    }
+
+    function mostrarContenido(idContenido, boton) {
+        var contenidos = document.getElementsByClassName('contenido');
+        for (var i = 0; i < contenidos.length; i++) {
+            contenidos[i].style.display = 'none';
+        }
+
+        var contenidoMostrar = document.getElementById(idContenido);
+        if (contenidoMostrar) {
+            contenidoMostrar.style.display = 'block';
+        }
+
+        var botones = document.querySelectorAll('.nav-link');
+        for (var i = 0; i < botones.length; i++) {
+            botones[i].classList.remove('active');
+        }
+        boton.classList.add('active');
+    }
+
+    function fetchAmbientes() {
+        const semestre = document.getElementById('listSemestre').value;
+        const escuela = document.getElementById('listEscuelaProfesional').value;
+        if (semestre !== '0' && escuela !== '0') {
+            fetch('/obtener-edificios-ambientes-selected/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ semestre: semestre, escuela: escuela })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const navTabs = document.getElementById('navTabs');
+                    const listasContenido = document.getElementById('listasContenido');
+                    navTabs.innerHTML = '';
+                    listasContenido.innerHTML = '';
+                    data.forEach((edificio, index) => {
+                        const li = document.createElement('li');
+                        li.classList.add('nav-item');
+                        const a = document.createElement('a');
+                        a.classList.add('nav-link');
+                        if (index === 0) a.classList.add('active');
+                        a.href = '#';
+                        a.textContent = edificio.nombre_edificio;
+                        a.onclick = function () {
+                            mostrarContenido(`contenidoList${index + 1}`, this);
+                        };
+                        li.appendChild(a);
+                        navTabs.appendChild(li);
+                        const contenidoDiv = document.createElement('div');
+                        contenidoDiv.id = `contenidoList${index + 1}`;
+                        contenidoDiv.classList.add('contenido');
+                        contenidoDiv.style.display = index === 0 ? 'block' : 'none';
+                        const pisos = {};
+                        edificio.ambientes.forEach(ambiente => {
+                            if (!pisos[ambiente.piso]) pisos[ambiente.piso] = [];
+                            pisos[ambiente.piso].push(ambiente);
+                        });
+                        Object.keys(pisos).forEach(piso => {
+                            const pisoDiv = document.createElement('div');
+                            pisoDiv.classList.add(`piso${piso}`, 'mb-3', 'mt-2');
+                            const pisoTitle = document.createElement('h5');
+                            pisoTitle.classList.add('card-title');
+                            pisoTitle.textContent = `Piso ${piso}:`;
+                            pisoDiv.appendChild(pisoTitle);
+                            const listaDiv = document.createElement('div');
+                            listaDiv.classList.add('lista', 'd-flex', 'flex-wrap', 'gap-2');
+                            pisos[piso].forEach(ambiente => {
+                                const ambienteDiv = document.createElement('div');
+                                ambienteDiv.classList.add('border', 'p-2', 'd-flex', 'justify-content-center', 'flex-column', 'ambiente');
+                                const id = document.createElement('h5');
+                                id.classList.add('id', 'd-none');
+                                id.textContent = ambiente.id;
+                                ambienteDiv.appendChild(id);
+                                const nombre = document.createElement('h5');
+                                nombre.classList.add('nombre');
+                                nombre.textContent = ambiente.nombre_ambiente;
+                                ambienteDiv.appendChild(nombre);
+                                const capacidad = document.createElement('p');
+                                capacidad.classList.add('capacidad', 'rounded', 'bg-primary', 'text-white', 'p-1', 'text-center');
+                                capacidad.textContent = `Aforo (${ambiente.capacidad_ambiente})`;
+                                ambienteDiv.appendChild(capacidad);
+                                const button = document.createElement('button');
+                                button.classList.add('btnAmbiente', 'btn', 'btn-success');
+                                button.type = 'button';
+                                if (ambiente.estado === 'ocupado') {
+                                    button.classList.remove('btn-success');
+                                    button.classList.add('btn-danger');
+                                    button.textContent = '-';
+                                } else {
+                                    button.textContent = '+';
+                                }
+                                ambienteDiv.appendChild(button);
+                                listaDiv.appendChild(ambienteDiv);
+                            });
+                            pisoDiv.appendChild(listaDiv);
+                            contenidoDiv.appendChild(pisoDiv);
+                        });
+                        listasContenido.appendChild(contenidoDiv);
+                    });
+                    manejarEventosAmbiente();
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+</script>
+
+
+
+<script>
+
+
+
+
+
+
+    const selectElement = document.getElementById('listEscuelaProfesional');
+
+    selectElement.addEventListener('change', function () {
+        const selectedEscuelaId = this.value;
+        fetch(`/obtener-cursos/${selectedEscuelaId}/`)
+            .then(response => response.json())
+            .then(data => {
+                const cursoSelect = document.getElementById('listCursos');
+                data.forEach(curso => {
+                    const option = document.createElement('option');
+                    option.value = curso.id;
+                    option.textContent = `${curso.codigo_curso} - ${curso.nombre_curso} `;
+                    cursoSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+</script>
+
+<script>
+    function guardarAmbientes() {
+        const btnGuardar = document.querySelector('.btnGuardar');
+        btnGuardar.addEventListener('click', function () {
+            const semestre = document.getElementById('listSemestre').value;
+            const escuela = document.getElementById('listEscuelaProfesional').value;
+            const listAmbi = obtenerListaAmbientes(); // La lista de ambientes seleccionados que has almacenado en JavaScript
+
+
+
+            // Enviar la solicitud POST al servidor
+            fetch('/guardar-ambientes-seleccionados/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // Asegúrate de tener el token CSRF disponible en tu plantilla
+                },
+                body: JSON.stringify({
+                    id_escuela: escuela,
+                    id_semestre: semestre,
+                    ambientes_seleccionados: listAmbi
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Aquí puedes manejar la respuesta del servidor
+                    if (data.status === 'success') {
+                        fetchAmbientes();
+                        alert('Proceso guardado correctamente');
+                    } else {
+                        alert(`Error: ${data.message}`);
+                    }
+                })
+
+                .catch(error => console.error('Error:', error));
+
+
+        });
+
+    }
+
+    function obtenerListaAmbientes() {
+        const listambientesSeleccionados = [];
+        const ambienteDivs = document.querySelectorAll('.ambiente');
+
+        ambienteDivs.forEach(ambienteDiv => {
+            const id = ambienteDiv.querySelector('.id').textContent; // Obtiene el ID del ambiente
+            const button = ambienteDiv.querySelector('.btnAmbiente'); // Obtiene el botón asociado al ambiente
+            let buttonClasses;
+
+            if (button.classList.contains('btn-success')) {
+                buttonClasses = 'success';
+            } else if (button.classList.contains('btn-danger')) {
+                buttonClasses = 'danger';
+            }
+
+            listambientesSeleccionados.push({ id: id, buttonClasses: buttonClasses }); // Añade el objeto a la lista
+        });
+        return listambientesSeleccionados;
+    }
+
+</script>
+
+</html>
