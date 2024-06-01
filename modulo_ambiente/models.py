@@ -22,7 +22,7 @@ class tipo_ambiente(models.Model):
     class Meta:
         verbose_name_plural="Tipo de ambiente"
     
- 
+    
 class ambiente(models.Model):
     nombre_ambiente = models.CharField(max_length=30)
     capacidad_ambiente = models.PositiveSmallIntegerField(default=15)
