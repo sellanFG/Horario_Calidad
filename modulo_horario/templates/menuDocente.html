@@ -89,6 +89,14 @@
       text-decoration: none;
 
     }
+
+    .card-body ul li a {
+      color: black; /* Cambia el color de los enlaces a negro */
+    }
+    .card-body ul li a:hover {
+      color: #E33439; /* Opcional: Cambia el color de los enlaces al pasar el ratón por encima */
+    }
+    
   </style>
 
 </head>
@@ -217,141 +225,43 @@
                       <div class="row">
 
 
-                        <div class="col-sm-6" style="margin-bottom: 30px; margin-left: 80px; margin-right: -80px;">
-                          <div class="card" style="width: 460px; height: 250px;">
+                        <div class="col-sm-12" style="margin-bottom: 30px; margin-left: 80px; margin-right: -80px;">
+                          <div class="card" style="width: 500px; height: 590px;">
                             <div class="card-header">
-                              <h7 style="color: white; font-size: 19px;">HORARIO</h7>
+                              <h7 style="color: white; font-size: 19px;">DOCENTE</h7>
                             </div>
 
-                            <div class="card mb-3" style="max-width: 540px;">
+                            <div class="card mb-6" style="max-width: 540px;">
                               <div class="row g-0">
-                                <div class="col-md-4" style="padding: 0px; margin-top: 20px;">
-                                  <img
-                                    src="https://st2.depositphotos.com/15813590/43006/v/450/depositphotos_430067658-stock-illustration-calendar-icon-vector-symbol-web.jpg"
-                                    class="img-fluid rounded-start" alt="..." width="180px" height="200px">
-                                </div>
-                                <div class="col-md-8">
+
+                                <div class="col-md-12">
                                   <div class="card-body">
                                     <br>
 
                                     <ul>
-                                      <li>
-                                        <p>Gestionar horario</p>
-                                      </li>
-                                      <li>
-                                        <p>Generar horario</p>
-                                      </li>
-
+                                      <li><a href="">Ver docentes</a></li>
+                                      <br>
+                                      <li><a href="">Gestionar docentes</a></li>
+                                      <br>
+                                      <li><a href="">Ver Docentes por contrato</a></li>
+                                      <br>
+                                      <li><a href="/csv">Disponibilidad por Docente</a></li>
+                                      <br>
+                                      <li><a href="/asignacionCargaLectiva">Asignación carga del Docente</a></li>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
                                     </ul>
                                     <br>
-                                    <a class="btnVer" style="margin-left: 20px; margin-top: 5px;" href="menuHorario">Ver
-                                      horario </a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-6" style="margin-bottom: 30px; margin-left: 40px; margin-right: -40px;">
-                          <div class="card" style="width: 460px; height: 250px;">
-                            <div class="card-header">
-                              <h7 style="color: white; font-size: 19px;">CURSO</h7>
-                            </div>
-
-                            <div class="card mb-3" style="max-width: 540px;">
-                              <div class="row g-0">
-                                <div class="col-md-4" style="padding: 30px; margin-top: 20px;">
-                                  <img
-                                    src="https://png.pngtree.com/png-vector/20230408/ourmid/pngtree-online-course-line-icon-vector-png-image_6694825.png"
-                                    class="img-fluid rounded-start" alt="..." width="100px" height="80px">
-                                </div>
-                                <div class="col-md-8">
-                                  <div class="card-body">
-                                    <br>
-
-                                    <ul>
-                                      <li>
-                                        <p>Mostrar cursos por ciclo</p>
-                                      </li>
-                                      <li>
-                                        <p>Mostrar cursos por escuela</p>
-                                      </li>
-
-                                    </ul>
-                                    <br>
-                                    <a href="menuCurso" class="btnVer" style="margin-left: 20px; margin-top: 5px;">Ver
-                                      curso</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-6" style="margin-bottom: 30px; margin-left: 80px; margin-right: -80px;">
-                          <div class="card" style="width: 460px; height: 250px;">
-                            <div class="card-header">
-                              <h7 style="color: white; font-size: 19px; ">DOCENTE</h7>
-                            </div>
-
-                            <div class="card mb-3" style="max-width: 540px;">
-                              <div class="row g-0">
-                                <div class="col-md-4" style="padding: 38px; margin-top: 20px;">
-                                  <img src="https://cdn-icons-png.flaticon.com/512/104/104602.png"
-                                    class="img-fluid rounded-start" alt="..." width="100px" height="80px">
-                                </div>
-                                <div class="col-md-8">
-                                  <div class="card-body">
-                                    <br>
-
-                                    <ul>
-                                      <li>
-                                        <p>Asignar docente a grupo horario</p>
-                                      </li>
-                                      <li>
-                                        <p>Disponibilidad docente</p>
-                                      </li>
-
-                                    </ul>
-                                    <br>
-                                    <a href="menuDocente" class="btnVer" style="margin-left: 20px; margin-top: 5px;">Ver
-                                      docente</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-6" style="margin-bottom: 30px; margin-left: 40px; margin-right: -40px;">
-                          <div class="card" style="width: 460px; height: 250px;">
-                            <div class="card-header">
-                              <h7 style="color: white; font-size: 19px;">AMBIENTE</h7>
-                            </div>
-
-                            <div class="card mb-3" style="max-width: 540px;">
-                              <div class="row g-0">
-                                <div class="col-md-4" style="padding: 45px; margin-top: 20px;">
-                                  <img src="https://cdn-icons-png.flaticon.com/512/5138/5138915.png"
-                                    class="img-fluid rounded-start" alt="..." width="100px" height="80px">
-                                </div>
-                                <div class="col-md-8">
-                                  <div class="card-body">
-                                    <br>
-
-                                    <ul>
-                                      <li>
-                                        <p>Asignar ambiente a escuela</p>
-                                      </li>
-                                      <li>
-                                        <p>Mostrar ambientes por ciclo</p>
-                                      </li>
-
-                                    </ul>
-                                    <br>
-                                    <a href="menuAmbiente" class="btnVer"
-                                      style="margin-left: 20px; margin-top: 5px;">Ver ambiente</a>
+                                    <a class="btnVer" style="margin-left: 350px; margin-top: 5px;" href="/">Regresar
+                                    </a>
                                   </div>
                                 </div>
                               </div>
