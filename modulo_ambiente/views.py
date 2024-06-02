@@ -13,8 +13,8 @@ import csv, io, openpyxl
 # Create your views here.
 
 
-def ambiente(request):
-    return HttpResponse("ambientes disponibles")
+# def ambiente(request):
+#     return HttpResponse("ambientes disponibles")
 
 def asignarAmbiente(request):
     return render(request,'asignarAmbiente.html')

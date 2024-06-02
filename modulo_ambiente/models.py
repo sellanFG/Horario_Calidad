@@ -37,10 +37,5 @@ class ambiente(models.Model):
     class Meta:
         verbose_name_plural="Ambiente"
 
-class horarioEscuela(models.Model):
-    FKescuela  = models.ForeignKey(escuela, on_delete=models.CASCADE, verbose_name='Escuela')
-    FKambiente  = models.ForeignKey(ambiente, on_delete=models.CASCADE, verbose_name='Ambiente')
-    descripcion = models.CharField(max_length=250,null=True, blank=True)
-
    
 
