@@ -27,7 +27,7 @@ def menuAmbiente(request):
 
 
 def horario(request):
-    return HttpResponse("horarios de los docentes")
+    return HttpResponse("Gestionar horario")
 
 
 def asignacion_docente(request):

@@ -100,6 +100,27 @@
             text-decoration: none;
 
         }
+
+        #titulo {
+    display: inline; 
+    margin-left: 5px; 
+    padding-top: 5%;
+}
+
+.regresarBtn {
+    background-color: white;
+    border: None;
+    margin: -8px;
+    display: inline;
+}
+
+h5 {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    
+}
+
     </style>
 
 </head>
@@ -111,11 +132,11 @@
         <div class="caja" style="height: 100px; background-color: white;">
             <div class="row">
                 <div class="col1" style="margin-left: 30px;">
-                    <a class="navbar-brand" href="#">
-                        <img style="width: 180px; height: 80px;"
-                            src="http://www.usat.edu.pe/web/wp-content/uploads/2023/05/logo_usat25.png" alt="Logo usat">
+                    <a class="navbar-brand" href="/">
+                      <img style="width: 180px; height: 80px;"
+                        src="/static/iconos/logo_usat25.png" alt="Logo usat">
                     </a>
-                </div>
+                  </div>
                 <div class="col2" style="padding: 20px; text-align: left; margin-left: 60px;">
                     <h7> <strong> Bienvenido, NICHO </strong> <br> </h7>
                     <p>Ahora puedes realizar tus procesos</p>
@@ -137,21 +158,23 @@
 
             <div class="row vh-100 overflow-auto">
 
+
                 <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
                     <div id="sidebar-nav" class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
                       <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
                         <div class="mt-3">
+                          <br>
                           <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
                             <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
                           </a>
                           <div class="collapse" id="menuHorario">
                             <ul class="list-unstyled ps-4">
                               <br>
-                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <li><a href="/" class="text-white">Gestionar horario</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <li><a href="/asignacion_docente" class="text-white">Generar horario</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                              <li><a href="/menuHorario" class="text-white">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -162,11 +185,11 @@
                           <div class="collapse" id="menuCurso">
                             <ul class="list-unstyled ps-4">
                                 <br>
-                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <li><a href="/grupoHorario" class="text-white">Asignar grupos horarios a cursos</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 2</a></li>
-                              <br>
-                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                              <li><a href="/menuCurso" class="text-white">Reportes</a></li>
+                              <!-- <br> -->
+                              <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
                             </ul>
                           </div>
                         </div>
@@ -177,11 +200,11 @@
                           <div class="collapse" id="menuDocente">
                             <ul class="list-unstyled ps-4">
                                 <br>
-                              <li><a href="#" class="text-white">Submenú 1</a></li>
+                              <li><a href="/asignacionCargaLectiva" class="text-white">Asignar docentes a grupo horario</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <li><a href="/csv" class="text-white">Disponibilidad docente</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                              <li><a href="/menuDocente" class="text-white">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -191,11 +214,12 @@
                           </a>
                           <div class="collapse" id="menuAmbiente">
                             <ul class="list-unstyled ps-4">
-                              <li><a href="#" class="text-white">Submenú 1</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 2</a></li>
+                              <li><a href="/asignarAmbiente" class="text-white">Asignar ambiente a escuela</a></li>
                               <br>
-                              <li><a href="#" class="text-white">Submenú 3</a></li>
+                              <li><a href="/csvAmbientes" class="text-white">Importar ambientes</a></li>
+                              <br>
+                              <li><a href="/menuAmbiente" class="text-white">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -209,6 +233,7 @@
                     </div>
                   </div>
                 
+                
                   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
                   <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
@@ -217,6 +242,8 @@
                 <div class="col d-flex flex-column h-sm-100">
                     <main class="row overflow-auto">
                         <div class="container-fluid col">
+    
+        <br>
                             <form class="px-lg-2 mx-lg-2 py-0 my-0">
 
                                 <div class="container-fluid m-0 p-0">
@@ -227,25 +254,34 @@
                                         <div class="container justify-content-center">
 
                                             <div class="row">
-
+                                              
                                                 <section class="content-info"
                                                     style="margin-top: 5px; margin-bottom: 30px">
                                                     <div class="container">
+                                                        
                                                         <div class="card mb-3">
                                                             <div class="card-body">
+                                                                <div class="box-tittle">
+                                                                    <button type="button" class="regresarBtn">
+                                                                        <a href="/"><img id="closeicon" src="/static/iconos/regresar.PNG" width="32px" height="27px"></a>
+                                                                    </button>
+                                                                    <h3 id="titulo" style="margin-left: 20px;">ASIGNAR AMBIENTE A ESCUELA</h3>
+                                                                    <br>
+                                                                    <br>
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col">
-                                                                        <h5 class="card-title">Semestre:</h5>
-                                                                        <select class="m-2 w-75" name="semestre"
-                                                                            id="listSemestre" required>
+                                                                        <h5 class="card-title" style="display: inline;" >Semestre:</h5>
+                                                                        <select class="m-2 w-50" name="semestre"
+                                                                            id="listSemestre" style="display: inline;"  required>
                                                                             <option value="0" selected disabled>
                                                                                 Seleccionar Semestre</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col">
-                                                                        <h5 class="card-title">Escuela Profesional:</h5>
+                                                                        <h5 class="card-title" style="display: inline;" >Escuela:</h5>
                                                                         <select class="m-2 w-75" name="escuela"
-                                                                            id="listEscuelaProfesional" required>
+                                                                            id="listEscuelaProfesional" style="display: inline;"  required>
                                                                             <option value="0" selected disabled>
                                                                                 Seleccionar Escuela Profesional</option>
                                                                         </select>
@@ -271,14 +307,11 @@
                                                                 <div class="botones">
                                                                     <div class="d-flex justify-content-end gap-2">
                                                                         <button type="button"
-                                                                            class="btn btn-secondary">Cancelar</button>
+                                                                            class="btn btn-secondary" style="background-color: #181B22;">Cancelar</button>
 
                                                                         <button type="button"
                                                                             class="btn btn-success btnGuardar">Guardar</button>
 
-                                                                        <a class="btnVer"
-                                                                            style="margin-left: 10px; margin-top: 5px;"
-                                                                            href="/menuAmbiente">Regresar </a>
 
                                                                     </div>
                                                                 </div>
