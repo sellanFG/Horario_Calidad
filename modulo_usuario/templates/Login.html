@@ -15,6 +15,7 @@
       flex-direction: column;
       min-height: 100vh;
       color: #fff;
+      overflow: hidden;
     }
     .top-bar {
       background-color: rgba(0, 0, 0, 0.6);
@@ -104,31 +105,34 @@
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <span>074606224 | atencion@usat.edu.pe | Lun - Vie: 8:00 AM - 04:45 PM</span>
-  </div>
-  <div class="menu-bar">
-    <a href="#">Inicio</a>
-    <a href="#">Novedades</a>
-    <a href="#">Eventos</a>
-    <a href="#">Tutoriales</a>
-    <a href="#">Comunicados</a>
-    <a href="#">Preguntas Frecuentes</a>
-  </div>
+
+ 
+
   <div class="login-box-container">
     <div class="login-box">
+      <div >
+        <img src="static/iconos/logo_usat25.png">
+      </div>
+      <br> <br>
       <h2>Iniciar Sesión</h2>
       <form id="login-form">
         <input type="text" id="usuario" placeholder="Usuario">
         <input type="password" id="contrasena" placeholder="Contraseña">
         <input type="submit" value="Iniciar Sesión">
       </form>
+      <br>
       <div class="forgot-password">
         <a href="#">¿Olvidaste tu contraseña?</a>
       </div>
       <div class="error-message" id="error-message">Usuario o contraseña incorrectos</div>
+      <br> <br>
     </div>
   </div>
+
+  <div class="top-bar">
+    <span>074606224 | atencion@usat.edu.pe | Lun - Vie: 8:00 AM - 04:45 PM</span>
+  </div>
+  
 
   <script>
     document.getElementById("login-form").addEventListener("submit", function(event) {

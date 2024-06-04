@@ -23,5 +23,6 @@ urlpatterns = [
     path('', include('modulo_horario.urls')),
     path('', include('modulo_docente.urls')),
     path('', include('modulo_curso.urls')),
-   path('', include('modulo_ambiente.urls'))
+   path('', include('modulo_ambiente.urls')),
+    path('', include('modulo_usuario.urls'))
 ]

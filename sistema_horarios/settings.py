@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'modulo_curso',
     'modulo_docente',
     'modulo_horario',
+    'modulo_usuario',
     'colorfield',
 ]
 
