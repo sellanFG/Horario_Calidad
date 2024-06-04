@@ -27,7 +27,7 @@ class ambiente(models.Model):
     nombre_ambiente = models.CharField(max_length=30)
     capacidad_ambiente = models.PositiveSmallIntegerField(default=15)
     estado_ambiente = models.CharField(max_length=1, choices=(('D', 'Disponible'), ('O', 'Ocupado'),('M', 'Mantenimiento')))
-    piso = models.PositiveSmallIntegerField(default=15)
+    piso = models.PositiveSmallIntegerField(default=1)
     FKedificio  = models.ForeignKey(edificio, on_delete=models.CASCADE, verbose_name='Edificio')
     FKtipo_ambiente = models.ForeignKey(tipo_ambiente, on_delete=models.CASCADE, verbose_name='Tipo de Ambiente')
 
