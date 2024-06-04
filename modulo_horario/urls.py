@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
 from modulo_ambiente import *
+from modulo_usuario.views import *
 
 urlpatterns = [
-    path('', views.inicio),
+    path('inicio/', views.inicio),
     path('horario/', views.horario),
     path('menuHorario/', views.menuHorario),
     path('menuCurso/', views.menuCurso),
