@@ -24,10 +24,11 @@ class tipo_contrato(models.Model):
         verbose_name_plural="Tipo de contrato"
 
 class docente(models.Model):
+    
     doc_nombres = models.CharField(max_length=200)
     doc_especialidad = models.CharField(max_length=100)
     doc_email = models.CharField(max_length=50)
-    doc_estado = models.CharField(max_length=10)
+    doc_estado = models.CharField(max_length=10) 
     doc_telefono = models.CharField(max_length=9)
     FKtipocontrato = models.ForeignKey (tipo_contrato, on_delete=models.CASCADE)
     FKdepartamentoacademico = models.ForeignKey(departamento_academico, on_delete=models.CASCADE)

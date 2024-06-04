@@ -30,6 +30,10 @@ def horario(request):
     return HttpResponse("Gestionar horario")
 
 
+def login(request):
+    return render(request,'Login.html')
+
+
 def asignacion_docente(request):
 
     if request.method == 'POST':
