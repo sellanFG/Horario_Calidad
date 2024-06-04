@@ -1,5 +1,5 @@
 from django.db import models
-from modulo_curso.models import curso
+from modulo_curso.models import curso, escuela
 from modulo_docente.models import docente
 from modulo_ambiente.models import ambiente
 
@@ -51,3 +51,9 @@ class horario (models.Model):
     class Meta:
         verbose_name_plural="Horario"
 
+class escuela_ambiente(models.Model):
+    id = models.AutoField(primary_key=True)
+    descripcion= models.CharField
+    FK_escuela  = models.ForeignKey(escuela, on_delete=models.CASCADE, verbose_name='Escuela')
+    FK_ambiente  = models.ForeignKey(ambiente, on_delete=models.CASCADE, verbose_name='Ambiente')
+    FK_ciclo_academico = models.ForeignKey(ciclo_academico, on_delete=models.CASCADE, verbose_name='ciclo')

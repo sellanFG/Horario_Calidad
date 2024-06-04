@@ -48,43 +48,81 @@ overflow-x: hidden;">
     <div class="container-fluid overflow-hidden" style="font-family: 'Roboto', sans-serif;">
         
         <div class="row vh-100 overflow-auto" >
-    <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
-        <div  id="sidebar-nav"  class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white  sticky-top">
-            <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
-              <div class="mt-3">
-                
-              </div>
-              <div class="mt-3" >
-                <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button" style="margin-top: 30px;">
-                  <i class="fs-4 my-0 py-0 fa fa-calendar me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
-                </a>
-              </div>
-                <div class="mt-3">
-                  <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
-                    <i class="fs-4 my-0 py-0 fa fa-book me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
-                  </a>
-                </div>
-                <div class="mt-3">
-                  <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
-                    <i class="fs-4 my-0 py-0 fa fa-users me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
-                  </a>
-                </div>
 
-                <div class="mt-3">
-                  <a class="btn shadow-none border-0 " style="color: white;" href="#" role="button">
-                    <i class="fs-4 my-0 py-0 fa fa-building me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
-                  </a>
+            <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
+                <div id="sidebar-nav" class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
+                  <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+                    <div class="mt-3">
+                      <br>
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
+                        <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white" >Horario</span>
+                      </a>
+                      <div class="collapse" id="menuHorario">
+                        <ul class="list-unstyled ps-4">
+                          <br>
+                          <li><a href="/" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
+                          <br>
+                          <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
+                          <br>
+                          <li><a href="/menuHorario" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuCurso" role="button" aria-expanded="false" aria-controls="menuCurso">
+                        <i class="fs-4 my-0 py-0 fa fa-book me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
+                      </a>
+                      <div class="collapse" id="menuCurso">
+                        <ul class="list-unstyled ps-4">
+                            <br>
+                          <li><a href="/grupoHorario" class="text-white" style="font-size: 15px; text-decoration: none;">Asignar grupos horarios a cursos</a></li>
+                          <br>
+                          <li><a href="/menuCurso" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
+                          <!-- <br> -->
+                          <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuDocente" role="button" aria-expanded="false" aria-controls="menuDocente">
+                        <i class="fs-4 my-0 py-0 fa fa-users me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
+                      </a>
+                      <div class="collapse" id="menuDocente">
+                        <ul class="list-unstyled ps-4">
+                            <br>
+                          <li><a href="/asignacionCargaLectiva" class="text-white" style="font-size: 15px; text-decoration: none;" >Asignar docentes a grupo horario</a></li>
+                          <br>
+                          <li><a href="/csv" class="text-white" style="font-size: 15px; text-decoration: none;">Disponibilidad docente</a></li>
+                          <br>
+                          <li><a href="/menuDocente" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuAmbiente" role="button" aria-expanded="false" aria-controls="menuAmbiente">
+                        <i class="fs-4 my-0 py-0 fa fa-building me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
+                      </a>
+                      <div class="collapse" id="menuAmbiente">
+                        <ul class="list-unstyled ps-4">
+                          <br>
+                          <li><a href="/asignarAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Asignar ambiente a escuela</a></li>
+                          <br>
+                          <li><a href="/csvAmbientes" class="text-white"  style="font-size: 15px; text-decoration: none;">Importar ambientes</a></li>
+                          <br>
+                          <li><a href="/menuAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
+                    <div class="mt-3 mb-3">
+                      <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
+                      </a>
+                    </div>
+                  </ul>
                 </div>
-                <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
-                
-                <div class="mt-3 mb-3">
-                  <a class="btn shadow-none border-0 pb-3" style="color: white;" href="#" role="button">
-                    <i class="fs-4 my-0 py-0 fa fa-sign-out me-2" style="color: white;"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
-                  </a>
-                </div>
-            </ul>
-        </div>
-    </div>
+              </div>
+            
 
     <div class="col d-flex flex-column h-sm-100" style="background-color: #e8ebf1;">
         <main class="row overflow-auto">
@@ -255,6 +293,13 @@ overflow-x: hidden;">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+    integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
 
 </body>
 

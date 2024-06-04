@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+    .card-header {
+      color: rgb(255, 255, 255);
+      background-color: #E33439;
+      border: #E33439;
+    }
+
+    body {
+      font-family: "Roboto", sans-serif;
+      background-color: #e8ebf1;
+      font-size: 15px;
+      overflow-y: hidden;
+      overflow-x: hidden;
+    }
+
+
+    /* Letras */
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    h7 {
+      font-family: "Roboto Condensed", sans-serif;
+      color: #181B22;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .card-header {
+      color: rgb(255, 255, 255);
+      background-color: #E33439;
+      border: #E33439;
+    }
+
+    .caja {
+      padding: 0px;
+      width: 100%;
+      margin: 0px;
+    }
+
+    .row {
+      margin-bottom: 1rem;
+    }
+
+    #user {
+      width: 100px;
+    }
+
+    .col1,
+    .col3 {
+      width: 16%;
+    }
+
+    .col2 {
+      width: 60%;
+    }
+
+    .btnVer {
+      background-color: #181B22;
+      border: 1px solid transparent;
+      border-color: #181B22;
+      border-radius: 10px;
+      color: #fff;
+      padding: 0.375rem 0.75rem;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+
+    }
+
+    .card-body ul li a {
+      color: black; /* Cambia el color de los enlaces a negro */
+    }
+    .card-body ul li a:hover {
+      color: #E33439; /* Opcional: Cambia el color de los enlaces al pasar el ratón por encima */
+    }
+  </style>
+
+</head>
+
+<body style="background-color: #E2E3E5;">
+
+  <div class="container-fluid p-0 m-auto">
+
+    <div class="caja" style="height: 100px; background-color: white;">
+      <div class="row">
+        <div class="col1" style="margin-left: 30px;">
+          <a class="navbar-brand" href="/">
+            <img style="width: 180px; height: 80px;"
+              src="/static/iconos/logo_usat25.png" alt="Logo usat">
+          </a>
+        </div>
+        <div class="col2" style="padding: 20px; text-align: left; margin-left: 60px;">
+          <h7> <strong> Bienvenido, NICHO </strong> <br> </h7>
+          <p>Ahora puedes realizar tus procesos</p>
+        </div>
+
+        <div class="col3" style="padding: 20px; text-align: right;">
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ernesto, Nicho
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid overflow-hidden">
+
+      <div class="row vh-100 overflow-auto">
+
+        <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
+          <div id="sidebar-nav" class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
+            <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+              <div class="mt-3">
+                <br>
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
+                  <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
+                </a>
+                <div class="collapse" id="menuHorario">
+                  <ul class="list-unstyled ps-4">
+                    <br>
+                    <li><a href="/" class="text-white">Gestionar horario</a></li>
+                    <br>
+                    <li><a href="/asignacion_docente" class="text-white">Generar horario</a></li>
+                    <br>
+                    <li><a href="/menuHorario" class="text-white">Reportes</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuCurso" role="button" aria-expanded="false" aria-controls="menuCurso">
+                  <i class="fs-4 my-0 py-0 fa fa-book me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
+                </a>
+                <div class="collapse" id="menuCurso">
+                  <ul class="list-unstyled ps-4">
+                      <br>
+                    <li><a href="/grupoHorario" class="text-white">Asignar grupos horarios a cursos</a></li>
+                    <br>
+                    <li><a href="/menuCurso" class="text-white">Reportes</a></li>
+                    <!-- <br> -->
+                    <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuDocente" role="button" aria-expanded="false" aria-controls="menuDocente">
+                  <i class="fs-4 my-0 py-0 fa fa-users me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
+                </a>
+                <div class="collapse" id="menuDocente">
+                  <ul class="list-unstyled ps-4">
+                      <br>
+                    <li><a href="/asignacionCargaLectiva" class="text-white">Asignar docentes a grupo horario</a></li>
+                    <br>
+                    <li><a href="/csv" class="text-white">Disponibilidad docente</a></li>
+                    <br>
+                    <li><a href="/menuDocente" class="text-white">Reportes</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuAmbiente" role="button" aria-expanded="false" aria-controls="menuAmbiente">
+                  <i class="fs-4 my-0 py-0 fa fa-building me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
+                </a>
+                <div class="collapse" id="menuAmbiente">
+                  <ul class="list-unstyled ps-4">
+                    <br>
+                    <li><a href="/asignarAmbiente" class="text-white">Asignar ambiente a escuela</a></li>
+                    <br>
+                    <li><a href="/csvAmbientes" class="text-white">Importar ambientes</a></li>
+                    <br>
+                    <li><a href="/menuAmbiente" class="text-white">Reportes</a></li>
+                  </ul>
+                </div>
+              </div>
+              <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
+              <div class="mt-3 mb-3">
+                <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
+                  <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
+                </a>
+              </div>
+            </ul>
+          </div>
+        </div>
+      
+
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+        
+        <div class="col d-flex flex-column h-sm-100">
+          <main class="row overflow-auto">
+            <div class="container-fluid col">
+              <form class="px-lg-2 mx-lg-2 py-0 my-0">
+
+                <div class="container-fluid m-0 p-0">
+
+                  <div class="row align-items-center mx-0 px-0" style="overflow-x: hidden; margin-top: 35px;">
+
+                    <div class="container justify-content-center">
+
+                      <div class="row">
+
+                        <div class="col-sm-12" style="margin-bottom: 30px; margin-left: 80px; margin-right: -80px;">
+                          <div class="card" style="width: 500px; height: 540px;">
+                            <div class="card-header">
+                              <h7 style="color: white; font-size: 19px;">HORARIO</h7>
+                            </div>
+
+                            <div class="card mb-6" style="max-width: 540px; height: 500px;">
+                              <div class="row g-0">
+
+                                <div class="col-md-12">
+                                  <div class="card-body">
+                                    <br>
+                                    <p> Próximamente: </p>
+                                    <ul>
+                                      <br>
+                                      <li><a href="">Ver horario por ciclo</a></li>
+                                      <br>
+                                      <li><a href="">Ver horario por docente</a></li>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      <br>
+                                      
+                                    </ul>
+                                    <br>
+                                    <a class="btnVer" style="margin-left: 350px; margin-top: 5px;" href="/">Regresar
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+
+              </form>
+            </div>
+          </main>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+    integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
