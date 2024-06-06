@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Horario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .column label {
+            font-weight: bold;
+        }
+
+        .column select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .table input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            text-align: center;
+        }
+
+        .table input[type="text"]:focus {
+            outline: none;
+        }
+
+        nav .navbar-brand img {
+            max-width: 120px;
+        }
+
+     
+
+        .btn-notification .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%);
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        #sidebar-nav a {
+            text-decoration: none;
+        }
+
+        #sidebar-nav a:hover {
+            color: #f8f9fa;
+            background-color: #343a40;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid p-0 m-auto">
+        <nav class="navbar navbar-expand bg-white mx-auto shadow-sm">
+            <div class="container-fluid w-100 d-block">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 m-auto my-2">
+                        <a class="navbar-brand" href="#">
+                            <img class="img-fluid ms-1 me-4"
+                                src="https://www.tuproyectodevida.pe/wp-content/uploads/2018/05/logo_tuproyectodevida.png"
+                                alt="Logo usat">
+                        </a>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-6 m-auto text-center">
+                        <h3 class="fw-bold">Bienvenido, NICHO</h3>
+                        <h6 class="text-muted">Realiza tus procesos ahora!</h6>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 my-sm-4 mx-auto">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-notification position-relative mb-0 p-0 mt-3">
+                                <i class="fa fa-bell-o mt-3 me-2"></i>
+                                <span class="badge rounded-pill bg-dark">4</span>
+                            </button>
+                            <div class="dropdown ms-3">
+                                <img class="rounded-circle img-fluid" style="width: 50px; height: 50px;"
+                                    src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" alt="user">
+                                <button class="btn dropdown-toggle ms-2" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Ernesto, Nicho
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#">Ajustes</a></li>
+                                    <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid overflow-hidden">
+            <div class="row vh-100 overflow-auto">
+                <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger">
+                    <div id="sidebar-nav"
+                        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                            <div class="dropdown mt-3 mb-4">
+                                <a class="btn text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fs-4 fa fa-th-large me-2"></i><span class="d-none d-sm-inline">Actividades</span>
+                                </a>
+                                <ul class="dropdown-menu text-small border-0 d-block" style="background-color: transparent;">
+                                    <li><a class="dropdown-item active bg-black rounded-pill" href="#"><i class="fs-5 my-0 py-0 fa fa-align-left me-3 ms-2" style="color: white;"></i>Resumen</a></li>
+                                    <li><a class="dropdown-item rounded" href="#"><i class="fs-5 my-0 py-0 fa fa-filter me-3 ms-2" style="color: white;"></i>Custom view</a></li>
+                                  </ul>
+                                <ul class="dropdown-menu text-small border-0">
+                                    <li><a class="dropdown-item active bg-black rounded-pill" href="#"><i
+                                                class="fs-5 fa fa-align-left me-3 ms-2"></i>Resumen</a></li>
+                                    <li><a class="dropdown-item rounded" href="#"><i class="fs-5 fa fa-filter me-3 ms-2"></i>Custom view</a></li>
+                                </ul>
+                            </div>
+                            <li class="nav-item mt-5">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="fs-4 fa fa-envelope-o me-2"></i><span class="d-none d-sm-inline">Messages</span>
+                                    <span class="badge bg-dark">2</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="fs-4 fa fa-book me-2"></i><span class="d-none d-sm-inline">Horarios</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="fs-4 fa fa-users me-2"></i><span class="d-none d-sm-inline">Docentes</span>
+                                </a>
+                            </li>
+                            <hr class="w-100 my-4 border-1 bg-white">
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="fs-4 fa fa-cog me-2"></i><span class="d-none d-sm-inline">Configuración</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-white" href="#">
+                                    <span class="d-none d-sm-inline">Help</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-white" href="#">
+                                    <span class="d-none d-sm-inline">Contact us</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="fs
+                                    <i class="fs-4 fa fa-deaf me-2"></i><span class="d-none d-sm-inline">Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-9 col-xl-10 px-sm-2 px-4 pt-4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="escuela">Escuela:</label>
+                                <select id="escuela" name="escuela" class="form-select">
+                                    <option value="" disabled selected>Seleccione una escuela</option>
+                                    <option value="escuela1">Escuela 1</option>
+                                    <option value="escuela2">Escuela 2</option>
+                                    <option value="escuela3">Escuela 3</option>
+                                    <!-- Más opciones pueden ser añadidas aquí -->
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="docente">Docente:</label>
+                                <select id="docente" name="docente" class="form-select">
+                                    <option value="" disabled selected>Seleccione un docente</option>
+                                    <option value="docente1">Docente 1</option>
+                                    <option value="docente2">Docente 2</option>
+                                    <option value="docente3">Docente 3</option>
+                                    <!-- Más opciones pueden ser añadidas aquí -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th>Lunes</th>
+                                        <th>Martes</th>
+                                        <th>Miércoles</th>
+                                        <th>Jueves</th>
+                                        <th>Viernes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" value="Calidad" readonly class="form-control-plaintext"></td>
+                                        <td><input type="text" value="Tesis" readonly class="form-control-plaintext"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                        <td><input type="text" placeholder="Disponible" class="form-control"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+        integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
