@@ -27,6 +27,7 @@ class ciclo_academico(models.Model):
 
 class grupo_horario(models.Model):
     grupo = models.CharField(max_length=1)
+    capacidad = models.PositiveSmallIntegerField(default=15)
     fk_ciclo = models.ForeignKey(ciclo_academico, on_delete=models.CASCADE, default=None)
     fk_curso = models.ForeignKey(curso, on_delete=models.CASCADE, default=None)
 

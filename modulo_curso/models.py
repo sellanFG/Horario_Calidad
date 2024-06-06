@@ -58,6 +58,7 @@ class curso(models.Model):
     horas_practicas = models.SmallIntegerField(default=1) 
     horas_teoricas = models.SmallIntegerField(default=1)
     ciclo_curso = models.SmallIntegerField(default=1)
+    amb = models.SmallIntegerField(default=1)
     FKtipocurso = models.ForeignKey(tipo_curso, on_delete=models.CASCADE) 
     FKplan_estudio = models.ForeignKey(plan_estudio, on_delete=models.CASCADE, default=None)
     def Validacion_horas(self):

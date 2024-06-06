@@ -16,7 +16,6 @@ def grupoHorario(request):
     plan_select = request.POST.get('plan_estudio')
     curso_list = []
 
-
     if escuela_select:
         escuela_se = escuela.objects.get(nombre_escuela=escuela_select)
         plan = plan_estudio.objects.filter(fk_escuela_id=escuela_se.id)
@@ -33,14 +32,20 @@ def grupoHorario(request):
                     'ciclo_curso': cur.ciclo_curso,
                     'nombre_curso': cur.nombre_curso,
                 })
-                if request.method == 'POST':
-                    for cur in curso_list:
-                        if request.POST.get('seleccionado_' + str(cur['id'])):
-                            cantidad = int(request.POST.get('cantidad_' + str(cur['id'])))
-                            for i in range(cantidad):
-                                ciclo = ciclo_academico.objects.last()
-                                curso_id = curso.objects.get(id=cur['id'])
-                                grupo_horario.objects.create(grupo=chr(65 + i), fk_curso=curso_id,fk_ciclo=ciclo)
+
+            if request.method == 'POST':
+                for cur in curso_list:
+                    if request.POST.get('seleccionado_' + str(cur['id'])):
+                        cantidad = int(request.POST.get('cantidad_' + str(cur['id'])))
+                        for i in range(cantidad):
+                            ciclo = ciclo_academico.objects.last()
+                            curso_id = curso.objects.get(id=cur['id'])
+                            ultimo_grupo = grupo_horario.objects.filter(fk_curso=curso_id).order_by('-grupo').first()
+                            if ultimo_grupo:
+                                nuevo_nombre = chr(ord(ultimo_grupo.grupo) + 1)
+                            else:
+                                nuevo_nombre = 'A'
+                            grupo_horario.objects.create(grupo=nuevo_nombre, fk_curso=curso_id,fk_ciclo=ciclo)
 
             data = {
                 'escuela' : escuelas,

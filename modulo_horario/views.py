@@ -169,6 +169,25 @@ def asignacion_docente(request):
 
         # Resolver el problema
         problema.solve()
+        # Diccionario para almacenar los resultados
+        resultados = {}
+
+        # Almacenar los resultados en el diccionario
+        for i in grupos:
+            for k in dias:
+                for l in horas:
+                    if x[i, k, l].varValue == 1:
+                        grupo = grupo_horario.objects.get(id=i).grupo
+                        curso = grupo_horario.objects.get(id=i).fk_curso.nombre_curso
+                        docente_nombre = docente.objects.get(id=[j for j in docentes_por_grupo[i]][0]).doc_nombres
+                        if grupo not in resultados:
+                            resultados[grupo] = []
+                        resultados[grupo].append({
+                            "curso": curso,
+                            "dia": k,
+                            "hora": l,
+                            "docente": docente_nombre
+                        })
         # Mostrar los resultados
         for i in grupos:
             for k in dias:
