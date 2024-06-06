@@ -1,46 +1,202 @@
-{% load i18n static %}
-{% block title %} Cursos en plan de estudio {% endblock %}
-{% block content %}
+{% load i18n static %} {% block title %} {% endblock %} {% block content %}
 
-    <section class="content-info" style="margin-top: 20px; margin-bottom: 20px">
-        <div class="container">
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asignar grupo horario a curso</title>
+    <link rel="stylesheet" href="{% static 'css/asignacionCargaLectiva.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" /> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body style="padding: 0px; 
+overflow-y: hidden;
+overflow-x: hidden;">
+
+    <div class="container-fluid p-0 m-auto" style="font-family: 'Roboto', sans-serif; font-size: 15px;">
+        <div class="caja" style="height: 100px; background-color: white;">
             <div class="row">
+              <div class="col1" style="margin-left: 30px; width:  16%;">
+                <a class="navbar-brand" href="/">
+                  <img style="width: 180px; height: 80px;" src="http://www.usat.edu.pe/web/wp-content/uploads/2023/05/logo_usat25.png"
+                    alt="Logo usat">
+                </a>
+              </div>
+              <div class="col2" style="padding: 20px; text-align: left; margin-left: 60px;  width:  60%;">
+                  <h7> <strong> Bienvenido, NICHO </strong> <br> </h7>
+                  <p>Ahora puedes realizar tus procesos</p>
+                </div>
+              
+              <div class="col3" style="padding: 20px; text-align: right;  width:  16%;">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Ernesto, Nicho
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                </ul>
+              
+              </div>
+            </div>
+        </div>
+    </div>
 
-                <form class="col-md-6" id="form_cursos" method="post" action="{% url 'grupoHorario' %}">
-                    {% csrf_token %}
-                    <div class="col-md-12">
-                        <label>Escuela: </label>
-                        <select name="escuela" id="escuela">
-                            <option value="">Selecciona una Escuela</option>
-                            {% for esc in escuela %}
-                                <option value="{{ esc.nombre_escuela }}"
-                                        {% if esc.nombre_escuela == escuela_select %}selected{% endif %}>{{ esc.nombre_escuela }}
-                                </option>
-                            {% endfor %}
+    <div class="container-fluid overflow-hidden" style="font-family: 'Roboto', sans-serif;">
+        
+        <div class="row vh-100 overflow-auto" >
 
-                        </select>
+            <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
+                <div id="sidebar-nav" class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
+                  <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+                    <div class="mt-3">
+                      <br>
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
+                        <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white" >Horario</span>
+                      </a>
+                      <div class="collapse" id="menuHorario">
+                        <ul class="list-unstyled ps-4">
+                          <br>
+                          <li><a href="/" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
+                          <br>
+                          <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
+                          <br>
+                          <li><a href="/menuHorario" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="col-md-12">
-                        <label>Plan de estudio: </label>
-                        <select name="plan_estudio" id="plan_estudio">
-                            <option value="">Selecciona un plan de estudio</option>
-                            {% for plan in plan_estudio %}
-                                <option value="{{ plan.plan_nombre }}"
-                                        {% if plan.plan_nombre == plan_select %}selected{% endif %}>{{ plan.plan_nombre }}
-                                </option>
-                            {% endfor %}
-                        </select>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuCurso" role="button" aria-expanded="false" aria-controls="menuCurso">
+                        <i class="fs-4 my-0 py-0 fa fa-book me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
+                      </a>
+                      <div class="collapse" id="menuCurso">
+                        <ul class="list-unstyled ps-4">
+                            <br>
+                          <li><a href="/grupoHorario" class="text-white" style="font-size: 15px; text-decoration: none;">Asignar grupos horarios a cursos</a></li>
+                          <br>
+                          <li><a href="/menuCurso" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
+                          <!-- <br> -->
+                          <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
+                        </ul>
+                      </div>
                     </div>
-                    <!-- Tabla para los cursos -->
-                <div class="col-md-6">
-                    <table class="table-striped table-responsive table-hover result-point">
-                        <br>
-                        <thead>
-                        <tr>
-                            <th>CURSOS</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuDocente" role="button" aria-expanded="false" aria-controls="menuDocente">
+                        <i class="fs-4 my-0 py-0 fa fa-users me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
+                      </a>
+                      <div class="collapse" id="menuDocente">
+                        <ul class="list-unstyled ps-4">
+                            <br>
+                          <li><a href="/asignacionCargaLectiva" class="text-white" style="font-size: 15px; text-decoration: none;" >Asignar docentes a grupo horario</a></li>
+                          <br>
+                          <li><a href="/csv" class="text-white" style="font-size: 15px; text-decoration: none;">Disponibilidad docente</a></li>
+                          <br>
+                          <li><a href="/menuDocente" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuAmbiente" role="button" aria-expanded="false" aria-controls="menuAmbiente">
+                        <i class="fs-4 my-0 py-0 fa fa-building me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
+                      </a>
+                      <div class="collapse" id="menuAmbiente">
+                        <ul class="list-unstyled ps-4">
+                          <br>
+                          <li><a href="/asignarAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Asignar ambiente a escuela</a></li>
+                          <br>
+                          <li><a href="/csvAmbientes" class="text-white"  style="font-size: 15px; text-decoration: none;">Importar ambientes</a></li>
+                          <br>
+                          <li><a href="/menuAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
+                    <div class="mt-3 mb-3">
+                      <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
+                        <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
+                      </a>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+            
+
+    <div class="col d-flex flex-column h-sm-100" style="background-color: #e8ebf1;">
+        <main class="row overflow-auto">
+          <div class="container-fluid col"> 
+            
+    <div id="contenedorSub" style=" padding: 20px; background-color: white; margin-top: 20px; height: 560px; border-radius: 5px;">
+
+
+        <!-- TÍTULO -->
+    
+        <div class="box-tittle">
+            <button type="button" class="regresarBtn">
+                <a href="/"><img id="closeicon" src="{% static 'iconos/regresar.PNG' %}" width="32px" height="27px"></a>
+            </button>
+            <h3 id="titulo" style="margin-left: 20px;">ASIGNAR GRUPO HORARIO A CURSO</h3>
+        </div>
+    
+        <!-- SELECCIONA ESCUELA Y PLAN DE ESTUDIO -->
+    
+        <section class="content-info" style="margin-top: 20px; margin-bottom: 20px">
+            <div class="container">
+                <div class="row">
+    
+                    <form class="col-md-12" id="form_cursos" method="post" action="{% url 'grupoHorario' %}">
+                        {% csrf_token %}
+                        
+                        <div class="col-md-6" style="display: inline;" >
+                            <label>Escuela: </label>
+                            <select name="escuela" id="escuela" style="display: inline; width: 300px;">
+                                <option value="">Selecciona una Escuela</option>
+                                {% for esc in escuela %}
+                                    <option value="{{ esc.nombre_escuela }}"
+                                            {% if esc.nombre_escuela == escuela_select %}selected{% endif %}>{{ esc.nombre_escuela }}
+                                    </option>
+                                {% endfor %}
+    
+                            </select>
+                        </div>
+                        <div class="col-md-6" style="display: inline;">
+                            <label>Plan de estudio: </label>
+                            <select name="plan_estudio" id="plan_estudio" style="display: inline; width: 300px;">
+                                <option value="">Selecciona un plan de estudio</option>
+                                {% for plan in plan_estudio %}
+                                    <option value="{{ plan.plan_nombre }}"
+                                            {% if plan.plan_nombre == plan_select %}selected{% endif %}>{{ plan.plan_nombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Tabla para los cursos -->
+                    <div class="col-md-16">
+                        <table class="table-striped table-responsive table-hover result-point">
+                            <thead>
+                            
+                            </thead>
+
+
+                            
+        <div id="boxTabla" style="height: 30px; overflow-y: auto;">
+    
+            <table class="table" id="tabla">
+    
+                <thead class="encabezado" style=" position: sticky; top: 0; z-index: 1; background-color: #E33439;">
+                    <tr>
+                        <th scope="col" style="background-color: #E33439; color: #fff;">CÓDIGO DEL CURSO</th>
+                        <th scope="col" style="background-color: #E33439; color: #fff;">CICLO</th>
+                        <th scope="col" style="background-color: #E33439; color: #fff; width: 30%;">NOMBRE DEL CURSO</th>
+                        <th scope="col" style="background-color: #E33439; color: #fff;">GRUPO HORARIO</th>
+                        <th scope="col" style="background-color: #E33439; color: #fff;">SELECCIONAR</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                   
                         {% for curso in cursos %}
                             <tr>
                                 <td>{{ curso.codigo_curso }}</td>
@@ -49,77 +205,98 @@
                                 <td><input type="number" name="cantidad_{{ curso.id }}" value="0" min="0" step="1"></td>
                                 <td><input type="checkbox" name="seleccionado_{{ curso.id }}"></td>
                         {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
-            </div>
-            <!--<div class="row">
-                 Tabla para los cursos 
-                <div class="col-md-6">
-                    <table class="table-striped table-responsive table-hover result-point">
-                        <br>
-                        <thead>
-                        <tr>
-                            <th>CURSOS</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for curso in cursos %}
-                            <tr>
-                                <td>{{ curso.codigo_curso }}</td>
-                                <td>{{ curso.ciclo_curso }}</td>
-                                <td>{{ curso.nombre_curso }}</td>
-                                <td><input type="number" name="cantidad_{{ curso.codigo_curso }}" value="0" min="0" step="1"></td>
-                                <td><input type="checkbox" name="seleccionado_{{ curso.codigo_curso }}"></td>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>-->
+                        
+                </tbody>
+    
+            </table>
+    
         </div>
-    </section>
 
-    <style>
-        select {
-            width: auto;
-            padding: 5px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            color: #333;
-            background-color: #ffffff;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
 
-        table {
-            border-collapse: collapse;
-            margin: 20px 0;
-            border-radius: 5px;
-            overflow: hidden;
-        }
+                           
+                        </table>
+                    </div>
+                    <br>
+                        <button type="submit" class="btnGuardar">Enviar</button>
+                    </form>
+                </div>
+                
+            </div>
+        </section>
+    
+        <style>
+            select {
+                width: auto;
+                padding: 5px;
+                font-size: 14px;
+                border: none;
+                border-radius: 5px;
+                color: #333;
+                background-color: #ffffff;
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+            }
+    
+            table {
+                border-collapse: collapse;
+                margin: 20px 0;
+                border-radius: 5px;
+                overflow: hidden;
+            }
+    
+            th {
+                background-color: rgba(67, 183, 22, 0.78);
+                font-weight: bold;
+            }
+    
+            td {
+                background-color: #e7e5e5;
+                color: black;
+            }
 
-        th {
-            background-color: rgba(67, 183, 22, 0.78);
-            font-weight: bold;
-        }
+            .btnGuardar {
+    background-color: #54A585;
+    border: 1px solid transparent;
+    border-color: #54A585;
+    border-radius: 10px;
+    color: #fff;
+    padding: 0.375rem 0.75rem;
+    font-size: 15px;
+    text-align: center;
+}
 
-        td {
-            background-color: #e7e5e5;
-            color: black;
-        }
-    </style>
+        </style>
+    
+        <script>
+            document.getElementById('escuela').addEventListener('change', function () {
+                document.getElementById('plan_estudio').innerHTML = '<option value="">Selecciona un plan de estudio</option>';
+                document.getElementById('form_cursos').submit();
+            });
+    
+            document.getElementById('plan_estudio').addEventListener('change', function () {
+                document.getElementById('form_cursos').submit();
+            });
+        </script>
+        
+        
 
-    <script>
-        document.getElementById('escuela').addEventListener('change', function () {
-            document.getElementById('plan_estudio').innerHTML = '<option value="">Selecciona un plan de estudio</option>';
-            document.getElementById('form_cursos').submit();
-        });
+    
 
-        document.getElementById('plan_estudio').addEventListener('change', function () {
-            document.getElementById('form_cursos').submit();
-        });
-    </script>
+    <!-- COMPLEMENTOS -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+    integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
 
 {% endblock %}
