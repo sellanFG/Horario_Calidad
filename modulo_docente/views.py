@@ -66,13 +66,12 @@ def disponibilidad_docentes():
         horariodispo=disponibilidad_docente.objects.get(id=dispobj.id)
 
         horaini= horariodispo.ddo_horainicio
-        horafin= horariodispo.ddo_horainicio
+        horafin= horariodispo.ddo_horafin
         dia= horariodispo.FKdiasemana
         docente = horariodispo.FKdocente
         
         enviar.append((horaini,horafin,dia,docente))
 
-        print(enviar)
 
     return enviar
 
