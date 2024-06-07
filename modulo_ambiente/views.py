@@ -93,8 +93,8 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
-            if 'excel_file' in request.FILES:
-                excel_file = request.FILES['excel_file']
+            if 'Subir_archivo_excel' in request.FILES:
+                excel_file = request.FILES['Subir_archivo_excel']
                 workbook = openpyxl.load_workbook(excel_file)
                 sheet = workbook.active
                 try:
@@ -104,8 +104,8 @@ def upload_file(request):
                     for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row, min_col=1, max_col=sheet.max_column):
                         if row is None or all(cell is None for cell in row):
                             continue  # Skip empty rows
-                        print(f"Procesando fila: {row}")
-                        print(f"Procesando ed: {row[2]}")
+                        #print(f"Procesando fila: {row}")
+                        #print(f"Procesando ed: {row[2]}")
                         ambientes = edificio.objects.all()
                         nro, nombre_ambiente, nombre_edificio, aforo, piso, nombre_tipo_ambiente = [cell.value for cell in row]
                 
@@ -119,12 +119,18 @@ def upload_file(request):
                             
                             edificio_id = row[2]
                             edificios = edificio.objects.filter(nombre_edificio=nombre_edificio)
+
                             if not edificios:
-                                messages.error(request, f"No se encontró ningún edificio con el nombre '{nombre_edificio}'.")
-                                continue
+
+                                if nombre_edificio is None:
+                                    continue
+                                else:
+                                    print(f"No se encontró ningún edificio con el nombre '{nombre_edificio}'.")
+                                    continue
+
                             tipos_ambiente = tipo_ambiente.objects.filter(tipo_de_ambiente=nombre_tipo_ambiente)
                             if not tipos_ambiente:
-                                messages.error(request, f"No se encontró ningún tipo de ambiente con el nombre '{nombre_tipo_ambiente}'.")
+                                print(f"No se encontró ningún tipo de ambiente con el nombre '{nombre_tipo_ambiente}'.")
                                 continue
                             
                             for edificio_obj in edificios:
@@ -138,8 +144,8 @@ def upload_file(request):
                                         FKtipo_ambiente=tipo_ambiente_obj
                                         )
                                     ambiente_obj.save()
-                            messages.success(request, 'Los datos han sido cargados exitosamente.')
-            
+                            
+                            #messages.success(request, 'Los datos han sido cargados exitosamente.')
                            
                         else:
                             messages.warning(request, f'Fila incompleta o incorrecta: {row}')
@@ -154,8 +160,9 @@ def upload_file(request):
             return redirect(request.path)
     else:
         form = UploadCSVForm()
+        enviar=obtener_ambientes_array()
 
-    return render(request, './csvAmbientes.html', {'form': form})
+    return render(request, './csvAmbientes.html', {'form': form, 'disponibilidad':enviar})
 
 
 #Para obtener los ambientes asignados a cada escuela:
@@ -305,3 +312,25 @@ def guardar_ambientes_seleccionados(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+    
+
+#Obtener ambientes en listado data
+def obtener_ambientes_array():
+    
+    dispo= ambiente.objects.all();    
+    enviar=[]
+
+    for amobj in dispo:
+        
+        ambdispo=ambiente.objects.get(id=amobj.id)
+
+        nombre= ambdispo.nombre_ambiente
+        capa= ambdispo.capacidad_ambiente
+        edificio= ambdispo.FKedificio
+        piso = ambdispo.piso
+        tipo = ambdispo.FKtipo_ambiente
+        estado= ambdispo.estado_ambiente
+
+        enviar.append((nombre,capa,edificio,piso,tipo,estado))
+
+    return enviar

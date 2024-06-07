@@ -14,14 +14,14 @@
 
 <style>
   .btnVer {
-background-color: #181B22;
-border: 1px solid transparent;
-border-color: #181B22;
-border-radius: 10px;
-color: #fff;
-padding: 0.375rem 0.75rem;
-font-size: 15px;
-text-align: center;
+    background-color: #54A585;
+    border: 1px solid transparent;
+    border-color: #54A585;
+    border-radius: 10px;
+    color: #fff;
+    padding: 0.375rem 0.75rem;
+    font-size: 15px;
+    text-align: center;
 }
 </style>
 
@@ -33,7 +33,7 @@ overflow-x: hidden;">
         <div class="caja" style="height: 100px; background-color: white;">
             <div class="row">
               <div class="col1" style="margin-left: 30px; width:  16%;">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="/inicio">
                   <img style="width: 180px; height: 80px;" src="http://www.usat.edu.pe/web/wp-content/uploads/2023/05/logo_usat25.png"
                     alt="Logo usat">
                 </a>
@@ -48,7 +48,7 @@ overflow-x: hidden;">
                   Ernesto, Nicho
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                  <li><a class="dropdown-item" href="/inicio">Cerrar sesión</a></li>
                 </ul>
               
               </div>
@@ -71,7 +71,7 @@ overflow-x: hidden;">
                   <div class="collapse" id="menuHorario">
                     <ul class="list-unstyled ps-4">
                       <br>
-                      <li><a href="/" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
+                      <li><a href="/inicio" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
                       <br>
                       <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
                       <br>
@@ -126,7 +126,7 @@ overflow-x: hidden;">
                 </div>
                 <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
                 <div class="mt-3 mb-3">
-                  <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
+                  <a class="btn shadow-none border-0 pb-3 text-white" href="/inicio" role="button">
                     <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
                   </a>
                 </div>
@@ -147,7 +147,7 @@ overflow-x: hidden;">
     
      <div class="box-tittle">
       <button type="button" class="regresarBtn">
-          <a href="/"><img id="closeicon" src="{% static 'iconos/regresar.PNG' %}" width="32px" height="27px"></a>
+          <a href="/inicio"><img id="closeicon" src="{% static 'iconos/regresar.PNG' %}" width="32px" height="27px"></a>
       </button>
       <h3 id="titulo" style="margin-left: 20px;">DISPONIBILIDAD DOCENTE</h3>
       <br><br>
@@ -181,10 +181,10 @@ overflow-x: hidden;">
 
           <thead class="encabezado" style=" position: sticky; top: 0; z-index: 1; background-color: #E33439;">
               <tr>
-                  <th scope="col" style="background-color: #E33439; color: #fff;">HORA INICIO </th>
-                  <th scope="col" style="background-color: #E33439; color: #fff; width: 30%;"> HORA FINAL</th>
-                  <th scope="col" style="background-color: #E33439; color: #fff;">DIA DE SEMANA</th>
-                  <th scope="col" style="background-color: #E33439; color: #fff;">DOCENTE</th>
+                  <th scope="col" style="background-color: #E33439; color: #fff;width: 20%;">HORA INICIO </th>
+                  <th scope="col" style="background-color: #E33439; color: #fff; width: 20%;"> HORA FINAL</th>
+                  <th scope="col" style="background-color: #E33439; color: #fff;width: 20%;">DIA DE SEMANA</th>
+                  <th scope="col" style="background-color: #E33439; color: #fff;width: 40%;">DOCENTE</th>
               </tr>
           </thead>
 
@@ -222,7 +222,7 @@ overflow-x: hidden;">
     <div class="modal-content">
       <div class="modal-header">
         <label class="modal-title" id="modalTitulo">Mensaje</label>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" style="color: #fff;">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -232,7 +232,7 @@ overflow-x: hidden;">
         <!-- El mensaje se insertará aquí -->
       </div>
       <div class="modal-footer">
-                        <button type="button" class="btnCancelar" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btnCancelar" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

@@ -8,5 +8,5 @@ class dispo_form(forms.ModelForm):
 
 
 class UploadCSVForm(forms.Form):
-    csv_file = forms.FileField(required=False)
-    excel_file = forms.FileField(required=False)
+ #   Subir_archivo_csv = forms.FileField(required=False)
+    Subir_archivo_excel = forms.FileField(required=False)
