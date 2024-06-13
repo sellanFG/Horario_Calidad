@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from datetime import date, datetime, timedelta
 from modulo_curso.models import escuela , plan_estudio, curso
-from modulo_horario.models import escuela_ambiente, grupo_horario,dia_semana,horario,escuela_ambiente
+from modulo_horario.models import escuela_ambiente, grupo_horario,dia_semana,horario,escuela_ambiente,horario
 from modulo_docente.models import disponibilidad_docente, docente, docente_grupo
 from modulo_ambiente.models import ambiente
 from pulp import LpMinimize, LpProblem, LpVariable, lpSum
@@ -58,14 +58,15 @@ def obtenerGruposHorariosDocentes(docente_seleccionado):
 
 
 def horarioDocente(request):
-    docentes = docente.objects.all()
+    ids_docente = docente_grupo.objects.values_list('FKdocente_id', flat=True).distinct()
+    docentes = docente.objects.filter(id__in=ids_docente)
     horario_final = None
     docente_id = None
     ghs=[]
     horario_final = []
 
     #! agregado
-    horas = [time(i).strftime('%H:%M')
+    horas = [time(i).strftime('%H:%M:%S')
              for i in range(7, 23)]  # Lista de horas de 07:00 a 22:00
 
     if request.method == 'POST':
@@ -82,12 +83,12 @@ def horarioDocente(request):
                     dia_nombre_f=dia_semana.objects.get(id=dia_nombre)
                     
                     hora_inicio = disp.hora_de_inicio
-                    hora_de_inicio_obj = datetime.strptime(hora_inicio, '%H:%M')
-                    hora_iniciof = hora_de_inicio_obj.strftime('%H:%M')
+                    hora_de_inicio_obj = datetime.strptime(hora_inicio, '%H:%M:%S')
+                    hora_iniciof = hora_de_inicio_obj.strftime('%H:%M:%S')
 
                     hora_fin = disp.hora_final
-                    hora_fin_obj = datetime.strptime(hora_fin, '%H:%M')
-                    hora_finf = hora_fin_obj.strftime('%H:%M')
+                    hora_fin_obj = datetime.strptime(hora_fin, '%H:%M:%S')
+                    hora_finf = hora_fin_obj.strftime('%H:%M:%S')
 
                     amb= disp.ambiente
                     curgh=grupo_horario.objects.get(id=gh[3])
@@ -122,6 +123,7 @@ def asignacion_docente(request):
 
     if request.method == 'POST':
 
+        horario.objects.all().delete()
         # Datos de entrada para la asignación
         # Ambientes asignados a la escuela
         ids_ambiente_de_escuela = escuela_ambiente.objects.values_list('FK_ambiente_id', flat=True).distinct()
@@ -178,7 +180,16 @@ def asignacion_docente(request):
                 disponibilidades.append(obj_disp)
 
         # Días 
-        dias = dia_semana.objects.all()
+        dias_seleccionados = request.POST.getlist('dias')  # Obtener días seleccionados
+        
+        if not dias_seleccionados:
+            # Manejar el caso en que no se selecciona ningún día
+            error = "Debes seleccionar al menos un día."
+            return render(request, 'asignacion.html', {'dias': dias, 'error': error})  
+
+        dias = dia_semana.objects.filter(dia_nombre__in=dias_seleccionados)
+        print(dias)
+
         horas = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
 
         problema = cp_model.CpModel()
@@ -343,23 +354,30 @@ def asignacion_docente(request):
         if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
             print("Solución encontrada")
 
-            for grupo_id, grupo_data in grupos.items():
-                for dia in dias:
-                    for hora_inicio in horas:
-                        for ambien in ambientes:
-                            clave = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio, hora_inicio + 1)
-                            if clave in horario_vars and solver.Value(horario_vars[clave]) == 1:
-                                horarios_finales.append(clave)
-                                cur = curso.objects.filter(id=grupo.fk_curso_id).first()
-                                docentes_grupo = docente_grupo.objects.filter(FKgrupo_id=grupo_id).all()
-                                docentes = [docente_grupo.FKdocente_id for docente_grupo in docentes_grupo]
-                                print(f"Grupo {grupo_data['nombre_curso']}-{grupo_data['nombre_grupo']} asignado a Ambiente {ambien.nombre_ambiente} el Día {dia.dia_nombre} a las {hora_inicio}:00 con Docentes {docentes}")
+            for clave, valor in horario_vars.items():
+                    if solver.Value(valor) == 1:
+                        grupo_id, nombre_ambiente, dia_nombre, hora_inicio, _ = clave  # Desempaqueta la clave
+
+                        # Obtén los objetos de la base de datos correspondientes
+                        grupo = grupo_horario.objects.get(id=grupo_id)
+                        ambiente_obj = ambiente.objects.filter(nombre_ambiente=nombre_ambiente).first()
+                        dia_obj = dia_semana.objects.get(dia_nombre=dia_nombre)
+
+                        # Crea y guarda el objeto horario
+                        horario_obj = horario(
+                            hora_de_inicio=time(hora_inicio, 0),  # Convierte hora_inicio a objeto time
+                            hora_final=time(hora_inicio + 1, 0),  # Convierte hora_fin a objeto time
+                            ambiente=ambiente_obj,
+                            día=dia_obj,
+                            fk_grupo_horario=grupo
+                        )
+                        horario_obj.save()
         else:
             print("No se pudo encontrar una solución óptima o factible.")
             
         return render(request,'asignacion.html')
     else:
-        
+        dias = dia_semana.objects.all()
         if disponibilidad_docente.objects.exists():
             msjedispo="✔"
         else:
@@ -373,6 +391,7 @@ def asignacion_docente(request):
         datos= {
             "d":msjedispo,
             "a":msjesc,
+            "dias":dias
         }
-
+        
         return render(request,'asignacion.html', datos)

@@ -206,7 +206,7 @@ overflow-x: hidden;">
                                 <td>{{ curso.nombre_curso }}</td>
                                 <td>{{ curso.grupos }}</td>
                                 <td><input type="number" name="cantidad_{{ curso.id }}" value="0" min="0" step="1"></td>
-                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}"></td>
+                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}" id="seleccionado_{{ curso.id }}"></td>
                         {% endfor %}
                         
                 </tbody>
@@ -279,6 +279,33 @@ overflow-x: hidden;">
                 document.getElementById('form_cursos').submit();
             });
 
+            document.addEventListener('DOMContentLoaded', function() {
+              // Obtener todos los inputs de tipo number y añadir evento input
+              const inputsNumber = document.querySelectorAll('input[type="number"]');
+              inputsNumber.forEach(input => {
+                input.addEventListener('input', function() {
+                  const cursoId = this.name.split('_')[1];
+                  const checkbox = document.querySelector(`input[name="seleccionado_${cursoId}"]`);
+                  checkbox.checked = this.value != 0;
+                });
+              });
+            
+              // Obtener todos los checkboxes y añadir evento change
+              const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+              checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                  if (!this.checked) {
+                    // Obtener el ID del curso desde el nombre del checkbox
+                    const cursoId = this.name.split('_')[1];
+                    // Buscar el input de tipo number relacionado y establecer su valor a 0
+                    const inputNumber = document.querySelector(`input[name="cantidad_${cursoId}"]`);
+                    if (inputNumber) {
+                      inputNumber.value = 0;
+                    }
+                  }
+                });
+              });
+            });
         
 
         </script>

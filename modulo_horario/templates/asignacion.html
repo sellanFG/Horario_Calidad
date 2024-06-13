@@ -150,11 +150,17 @@ overflow-x: hidden;">
                     <p>Ambientes asignados a la escuela {{ a }}</p>
                     <!-- <p>Días laborales seleccionados</p> <p>{{ dl }}</p> -->
                   </div>
-
-
                     <form method="POST" action="{% url 'asignacion_docente' %}">
+                      
                         {% csrf_token %}
-                        
+                        <h3>Selecciona los días:</h3>
+                        <div>
+                            {% for dia in dias %}
+                                <label>
+                                    <input type="checkbox" name="dias" value="{{ dia.dia_nombre }}"> {{ dia.dia_nombre }}
+                                </label>
+                            {% endfor %}
+                        </div>
                     <br>
                         <input type="submit" value="Generar">
                     </form>
