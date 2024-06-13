@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from datetime import date, datetime, timedelta
 from modulo_curso.models import escuela , plan_estudio, curso
-from modulo_horario.models import grupo_horario,dia_semana,horario,escuela_ambiente
+from modulo_horario.models import escuela_ambiente, grupo_horario,dia_semana,horario,escuela_ambiente
 from modulo_docente.models import disponibilidad_docente, docente, docente_grupo
 from modulo_ambiente.models import ambiente
 from pulp import LpMinimize, LpProblem, LpVariable, lpSum
@@ -34,8 +34,6 @@ def horario(request):
 
 def login(request):
     return render(request,'Login.html')
-
-
 
 
 def asignacion_docente(request):
@@ -279,4 +277,20 @@ def asignacion_docente(request):
             
         return render(request,'asignacion.html')
     else:
-        return render(request,'asignacion.html')
+        
+        if disponibilidad_docente.objects.exists():
+            msjedispo="✔"
+        else:
+            msjedispo="✖"
+        
+        if escuela_ambiente.objects.exists():
+            msjesc="✔"
+        else:
+            msjesc="✖"
+
+        datos= {
+            "d":msjedispo,
+            "a":msjesc,
+        }
+
+        return render(request,'asignacion.html', datos)
