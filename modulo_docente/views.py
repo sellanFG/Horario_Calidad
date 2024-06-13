@@ -7,12 +7,12 @@ from .models import disponibilidad_docente
 from .forms import dispo_form,UploadCSVForm
 from datetime import datetime, time
 
-from modulo_docente.models import docente
+from modulo_docente.models import docente, departamento_academico
 from modulo_curso.models import escuela
 from modulo_horario.models import ciclo_academico
 from modulo_curso.models import curso
 from modulo_curso.models import plan_estudio
-from modulo_horario.models import grupo_horario
+from modulo_horario.models import grupo_horario, dia_semana
 from modulo_docente.models import docente_grupo
 
 
@@ -230,3 +230,58 @@ def asignacionCargaLectiva(request):
             'escuela_select': escuelas
         }
         return render(request, 'asignacionCargaLectiva.html', datos)
+
+def disponibilidadDocente(request):
+    docentes = docente.objects.all()
+    horario_final = None
+    docente_id = None
+    #! agregado
+    horas = [time(i).strftime('%H:%M')
+             for i in range(7, 23)]  # Lista de horas de 07:00 a 22:00
+
+    if request.method == 'POST':
+        docente_id = request.POST.get('docente_sel')
+        try:
+            docente_seleccionado = docente.objects.get(id=docente_id)
+
+            disponibilidades = disponibilidad_docente.objects.filter(
+                FKdocente=docente_seleccionado)
+
+            # Lista para almacenar tuplas (día, hora_inicio, hora_fin)
+            horario_final = []
+
+            for disp in disponibilidades:
+                dia_nombre = disp.FKdiasemana.dia_nombre
+                hora_inicio = disp.ddo_horainicio.strftime('%H:%M')
+                hora_fin = disp.ddo_horafin.strftime('%H:%M')
+                horario_final.append((dia_nombre, hora_inicio, hora_fin))
+
+        except docente.DoesNotExist:
+            pass
+
+        dias_semana = list(dia_semana.objects.values_list('dia_nombre', flat=True))
+        return render(request, 'disponibilidadDocente.html', {
+            'docentes': docentes,
+            'horario': horario_final,
+            'dias_semana': dias_semana,
+            #!agregado
+            'horas': horas,  # Pasa la lista de horas a la plantilla
+            'docente_id': int(docente_id),
+        })
+    
+    else:
+        return render(request, 'disponibilidadDocente.html', {
+            'docentes': docentes,
+        })
+
+
+
+def cargaAcademicaDocente(request):
+    
+    
+    if request.method == 'POST':
+        
+        return render(request, 'cargaAcademicaDocente.html')
+    else:
+        return render(request, 'cargaAcademicaDocente.html')
+        

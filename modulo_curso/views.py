@@ -10,11 +10,21 @@ def Obtenercurso(plan):
     return cursos
 
 
+def obtenerGruposHorarios(id):
+    grupos = grupo_horario.objects.filter(fk_curso_id=id)
+    
+    listado=[]
+    for gh in grupos:
+        listado.append(gh.grupo)
+
+    return listado
+
 def grupoHorario(request):
     escuelas = escuela.objects.all()
     escuela_select = request.POST.get('escuela')
     plan_select = request.POST.get('plan_estudio')
     curso_list = []
+    listado=[]
 
     if escuela_select:
         escuela_se = escuela.objects.get(nombre_escuela=escuela_select)
@@ -26,11 +36,15 @@ def grupoHorario(request):
             cursos_plan = Obtenercurso(plan_se)
 
             for cur in cursos_plan:
+
+                listado=obtenerGruposHorarios(cur.id)
+                listado_sin_corchetes = ', '.join(listado)
                 curso_list.append({
                     'id': cur.id,
                     'codigo_curso': cur.codigo_curso,
                     'ciclo_curso': cur.ciclo_curso,
                     'nombre_curso': cur.nombre_curso,
+                    'grupos': listado_sin_corchetes
                 })
 
             if request.method == 'POST':
