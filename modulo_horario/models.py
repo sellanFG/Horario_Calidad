@@ -46,7 +46,7 @@ class horario (models.Model):
     fk_grupo_horario = models.ForeignKey(grupo_horario, blank=True,null=False,on_delete=models.CASCADE, verbose_name="Curso")
 
     def __str__(self):
-        return str(self.docente) +'- '+ str(self.día) +'- '+ str(self.hora_de_inicio) +'- '+ str(self.hora_final)
+        return str(self.día) +'- '+ str(self.hora_de_inicio) +'- '+ str(self.hora_final)
 
 
     class Meta:
