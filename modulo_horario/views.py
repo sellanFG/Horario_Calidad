@@ -9,6 +9,7 @@ from modulo_docente.models import disponibilidad_docente, docente, docente_grupo
 from modulo_ambiente.models import ambiente
 from pulp import LpMinimize, LpProblem, LpVariable, lpSum
 from ortools.sat.python import cp_model
+from datetime import datetime, time
 
 # Create your views here.
 
@@ -27,13 +28,94 @@ def menuDocente(request):
 def menuAmbiente(request):
     return render(request,'menuAmbiente.html')
 
-
-def horario(request):
+def horariogestionar(request):
     return HttpResponse("Gestionar horario")
 
 
 def login(request):
     return render(request,'Login.html')
+
+
+def obtenerGruposHorariosDocentes(docente_seleccionado):
+    enviar=[]
+    docentes=[]
+    
+    gh = grupo_horario.objects.filter(fk_ciclo=1)
+             
+    for grupo_obj in gh:
+                
+                g_id = grupo_obj.id
+                nombre = grupo_obj.fk_curso
+                g_nombre = grupo_obj.grupo
+                ghdocente= docente_grupo.objects.filter(FKgrupo=g_id)
+
+                docentes = [ghdobj.FKdocente for ghdobj in ghdocente]
+
+                if docente_seleccionado in docentes:
+                    enviar.append((nombre, g_nombre, docente_seleccionado,g_id))
+    
+    return enviar
+
+
+def horarioDocente(request):
+    docentes = docente.objects.all()
+    horario_final = None
+    docente_id = None
+    ghs=[]
+    horario_final = []
+
+    #! agregado
+    horas = [time(i).strftime('%H:%M')
+             for i in range(7, 23)]  # Lista de horas de 07:00 a 22:00
+
+    if request.method == 'POST':
+        docente_id = request.POST.get('docente_sel')
+        try:
+            docente_seleccionado = docente.objects.get(id=docente_id)
+            
+            ghs= obtenerGruposHorariosDocentes(docente_seleccionado)
+            
+            for gh in ghs:
+                horarios = horario.objects.filter(fk_grupo_horario_id=gh[3])
+                for disp in horarios:
+                    dia_nombre = disp.día_id
+                    dia_nombre_f=dia_semana.objects.get(id=dia_nombre)
+                    
+                    hora_inicio = disp.hora_de_inicio
+                    hora_de_inicio_obj = datetime.strptime(hora_inicio, '%H:%M')
+                    hora_iniciof = hora_de_inicio_obj.strftime('%H:%M')
+
+                    hora_fin = disp.hora_final
+                    hora_fin_obj = datetime.strptime(hora_fin, '%H:%M')
+                    hora_finf = hora_fin_obj.strftime('%H:%M')
+
+                    amb= disp.ambiente
+                    curgh=grupo_horario.objects.get(id=gh[3])
+
+                    horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,amb.nombre_ambiente,curgh.fk_curso, curgh.grupo))
+
+        except docente.DoesNotExist:
+            pass
+
+        dias_semana = list(dia_semana.objects.values_list('dia_nombre', flat=True))
+        return render(request, 'horarioDocentes.html', 
+            {
+             'docentes': docentes,
+             'horario': horario_final,
+             'dias_semana': dias_semana,
+             #!agregado
+             'horas': horas,  # Pasa la lista de horas a la plantilla
+             'docente_id': int(docente_id),
+         })
+    
+    else:
+        return render(request, 'horarioDocentes.html', {
+            'docentes': docentes,
+        })
+
+
+
+
 
 
 def asignacion_docente(request):

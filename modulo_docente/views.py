@@ -255,7 +255,7 @@ def disponibilidadDocente(request):
                 hora_inicio = disp.ddo_horainicio.strftime('%H:%M')
                 hora_fin = disp.ddo_horafin.strftime('%H:%M')
                 horario_final.append((dia_nombre, hora_inicio, hora_fin))
-
+            
         except docente.DoesNotExist:
             pass
 
