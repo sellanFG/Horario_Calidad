@@ -150,7 +150,7 @@ overflow-x: hidden;">
                     <form class="col-md-12" id="form_cursos" method="post" action="{% url 'grupoHorario' %}">
                         {% csrf_token %}
                         
-                        <div class="col-md-6" style="display: inline; margin-left: -10px;" >
+                        <div class="col-md-6" style="display: inline; margin-left: -15px;" >
                             <label>Escuela: </label>
                             <select name="escuela" id="escuela" style="display: inline; width: 400px;">
                                 <option value="">Selecciona una Escuela</option>
@@ -175,14 +175,8 @@ overflow-x: hidden;">
                         </div>
                         <!-- Tabla para los cursos -->
                     <div class="col-md-16">
-                        <table class="table-striped table-responsive table-hover result-point">
-                            <thead>
                             
-                            </thead>
-
-
-                            
-        <div id="boxTabla" style="height: 30px; overflow-y: auto; margin-top: -30px;">
+        <div id="boxTabla" style="height: 375px; overflow-y: auto; ">
     
             <table class="table" id="tabla">
     
@@ -193,7 +187,9 @@ overflow-x: hidden;">
                         <th scope="col" style="background-color: #E33439; color: #fff; width: 30%;">NOMBRE DEL CURSO</th>
                         <th scope="col" style="background-color: #E33439; color: #fff; width: 10%;">GRUPOS HORARIOS</th>
                         <th scope="col" style="background-color: #E33439; color: #fff; width: 20%;">ASIGNAR</th>
-                        <th scope="col" style="background-color: #E33439; color: #fff; width: 10%;">SELECCIONAR</th>
+                        <th scope="col" style="background-color: #E33439; color: #fff; width: 10%;">                   
+                           <input type="checkbox" id="selectAll"> 
+                        </th>
                     </tr>
                 </thead>
     
@@ -205,8 +201,8 @@ overflow-x: hidden;">
                                 <td style="text-align: center;">{{ curso.ciclo_curso }}</td>
                                 <td>{{ curso.nombre_curso }}</td>
                                 <td>{{ curso.grupos }}</td>
-                                <td><input type="number" name="cantidad_{{ curso.id }}" value="0" min="0" step="1"></td>
-                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}" id="seleccionado_{{ curso.id }}"></td>
+                                <td><input type="number" name="cantidad_{{ curso.id }}" value="1" min="0" step="1"></td>
+                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}" class="course-checkbox"></td>
                         {% endfor %}
                         
                 </tbody>
@@ -215,11 +211,11 @@ overflow-x: hidden;">
     
         </div>
 
-                        </table>
                     </div>
-                    <br> <div class="button-container" style="text-align: right;">
+                    <br> 
+                    <div class="button-container" style="text-align: right;">
                       <button type="submit" class="btnGuardar">Enviar</button>
-                  </div>
+                    </div>
                     </form>
                 </div>
                 
@@ -279,33 +275,13 @@ overflow-x: hidden;">
                 document.getElementById('form_cursos').submit();
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
-              // Obtener todos los inputs de tipo number y añadir evento input
-              const inputsNumber = document.querySelectorAll('input[type="number"]');
-              inputsNumber.forEach(input => {
-                input.addEventListener('input', function() {
-                  const cursoId = this.name.split('_')[1];
-                  const checkbox = document.querySelector(`input[name="seleccionado_${cursoId}"]`);
-                  checkbox.checked = this.value != 0;
-                });
-              });
-            
-              // Obtener todos los checkboxes y añadir evento change
-              const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-              checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                  if (!this.checked) {
-                    // Obtener el ID del curso desde el nombre del checkbox
-                    const cursoId = this.name.split('_')[1];
-                    // Buscar el input de tipo number relacionado y establecer su valor a 0
-                    const inputNumber = document.querySelector(`input[name="cantidad_${cursoId}"]`);
-                    if (inputNumber) {
-                      inputNumber.value = 0;
-                    }
-                  }
-                });
-              });
+            document.getElementById('selectAll').addEventListener('change', function() {
+                var checkboxes = document.querySelectorAll('.course-checkbox');
+                for (var checkbox of checkboxes) {
+                    checkbox.checked = this.checked;
+                }
             });
+
         
 
         </script>
