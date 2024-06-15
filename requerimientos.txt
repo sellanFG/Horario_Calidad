@@ -3,3 +3,4 @@ crispy-bootstrap5
 django-admin-interface
 openpyxl
 PuLP
+ortools
