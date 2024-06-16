@@ -66,8 +66,8 @@ def horarioDocente(request):
     horario_final = []
 
     #! agregado
-    horas = [time(i).strftime('%H:%M:%S')
-             for i in range(7, 23)]  # Lista de horas de 07:00 a 22:00
+    horas = [time(i).strftime('%H:%M')
+             for i in range(7, 22)]  # Lista de horas de 07:00 a 22:00
 
     if request.method == 'POST':
         docente_id = request.POST.get('docente_sel')
@@ -84,16 +84,16 @@ def horarioDocente(request):
                     
                     hora_inicio = disp.hora_de_inicio
                     hora_de_inicio_obj = datetime.strptime(hora_inicio, '%H:%M:%S')
-                    hora_iniciof = hora_de_inicio_obj.strftime('%H:%M:%S')
+                    hora_iniciof = hora_de_inicio_obj.strftime('%H:%M')
 
                     hora_fin = disp.hora_final
                     hora_fin_obj = datetime.strptime(hora_fin, '%H:%M:%S')
-                    hora_finf = hora_fin_obj.strftime('%H:%M:%S')
+                    hora_finf = hora_fin_obj.strftime('%H:%M')
 
                     amb= disp.ambiente
                     curgh=grupo_horario.objects.get(id=gh[3])
 
-                    horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,amb.nombre_ambiente,curgh.fk_curso, curgh.grupo))
+                    horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,amb.nombre_ambiente,curgh.fk_curso, curgh.grupo, curgh.fk_curso.ciclo_curso))
 
         except docente.DoesNotExist:
             pass

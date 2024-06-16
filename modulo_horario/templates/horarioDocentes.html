@@ -96,6 +96,31 @@
     .card-body ul li a:hover {
       color: #E33439; /* Opcional: Cambia el color de los enlaces al pasar el ratón por encima */
     }
+
+    .regresarBtn {
+    background-color: white;
+    border: None;
+    margin: -8px;
+    display: inline;
+}
+
+.table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    height: 5px; 
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border: 1px solid #181b2295;
+}
+
+.table tbody  {
+    vertical-align: bottom;
+    border: 1px solid #181b2295;
+}
+
   </style>
 
 </head>
@@ -225,64 +250,105 @@
 
                     <div class="container justify-content-center">
                       <div class="container">
-                        <h2>Horario por docente</h2>
-                    
+
+
+                        <div id="contenedorSub" style=" padding: 20px; background-color: white; margin-top: 20px; height: auto; border-radius: 5px; ">
+
+
+                          <!-- TÍTULO -->
+                      
+                          <div class="box-tittle">
+                              <button type="button" class="regresarBtn">
+                                  <a href="/inicio"><img id="closeicon" src="/static/iconos/regresar.PNG" width="32px" height="27px"></a>
+                              </button>
+                              <h3 id="titulo" style="margin-left: 20px; display: inline;">HORARIO POR DOCENTE</h3>
+                          
+                          </div>
+
+                          
                         <form method="post">
                           {% csrf_token %}
-
-                          <h5 class="h5">Docente: </h5>
-
-                          <select name="docente_sel" class="form-control">
-                            {% for docente in docentes %}
-                            {% if docente_id == docente.id %}
-                            <option selected value="{{ docente.id }}">{{ docente }}</option>
-                            {% else %}
-                            <option value="{{ docente.id }}">{{ docente }}</option>
-                            {% endif %}
-                            {% endfor %}
-                          </select>
-
                           <br>
-                          <button type="submit" class="btnVer">Ver Horario</button>
+
+                          <div class="row" >
+                            <div class="col md-12">
+                              <label style="display: inline;">Docente: </label>
+
+                              <select name="docente_sel" class="form-control" style="width: 400px; display: inline;">
+                                {% for docente in docentes %}
+                                {% if docente_id == docente.id %}
+                                <option selected value="{{ docente.id }}">{{ docente }}</option>
+                                {% else %}
+                                <option value="{{ docente.id }}">{{ docente }}</option>
+                                {% endif %}
+                                {% endfor %}
+                              </select>
+    
+                              <button type="submit" class="btnVer" style="display: inline;">Ver Horario</button>
+
+                            </div>
+                          </div>
+
+                        
                         </form>
                     
                         {% if horario %}
                         <table class="table table-bordered mt-4 text-center">
-                          <thead>
+                          <thead >
                             <tr>
-                              <th>Hora</th>
+                              <th style="background-color: #e8ebf1;color: blue;font-weight:normal;font-size: 14px;">Hora</th>
                               {% for dia in dias_semana %}
-                              <th>{{ dia }}</th>
+                              <th style="background-color: #e8ebf1;color: blue; font-weight:normal; font-size: 14px;">{{ dia }}</th>
                               {% endfor %}
                             </tr>
                           </thead>
                           <tbody>
-                            {% for hora in horas %}
+                            {% for hora in horas %}  
                             <tr>
-                              <td class="horario-cell" >{{ hora }}</td>
+                              <td class="horario-cell" style="width: 10;background-color: #e8ebf1; color: blue;font-size: 14px; padding: 0px; align-items: center; justify-content: center;">
+                                <div class="hora-container" style="margin-bottom: 90px;">
+                                  <p class="hora-original" style="margin-bottom: 90px;display: inline;" >{{ hora }} - </p>
+                                  <p class="hora-aumentada" style="margin-bottom: 90px; display: inline;"></p>
+                                  
+                              </div>
+                              </td>                           
+                              
                               {% for dia in dias_semana %}
-                              <td class="horario-cell" style="width: 20%;">
+                              <td class="horario-cell" style="width: 20%; height: auto ;padding: 0px; text-align: center; margin: 0px;">
                                 {% for disp in horario %}
                                 {% if disp.0 == dia and disp.1 <= hora and disp.2 > hora %}
-                                      <p style="font-size: 12px;"> {{ disp.3 }}
-                                       <br>
-                                       {{ disp.4 }} - {{ disp.5 }} </p>
+
+                                <div style="background-color: rgb(241, 225, 14); width: 100%; height: 100%; box-sizing: border-box;  margin: 0px;">
+                                  <p style="font-size: 12px;  margin: 0px;"> 
+                                    <br>
+                                    {{ disp.4 }} 
+                                    <br>
+                                    ({{ disp.6}} ciclo - Grupo {{ disp.5 }})</p>
+                                    <p style="font-size: 12px; margin: 0px;" > SIS </p>
+                                    <br>
+                                    <p style="background-color: blue; color: white; font-size: 12px;  margin: 0px;">Presencial</p>
+                                    <br>
+                                    <p style="font-size: 12px; margin: 0px; color:rgb(22, 22, 213)" > {{ disp.3 }}</p> 
+                                    <br>
+                                </div>
+                                     
 
                                   {% endif %}
                                   {% endfor %}
                               </td>
                               {% endfor %}
                             </tr>
-                            {% endfor %}
+                               {% endfor %}
                           </tbody>
                         </table>
                         {% else %}
-                        <p class="mt-3">Selecciona un docente para ver su horario.</p>
                         {% endif %}
                         <br>
                         <br>
                         <br>
 
+                        </div>
+                    
                       </div>                      
                     </div>
 
@@ -304,6 +370,31 @@
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
 
+    <script>
+
+$(document).ready(function() {
+    // Iterar sobre cada .horario-cell
+    $('.horario-cell').each(function() {
+        // Obtener la hora original desde el texto del primer párrafo
+        var horaOriginal = $(this).find('.hora-original').text();
+
+        // Separar las horas y minutos
+        var partesHora = horaOriginal.split(':');
+        var horas = parseInt(partesHora[0], 10);
+        var minutos = parseInt(partesHora[1], 10);
+
+        // Sumar una hora
+        horas = horas + 1;
+
+        // Formatear nuevamente la hora (asegurándonos de mantener el formato de 24 horas)
+        var horaAumentada = ('0' + horas).slice(-2) + ':' + ('0' + minutos).slice(-2);
+
+        // Actualizar el texto de la hora aumentada en el segundo párrafo dentro de .hora-container
+        $(this).find('.hora-aumentada').text(horaAumentada);
+    });
+});
+
+    </script>
 
 </body>
 </html>
