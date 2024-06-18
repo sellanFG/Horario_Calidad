@@ -1,5 +1,6 @@
 from django import forms
 from .models import disponibilidad_docente
+from .models import docente
 
 class dispo_form(forms.ModelForm):
     class Meta:

@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib import messages
 import csv, io, openpyxl
-from .models import disponibilidad_docente
+from .models import disponibilidad_docente, tipo_contrato
 from .forms import dispo_form,UploadCSVForm
 from datetime import datetime, time
 
@@ -285,3 +285,180 @@ def cargaAcademicaDocente(request):
     else:
         return render(request, 'cargaAcademicaDocente.html')
         
+
+
+def listadoDocentes():
+    docentes = docente.objects.all()
+
+    docentesarray=[]
+
+    for docente_obj in docentes:
+                nombre = docente_obj.doc_nombres
+                em= docente_obj.doc_email
+                tel= docente_obj.doc_telefono
+                esp= docente_obj.doc_especialidad
+                tc= docente_obj.FKtipocontrato
+                dep= docente_obj.FKdepartamentoacademico
+                est= docente_obj.doc_estado
+                id= docente_obj.id
+                docentesarray.append((nombre,em,tel,esp,tc,dep,est,id))
+
+    return docentesarray
+
+
+def gestionarDocente(request):
+    
+    docentesarray=listadoDocentes()
+
+    if request.method == 'POST':
+        
+        
+        return render(request, 'gestionarDocente.html', {
+            'docentes': docentesarray,
+        })    
+    else:
+        
+        return render(request, 'gestionarDocente.html', {
+            'docentes': docentesarray,
+        })        
+    
+
+def obtenertipocontrato():
+    tcs=tipo_contrato.objects.all()
+    tcsarray=[]
+    for tc in tcs:
+        nombre= tc.tp_nombre
+        tcsarray.append((nombre))
+
+    return tcsarray
+
+def obtenerdepartamento():
+    dps=departamento_academico.objects.all()
+    dpsarray=[]
+    for tc in dps:
+        nombre= tc.dep_nombre
+        dpsarray.append((nombre))
+
+    return dpsarray
+
+def agregarDocente(request):
+
+    tcs=obtenertipocontrato()
+    dps= obtenerdepartamento()
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        email = request.POST.get('email')
+        telefono = request.POST.get('telefono')
+        especialidad = request.POST.get('especialidad')
+        contrato = request.POST.get('contrato')
+        departamento = request.POST.get('departamento')
+        estado = request.POST.get('estado')  # 'D' o 'I' dependiendo del checkbox
+
+        fktp= tipo_contrato.objects.get(tp_nombre=contrato)
+        fkdep= departamento_academico.objects.get(dep_nombre=departamento)
+
+        nuevo_docente = docente(
+            doc_nombres=nombre,
+            doc_email=email,
+            doc_telefono=telefono,
+            doc_especialidad=especialidad,
+            FKtipocontrato=fktp,
+            FKdepartamentoacademico=fkdep,
+            doc_estado=estado  # Asegúrate de que estado sea 'D' o 'I' según tu lógica
+        )
+        
+        # Guardar el nuevo docente en la base de datos
+        nuevo_docente.save()
+
+        return redirect('gestionarDocente') 
+    
+    else:
+        return render(request, 'agregarDocente.html', {'tcs': tcs, 'deps':dps})
+
+
+
+def modificar_docente(request, docente_id):
+    df = docente.objects.get(id=docente_id)
+    
+    datosenviar=[]
+    datosenviar.append((df.doc_nombres, df.doc_email, df.doc_telefono, df.doc_especialidad, df.FKtipocontrato, df.FKdepartamentoacademico, df.doc_estado))
+
+    tcs=obtenertipocontrato()
+    dps= obtenerdepartamento()
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        correo_electronico = request.POST.get('correo_electronico')
+        telefono = request.POST.get('telefono')
+        especialidad = request.POST.get('especialidad')
+        contrato = request.POST.get('contrato')
+        departamento = request.POST.get('departamento')
+        estado = request.POST.get('estado')  # 'D' o 'I' dependiendo del checkbox
+
+        # Actualizar los datos del docente
+        df.doc_nombres = nombre
+        df.doc_email = correo_electronico
+        df.doc_telefono = telefono
+        df.doc_especialidad = especialidad
+        fktp= tipo_contrato.objects.get(tp_nombre=contrato)
+        df.FKtipocontrato = fktp
+        fkdep= departamento_academico.objects.get(dep_nombre=departamento)
+        df.FKdepartamentoacademico = fkdep
+        df.doc_estado = estado  # Aquí deberías definir cómo interpretar el estado
+
+        df.save()  # Guardar los cambios en la base de datos
+
+        return redirect('gestionarDocente') 
+
+    return render(request, 'modificarDocente.html', {'docente': datosenviar, 'tcs': tcs, 'deps':dps})
+
+
+
+
+def eliminar_docente(request, docente_id):
+    df = docente.objects.get(id=docente_id)
+    
+    datosenviar=[]
+    tabladg=[]
+    tabladds=[]
+
+    datosenviar.append((df.doc_nombres))
+    label1=""
+    label2=""
+
+    dg=docente_grupo.objects.filter(FKdocente_id=docente_id)
+
+    if dg.count()>0:
+        label1= "El docente tiene grupos horarios asignados"
+    
+
+    for dgs in dg:
+        grupo=dgs.id
+        grupfk=dgs.FKgrupo
+
+        gh=grupo_horario.objects.get(id=grupfk.id)
+
+        tabladg.append((grupo, grupfk, gh.fk_curso))
+
+
+    dds=disponibilidad_docente.objects.filter(FKdocente_id=docente_id)
+    
+    if dds.count()>0:
+        label2= "El docente tiene disponibilidad"
+
+    for dd in dds:
+        doc=dd.id
+        doci=dd.ddo_horainicio
+        docf=dd.ddo_horafin
+        docd=dd.FKdiasemana
+        tabladds.append((doc,doci,docf,docd))
+
+    if request.method == 'POST':
+        respuesta = request.POST.get('respuesta')
+        if respuesta=='1':
+            df.delete()  
+
+        return redirect('gestionarDocente') 
+    
+    return render(request, 'eliminarDocente.html', {'docente': datosenviar, 'dg':tabladg, 'dds':tabladds, 'msj':label2, 'msj2': label1})
