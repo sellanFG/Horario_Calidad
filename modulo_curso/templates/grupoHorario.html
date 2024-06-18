@@ -201,8 +201,8 @@ overflow-x: hidden;">
                                 <td style="text-align: center;">{{ curso.ciclo_curso }}</td>
                                 <td>{{ curso.nombre_curso }}</td>
                                 <td>{{ curso.grupos }}</td>
-                                <td><input type="number" name="cantidad_{{ curso.id }}" value="1" min="0" step="1"></td>
-                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}" class="course-checkbox"></td>
+                                <td><input type="number" name="cantidad_{{ curso.id }}" class="number-input" value="0" min="0" step="1"></td>
+                                <td><input type="checkbox" name="seleccionado_{{ curso.id }}" class="course-checkbox" onclick="toggleInput(this)"></td>
                         {% endfor %}
                         
                 </tbody>
@@ -275,14 +275,25 @@ overflow-x: hidden;">
                 document.getElementById('form_cursos').submit();
             });
 
-            document.getElementById('selectAll').addEventListener('change', function() {
-                var checkboxes = document.querySelectorAll('.course-checkbox');
-                for (var checkbox of checkboxes) {
-                    checkbox.checked = this.checked;
-                }
-            });
+            function toggleInput(checkbox) {
+            var input = checkbox.parentElement.previousElementSibling.querySelector('input[type="number"]');
+            if (checkbox.checked) {
+                input.value = 1;
+            } else {
+                input.value = 0;
+            }
+        }
 
-        
+        document.getElementById('selectAll').addEventListener('change', function() {
+            var checkboxes = document.querySelectorAll('.course-checkbox');
+            var numberInputs = document.querySelectorAll('.number-input');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+            for (var input of numberInputs) {
+                input.value = this.checked ? 1 : 0;
+            }
+        });
 
         </script>
         
