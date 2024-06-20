@@ -115,10 +115,6 @@ def horarioDocente(request):
         })
 
 
-
-
-
-
 def asignacion_docente(request):
 
     if request.method == 'POST':
@@ -395,3 +391,59 @@ def asignacion_docente(request):
         }
         
         return render(request,'asignacion.html', datos)
+    
+def horarioXCiclo(request):
+    listaCiclos = curso.objects.values('ciclo_curso').distinct()
+    listaGrupos = grupo_horario.objects.values('grupo').distinct()
+
+    horario_final = None
+    horario_final = []
+
+    #! agregado
+    horas = [time(i).strftime('%H:%M')
+             for i in range(7, 22)]  # Lista de horas de 07:00 a 22:00
+    dias_semana = list(dia_semana.objects.values_list('dia_nombre', flat=True))
+    
+
+    if request.method == 'POST':
+
+        ciclo_curso = request.POST.get('ciclo_sel')
+        grupo = request.POST.get('grupo_sel')
+        print("ciclo curso", ciclo_curso)
+        horarios = horario.objects.filter(
+            fk_grupo_horario__fk_curso__ciclo_curso=ciclo_curso,
+            fk_grupo_horario__grupo=grupo
+        ).select_related('fk_grupo_horario__fk_curso')
+        
+        for disp in horarios:
+            dia_nombre = disp.día_id
+            dia_nombre_f = dia_semana.objects.get(id=dia_nombre)
+
+            hora_inicio = disp.hora_de_inicio
+            hora_de_inicio_obj = datetime.strptime(
+                hora_inicio, '%H:%M:%S')
+            hora_iniciof = hora_de_inicio_obj.strftime('%H:%M')
+
+            hora_fin = disp.hora_final
+            hora_fin_obj = datetime.strptime(hora_fin, '%H:%M:%S')
+            hora_finf = hora_fin_obj.strftime('%H:%M')
+
+            amb = disp.ambiente
+            curgh = grupo_horario.objects.get(id=disp.fk_grupo_horario_id)
+
+            horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,
+                                  amb.nombre_ambiente, curgh.fk_curso, curgh.grupo, curgh.fk_curso.ciclo_curso))
+
+        return render(request, 'horarioPorCiclo.html', {
+            'ciclos': listaCiclos,
+            'grupos': listaGrupos,
+            'horario': horario_final,
+            'dias_semana': dias_semana,
+             'horas': horas,
+             'ciclo_curso': ciclo_curso,
+             'grupo': grupo, 
+        })
+    return render(request, 'horarioPorCiclo.html', {
+        'ciclos': listaCiclos,
+        'grupos': listaGrupos,
+    })

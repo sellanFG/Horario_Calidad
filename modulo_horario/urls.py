@@ -11,5 +11,6 @@ urlpatterns = [
     path('inicio/menuDocente/', views.menuDocente),
     path('inicio/menuAmbiente/', views.menuAmbiente),
     path('asignacion_docente/', views.asignacion_docente, name="asignacion_docente"),
-    path('horarioPorDocente/',views.horarioDocente)
+    path('horarioPorDocente/',views.horarioDocente),
+    path('horarioPorCiclo/',views.horarioXCiclo),
 ]
