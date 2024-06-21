@@ -334,3 +334,173 @@ def obtener_ambientes_array():
         enviar.append((nombre,capa,edificio,piso,tipo,estado))
 
     return enviar
+
+
+
+
+##gestionar
+
+def obtener_ambientes_arrayconid():
+    
+    dispo= ambiente.objects.all();    
+    enviar=[]
+
+    for amobj in dispo:
+        
+        ambdispo=ambiente.objects.get(id=amobj.id)
+
+        nombre= ambdispo.nombre_ambiente
+        capa= ambdispo.capacidad_ambiente
+        edificio= ambdispo.FKedificio
+        piso = ambdispo.piso
+        tipo = ambdispo.FKtipo_ambiente
+        estado= ambdispo.estado_ambiente
+
+        enviar.append((nombre,capa,edificio,piso,tipo,estado,ambdispo.id))
+
+    return enviar
+
+def obtener_tipo_ambiente():
+
+    tpas= tipo_ambiente.objects.all();
+    enviar=[]
+
+    for tp in tpas:
+        nombre= tp.tipo_de_ambiente
+
+        enviar.append((nombre))
+
+    return enviar
+
+
+def obtener_edificios():
+
+    tpas= edificio.objects.all();
+    enviar=[]
+
+    for tp in tpas:
+        nombre= tp.nombre_edificio
+        enviar.append((nombre))
+
+    return enviar
+
+def gestionarAmbiente(request):
+    
+    ambientesarrray=obtener_ambientes_arrayconid()
+
+    if request.method == 'POST':
+        
+        
+        return render(request, 'gestionarAmbiente.html', {
+            'ambientes': ambientesarrray,
+        })    
+    else:
+        
+        return render(request, 'gestionarAmbiente.html', {
+            'ambientes': ambientesarrray,
+        })        
+    
+
+def agregarAmbiente(request):
+
+    ambs=obtener_edificios()
+    tps= obtener_tipo_ambiente()
+
+    if request.method == 'POST':
+
+        nombre = request.POST.get('nombre')
+        capacidad = request.POST.get('capacidad')
+        edificiom = request.POST.get('edificio')
+        piso = request.POST.get('piso')
+        tipoambiente = request.POST.get('tipoambiente')
+        estado = request.POST.get('estado')  # 'D' o 'I' dependiendo del checkbox
+
+        fktp= tipo_ambiente.objects.get(tipo_de_ambiente=tipoambiente)
+        fked= edificio.objects.get(nombre_edificio=edificiom)
+
+
+        nuevo_ambiente = ambiente(
+            FKedificio_id=fked.id,
+            FKtipo_ambiente_id=fktp.id,
+            nombre_ambiente= nombre,
+            capacidad_ambiente=capacidad,
+            piso=piso,
+            estado_ambiente=estado  # Asegúrate de que estado sea 'D' o 'I' según tu lógica
+        )
+        
+        # Guardar el nuevo docente en la base de datos
+        nuevo_ambiente.save()
+
+
+        return redirect('gestionarAmbiente') 
+    
+    else:
+        return render(request, 'agregarAmbiente.html', {'ambs':ambs,'tpas':tps})
+
+
+def modificar_ambiente(request, ambiente_id):
+    df = ambiente.objects.get(id=ambiente_id)
+    
+    datosenviar=[]
+    datosenviar.append((df.nombre_ambiente, df.capacidad_ambiente, df.piso, df.FKedificio, df.FKtipo_ambiente, df.estado_ambiente))
+
+    ambs=obtener_edificios()
+    tps= obtener_tipo_ambiente()
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        capacidad = request.POST.get('capacidad')
+        edificiom = request.POST.get('edificio')
+        piso = request.POST.get('piso')
+        tipoambiente = request.POST.get('tipoambiente')
+        estado = request.POST.get('estado')  # 'D' o 'I' dependiendo del checkbox
+
+        fktp= tipo_ambiente.objects.get(tipo_de_ambiente=tipoambiente)
+        fked= edificio.objects.get(nombre_edificio=edificiom)
+
+        # Actualizar los datos del docente
+        df.nombre_ambiente = nombre
+        df.capacidad_ambiente = capacidad
+        df.piso = piso
+        df.FKtipo_ambiente = fktp
+        df.FKedificio = fked
+        df.estado_ambiente = estado 
+
+        df.save()  # Guardar los cambios en la base de datos
+
+        return redirect('gestionarAmbiente') 
+
+    return render(request, 'modificarAmbiente.html', {'docente': datosenviar,'ambs':ambs,'tpas':tps})
+
+
+
+def eliminar_ambiente(request, ambiente_id):
+    df = ambiente.objects.get(id=ambiente_id)
+    
+    datosenviar=[]
+    tabladg=[]
+
+    datosenviar.append((df.nombre_ambiente))
+    label1=""
+
+    dg=horario.objects.filter(ambiente_id=ambiente_id)
+
+    if dg.count()>0:
+        label1= "El docente tiene grupos horarios asignados"
+    
+
+    for dgs in dg:
+        grupo=dgs.id
+
+        gh=horario.objects.get(id=grupo)
+
+        tabladg.append((gh))
+
+    if request.method == 'POST':
+        respuesta = request.POST.get('respuesta')
+        if respuesta=='1':
+            df.delete()  
+
+        return redirect('gestionarAmbiente') 
+    
+    return render(request, 'eliminarAmbiente.html', {'docente': datosenviar, 'dg':tabladg,'msj2': label1})

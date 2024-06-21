@@ -74,7 +74,7 @@ overflow-x: hidden;">
                       <br>
                       <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
                       <br>
-                      <li><a href="/menuHorario" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                      <li><a href="{% url  'menu_horario' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                     </ul>
                   </div>
                 </div>
@@ -87,7 +87,7 @@ overflow-x: hidden;">
                         <br>
                       <li><a href="/grupoHorario" class="text-white" style="font-size: 15px; text-decoration: none;">Asignar grupos horarios a cursos</a></li>
                       <br>
-                      <li><a href="/menuCurso" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
+                      <li><a href="{% url  'menu_curso' %}" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
                       <!-- <br> -->
                       <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
                     </ul>
@@ -104,7 +104,7 @@ overflow-x: hidden;">
                       <br>
                       <li><a href="/csv" class="text-white" style="font-size: 15px; text-decoration: none;">Disponibilidad docente</a></li>
                       <br>
-                      <li><a href="/menuDocente" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                      <li><a href="{% url  'menu_docente' %}" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                     </ul>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ overflow-x: hidden;">
                       <br>
                       <li><a href="/csvAmbientes" class="text-white"  style="font-size: 15px; text-decoration: none;">Importar ambientes</a></li>
                       <br>
-                      <li><a href="/menuAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                      <li><a href="{% url  'menu_ambiente' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                     </ul>
                   </div>
                 </div>

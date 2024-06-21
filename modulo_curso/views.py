@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from modulo_curso.models import escuela , plan_estudio, curso
+from modulo_curso.models import escuela , plan_estudio, curso, tipo_curso
 from modulo_horario.models import grupo_horario, ciclo_academico
 
 # Create your views here.
@@ -82,3 +82,149 @@ def grupoHorario(request):
         }
         return render(request, 'grupoHorario.html', data)
     
+
+
+##gestionar
+
+def obtenerCursos():
+    grupos = curso.objects.all()
+    
+    listado=[]
+    for gh in grupos:
+        listado.append((gh.codigo_curso,gh.nombre_curso, gh.ciclo_curso, gh.horas_practicas, gh.horas_teoricas, gh.FKplan_estudio.plan_nombre, gh.id))
+
+    return listado
+
+
+
+def obtenerplanes():
+    pl = plan_estudio.objects.all()
+    
+    listado=[]
+    for gh in pl:
+        listado.append((gh.plan_nombre,gh.id))
+
+    return listado
+
+
+def obtenertipcursos():
+    pl = tipo_curso.objects.all()
+    
+    listado=[]
+    for gh in pl:
+        listado.append((gh.tipo_curso, gh.id))
+
+    return listado
+
+def gestionarCurso(request):
+
+    cursoArray=obtenerCursos()
+
+    if request.method == 'POST':
+        
+        return render(request, 'gestionarCurso.html', {
+            'docentes': cursoArray,
+        })    
+    else:
+        
+        return render(request, 'gestionarCurso.html', {
+            'docentes': cursoArray,
+        })        
+
+
+def agregarCurso(request):
+
+    ambs=obtenertipcursos()
+    tps= obtenerplanes()
+
+    if request.method == 'POST':
+        codigo = request.POST.get('codigo')
+        nombre = request.POST.get('nombre')
+        hpracticas = request.POST.get('hpracticas')
+        hteoricas = request.POST.get('hteoricas')
+        ciclo = request.POST.get('ciclo')
+        tcur = request.POST.get('tcur')
+        plan = request.POST.get('plan')
+        hsuma = request.POST.get('hsuma')
+
+
+        fktp= tipo_curso.objects.get(tipo_curso=tcur)
+        fked= plan_estudio.objects.get(plan_nombre=plan)
+
+
+        nuevo_curso = curso(FKtipocurso_id=fktp.id, nombre_curso=nombre, FKplan_estudio_id=fked.id, horas_practicas=hpracticas, horas_teoricas=hteoricas, horas_totales= hsuma, codigo_curso=codigo, ciclo_curso=ciclo, amb=0
+        )
+        
+        # Guardar el nuevo docente en la base de datos
+        nuevo_curso.save()
+
+
+        return redirect('gestionarCurso') 
+    
+    else:
+        return render(request, 'agregarCurso.html', {'ambs':ambs,'tpas':tps})
+
+
+def modificar_curso(request,curso_id):
+
+
+    df = curso.objects.get(id=curso_id)
+    
+    datosenviar=[]
+    datosenviar.append((df.codigo_curso, df.nombre_curso, df.horas_practicas, df.horas_teoricas, df.FKplan_estudio, df.FKtipocurso, df.ciclo_curso))
+
+
+    ambs=obtenertipcursos()
+    tps= obtenerplanes()
+
+
+    if request.method == 'POST':
+        codigo = request.POST.get('codigo')
+        nombre = request.POST.get('nombre')
+        hpracticas = request.POST.get('hpracticas')
+        hteoricas = request.POST.get('hteoricas')
+        hsuma = request.POST.get('hsuma')
+        ciclo = request.POST.get('ciclo')
+        tcur = request.POST.get('tcur')
+        plan = request.POST.get('plan')
+
+
+        fktp= tipo_curso.objects.get(tipo_curso=tcur)
+        fked= plan_estudio.objects.get(plan_nombre=plan)
+
+        # Actualizar los datos del docente
+        df.FKtipocurso_id=fktp.id
+        df.nombre_curso=nombre
+        df.FKplan_estudio_id=fked.id
+        df.horas_practicas=hpracticas
+        df.horas_teoricas=hteoricas
+        df.horas_totales= hsuma
+        df.codigo_curso=codigo
+        df.ciclo_curso=ciclo
+
+
+
+        df.save()  # Guardar los cambios en la base de datos
+
+        return redirect('gestionarCurso') 
+
+    return render(request, 'modificarCurso.html', {'docente': datosenviar,'ambs':ambs,'tpas':tps})
+
+
+
+def eliminar_curso(request,curso_id):
+
+    df = curso.objects.get(id=curso_id)
+    
+    datosenviar=[]
+
+    datosenviar.append((df.nombre_curso))
+
+    if request.method == 'POST':
+        respuesta = request.POST.get('respuesta')
+        if respuesta=='1':
+            df.delete()  
+
+        return redirect('gestionarCurso') 
+    
+    return render(request, 'eliminarCurso.html', {'docente': datosenviar})

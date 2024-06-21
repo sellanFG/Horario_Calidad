@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar docente</title>
+    <title>Modificar ambiente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
       integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -269,9 +269,9 @@
                         
                             <div class="box-tittle">
                                 <button type="button" class="regresarBtn">
-                                  <a href="{% url 'gestionarDocente' %}"><img id="closeicon" src="/static/iconos/regresar.PNG" width="32px" height="27px"></a>
+                                  <a href="{% url 'gestionarCurso' %}"><img id="closeicon" src="/static/iconos/regresar.PNG" width="32px" height="27px"></a>
                                 </button>
-                                <h3 id="titulo" style="margin-left: 20px; display: inline;">MODIFICAR DOCENTE</h3>
+                                <h3 id="titulo" style="margin-left: 20px; display: inline;">MODIFICAR CURSO</h3>
                             
                             </div>
   
@@ -279,62 +279,66 @@
                           <br>                             
                         
                         
-                          <form class="row g-3" method="post" autocomplete="off">
+                          <form class="row g-3" method="post" autocomplete="off" onsubmit="calcularSuma(event)">
   
                             {% csrf_token %}
-                            <div class="col-md-6">
-                                <label for="nombre" class="form-label">Nombre completo:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre"
-                                    value="{{ docente.0.0 }}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="correo_electronico" class="form-label">Email:</label>
-                                <input type="email" class="form-control" id="correo_electronico"
-                                    name="correo_electronico" value="{{ docente.0.1 }}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="telefono" class="form-label">Teléfono:</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono"
-                                    value="{{ docente.0.2 }}" required pattern="[0-9]{9}">
-                            </div>
 
                             <div class="col-md-6">
-                                <label for="especialidad" class="form-label">Especialidad:</label>
-                                <input type="text" class="form-control" id="especialidad" name="especialidad"
-                                    value="{{ docente.0.3 }}" required>
+                                <label for="codigo" class="form-label">Código:</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo"  style="text-transform:uppercase;" value="{{docente.0.0}}""  onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                             </div>
+  
+                              <div class="col-md-6">
+                                  <label for="nombre" class="form-label">Nombre:</label>
+                                  <input type="text" class="form-control" id="nombre" name="nombre"  style="text-transform:uppercase;" value="{{docente.0.1}}"  onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                              </div>
+          
+          
+                              <div class="col-md-6">
+                                  <label for="hpracticas" class="form-label">Horas prácticas:</label>
+                                  <input type="number" class="form-control" id="hpracticas" name="hpracticas" value="{{docente.0.2}}">
+                              </div>
+  
+                              <div class="col-md-6">
+                                <label for="hteoricas" class="form-label">Horas teóricas:</label>
+                                <input type="number" class="form-control" id="hteoricas" name="hteoricas" value="{{docente.0.3}}">
+                            </div>
+
                             
+                          <input type="hidden" id="hsuma" name="hsuma">
 
+          
+  
                             <div class="col-md-6">
-                                <label for="contrato" class="form-label">Tipo de contrato: </label>
-                                <select class="form-select" id="contrato" name="contrato" required>
-                                    {% for tc in tcs %}
-                                    <option value="{{ tc }}" {% if  tc  == docente.0.4 %}selected{% endif %}>{{ tc }}
+                                  
+                              <label for="ciclo" class="form-label">Ciclo:</label>
+                              <input type="number" class="form-control" id="ciclo" name="ciclo" value="{{docente.0.6}}" required>
+                            </div>
+            
+                              
+                              <div class="col-md-6">
+                                  <label for="tcur" class="form-label">Tipo de curso:</label>
+                                  <select class="form-select" id="tcur" name="tcur" style="font-size: 15px;"  required>
+                                      {% for am in ambs %}
+                                      <option value="{{ am.0 }}">{{ am.0 }}
+                                      </option>
+                                      {% endfor %}
+                                    </select>
+                              </div>
+  
+                              <div class="col-md-6">
+                                  <label for="plan" class="form-label">Plan de estudio:</label>
+                                  <select class="form-select" id="plan" name="plan" style="font-size: 15px;"  required>
+                                    {% for ta in tpas %}
+                                    <option value="{{ ta.0 }}">{{ ta.0 }}
                                     </option>
                                     {% endfor %}
-                                </select>
-                            </div>
+                                  </select>
+                              </div>
 
-                            <div class="col-md-6">
-                                <label for="departamento" class="form-label">Departamento: </label>
-                                <select class="form-select" id="departamento" name="departamento" required>
-                                    {% for dp in deps %}
-                                    <option value="{{ dp }}" {% if  dp  == docente.0.5 %}selected{% endif %}>{{ dp }}
-                                    </option>
-                                    {% endfor %}                             
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-check-label" for="estado">Estado: </label> 
-                                <input type="checkbox" class="form-check-input" id="estado" name="estado"
-                                    {% if docente.0.6 == 'D' %} checked {% endif %} style="height: 20px; width: 20px;">
-                                <input type="hidden" name="estado" value="{{docente.0.6}}"> 
-                            </div>
-              
                               <div class="col-12" style="text-align: right;">
                                 <br>
-                                <button class="btnCancel" style="margin-right: 5px;" onclick="window.location.href='{% url 'gestionarDocente' %}'">Cancelar</button>
+                                <button class="btnCancel" style="margin-right: 5px;" onclick="window.location.href='{% url 'gestionarCurso' %}'">Cancelar</button>
                                 <button type="submit" class="btnVer">Modificar</button>
                               </div>
               
@@ -367,22 +371,31 @@
 
 
 <script defer>
-    document.addEventListener('DOMContentLoaded', function() {
-    const checkbox = document.getElementById('estado');
-    const hiddenInput = document.querySelector('input[name="estado"][type="hidden"]');
-    
-    checkbox.addEventListener('change', function() {
-        if (this.checked) {
-            hiddenInput.value = 'D'; 
-        } else {
-            hiddenInput.value = 'I'; 
+
+function calcularSuma(event) {
+            event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+
+            var hpracticas = parseInt(document.getElementById('hpracticas').value, 10);
+            var hteoricas = parseInt(document.getElementById('hteoricas').value, 10);
+            
+            // Asegúrate de que las entradas sean válidas
+            if (isNaN(hpracticas)) hpracticas = 0;
+            if (isNaN(hteoricas)) hteoricas = 0;
+
+            var suma = hpracticas + hteoricas;
+            document.getElementById('hsuma').value = suma;
+
+            console.log("Horas prácticas:", hpracticas);
+            console.log("Horas teóricas:", hteoricas);
+            console.log("Suma de horas:", suma);
+
+            // Después de calcular la suma, envía el formulario
+            event.target.submit();
         }
-    });
-});
 
 document.addEventListener('DOMContentLoaded', function() {
-    const contratoSelect = document.getElementById('contrato');
-    const tipoContrato = '{{ docente.0.4 }}';
+    const contratoSelect = document.getElementById('edificio');
+    const tipoContrato = '{{docente.0.4}}';
 
     // Seleccionar el tipo de contrato automáticamente
     if (tipoContrato) {
@@ -391,8 +404,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    const contratoSelect = document.getElementById('departamento');
-    const tipoContrato = '{{ docente.0.5 }}';
+    const contratoSelect = document.getElementById('tipoambiente');
+    const tipoContrato = '{{docente.0.5}}';
 
     // Seleccionar el tipo de contrato automáticamente
     if (tipoContrato) {

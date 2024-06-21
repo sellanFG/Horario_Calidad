@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horario por docente</title>
+  <title>Agregar curso</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -120,6 +120,17 @@
     vertical-align: bottom;
     border: 1px solid #181b2295;
 }
+
+.btnCancel {
+      background-color: #181B22;
+      border: 1px solid transparent;
+      border-color: #181B22;
+      border-radius: 10px;
+      color: #fff;
+      padding: 0.375rem 0.75rem;
+      font-size: 15px;
+      text-align: center;
+  }
 
   </style>
 
@@ -258,101 +269,77 @@
                       
                           <div class="box-tittle">
                               <button type="button" class="regresarBtn">
-                                  <a href="/inicio"><img id="closeicon" src="/static/iconos/regresar.PNG" width="32px" height="27px"></a>
+                                  <a href="{% url 'gestionarCurso' %}"><img id="closeicon" src="/static/iconos/regresar.PNG" width="32px" height="27px"></a>
                               </button>
-                              <h3 id="titulo" style="margin-left: 20px; display: inline;">HORARIO POR CICLO</h3>
+                              <h3 id="titulo" style="margin-left: 20px; display: inline;">AGREGAR CURSO</h3>
                           
                           </div>
 
-                          
-                        <form method="post">
+                        <br>
+                        <br>                             
+                        <form class="row g-3" method="post" autocomplete="off" onsubmit="calcularSuma(event)">
                           {% csrf_token %}
-                          <br>
 
-                          <div class="row" >
-                            <div class="col md-12">
-                              <label style="display: inline;">Ciclo: </label>
-                              
-                              <select name="ciclo_sel" class="form-control" style="width: 400px; display: inline;">
-                                {% for ciclo in ciclos %}
-                                {% if ciclo_curso == ciclo.ciclo_curso %}
-                                <option  value="{{ ciclo_curso }}" selected>{{ ciclo_curso }}</option>
-                                {% else %}
-                                <option  value="{{ ciclo.ciclo_curso }}">{{ ciclo.ciclo_curso }}</option>
-                                {% endif %}
-                                {% endfor %}
-                              </select>
+                            <div class="col-md-6">
+                                <label for="codigo" class="form-label">Código:</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo"  style="text-transform:uppercase;" value=""  onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                            </div>
+        
+        
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre:</label>
+                                <input type="nombre" class="form-control" id="nombre" name="nombre" required>
+                            </div>
 
-                              <label style="display: inline;">Grupo: </label>
-                              <select name="grupo_sel" class="form-control" style="width: 400px; display: inline;">
-                                {% for grupo in grupos %}
-                                <option value="{{ grupo.grupo }}">{{ grupo.grupo }}</option>
-                                {% endfor %}
-                              </select>
-                              
-                              <button type="submit" class="btnVer" style="display: inline;">Ver Horario</button>
+                            
+                            <div class="col-md-6">
+                                <label for="hpracticas" class="form-label">Horas prácticas:</label>
+                                <input type="number" class="form-control" id="hpracticas" name="hpracticas" required>
 
                             </div>
+
+                            <div class="col-md-6">
+                              <label for="hteoricas" class="form-label">Horas teóricas:</label>
+                              <input type="number" class="form-control" id="hteoricas" name="hteoricas" required>
                           </div>
 
-                        
-                        </form>
-                    
-                        {% if horario %}
-                        <table class="table table-bordered mt-4 text-center">
-                          <thead >
-                            <tr>
-                              <th style="background-color: #e8ebf1;color: blue;font-weight:normal;font-size: 14px;">Hora</th>
-                              {% for dia in dias_semana %}
-                              <th style="background-color: #e8ebf1;color: blue; font-weight:normal; font-size: 14px;">{{ dia }}</th>
-                              {% endfor %}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for hora in horas %}  
-                            <tr>
-                              <td class="horario-cell" style="width: 10;background-color: #e8ebf1; color: blue;font-size: 14px; padding: 0px; align-items: center; justify-content: center;">
-                                <div class="hora-container" style="margin-bottom: 90px;">
-                                  <p class="hora-original" style="margin-bottom: 90px;display: inline;" >{{ hora }} - </p>
-                                  <p class="hora-aumentada" style="margin-bottom: 90px; display: inline;"></p>
-                                  
-                              </div>
-                              </td>                           
-                              
-                              {% for dia in dias_semana %}
-                              <td class="horario-cell" style="width: 20%; height: auto ;padding: 0px; text-align: center; margin: 0px;">
-                                {% for disp in horario %}
-                                {% if disp.0 == dia and disp.1 <= hora and disp.2 > hora %}
+                          <input type="hidden" id="hsuma" name="hsuma">
 
-                                <div style="background-color: rgb(241, 225, 14); width: 100%; height: 100%; box-sizing: border-box;  margin: 0px;">
-                                  <p style="font-size: 12px;  margin: 0px;"> 
-                                    <br>
-                                    {{ disp.4 }} 
-                                    <br>
-                                    ({{ disp.6}} ciclo - Grupo {{ disp.5 }})</p>
-                                    <p style="font-size: 12px; margin: 0px;" > SIS </p>
-                                    <br>
-                                    <p style="background-color: blue; color: white; font-size: 12px;  margin: 0px;">Presencial</p>
-                                    <br>
-                                    <p style="font-size: 12px; margin: 0px; color:rgb(22, 22, 213)" > {{ disp.3 }}</p> 
-                                    <br>
-                                </div>
-                                     
-
-                                  {% endif %}
+            
+                            <div class="col-md-6">
+                                
+                              <label for="ciclo" class="form-label">Ciclo:</label>
+                              <input type="number" class="form-control" id="ciclo" name="ciclo" required>
+                            </div>
+            
+                            <div class="col-md-6">
+                                <label for="tcur" class="form-label">Tipo de curso:</label>
+                                <select class="form-select" id="tcur" name="tcur" style="font-size: 15px;" required>
+                                  {% for dp in ambs %}
+                                  <option value="{{ dp.0 }}">{{ dp.0 }}
+                                  </option>
                                   {% endfor %}
-                              </td>
-                              {% endfor %}
-                            </tr>
-                               {% endfor %}
-                          </tbody>
-                        </table>
-                        {% else %}
-                        {% endif %}
-                        <br>
-                        <br>
-                        <br>
+                                </select>
+                            </div>
 
+                            <div class="col-md-6">
+                              
+                                <label for="plan" class="form-label">Plan de estudio:</label>
+                                <select class="form-select" id="plan" name="plan" style="font-size: 15px;" required>
+                                  {% for pl in tpas %}
+                                  <option value="{{ pl.0 }}">{{ pl.0 }}
+                                  </option>
+                                  {% endfor %}
+                                </select>
+                            </div>
+            
+                            <div class="col-12" style="text-align: right;">
+                                <br>
+                                <button class="btnCancel" style="margin-right: 5px;" onclick="window.location.href='{% url 'gestionarCurso' %}'">Cancelar</button>
+                                <button type="submit" class="btnVer">Guardar</button>
+                            </div>
+            
+                        </form>
                         </div>
                     
                       </div>                      
@@ -378,28 +365,26 @@
 
     <script>
 
-$(document).ready(function() {
-    // Iterar sobre cada .horario-cell
-    $('.horario-cell').each(function() {
-        // Obtener la hora original desde el texto del primer párrafo
-        var horaOriginal = $(this).find('.hora-original').text();
+        function calcularSuma(event) {
+            event.preventDefault(); // Evita que el formulario se envíe inmediatamente
 
-        // Separar las horas y minutos
-        var partesHora = horaOriginal.split(':');
-        var horas = parseInt(partesHora[0], 10);
-        var minutos = parseInt(partesHora[1], 10);
+            var hpracticas = parseInt(document.getElementById('hpracticas').value, 10);
+            var hteoricas = parseInt(document.getElementById('hteoricas').value, 10);
+            
+            // Asegúrate de que las entradas sean válidas
+            if (isNaN(hpracticas)) hpracticas = 0;
+            if (isNaN(hteoricas)) hteoricas = 0;
 
-        // Sumar una hora
-        horas = horas + 1;
+            var suma = hpracticas + hteoricas;
+            document.getElementById('hsuma').value = suma;
 
-        // Formatear nuevamente la hora (asegurándonos de mantener el formato de 24 horas)
-        var horaAumentada = ('0' + horas).slice(-2) + ':' + ('0' + minutos).slice(-2);
+            console.log("Horas prácticas:", hpracticas);
+            console.log("Horas teóricas:", hteoricas);
+            console.log("Suma de horas:", suma);
 
-        // Actualizar el texto de la hora aumentada en el segundo párrafo dentro de .hora-container
-        $(this).find('.hora-aumentada').text(horaAumentada);
-    });
-});
-
+            // Después de calcular la suma, envía el formulario
+            event.target.submit();
+        }
     </script>
 
 </body>
