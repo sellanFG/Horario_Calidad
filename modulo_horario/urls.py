@@ -13,4 +13,6 @@ urlpatterns = [
     path('asignacion_docente/', views.asignacion_docente, name="asignacion_docente"),
     path('horarioPorDocente/',views.horarioDocente),
     path('horarioPorCiclo/',views.horarioXCiclo,name="horarioPorCiclo"),
+    path('horarioPorAmbiente/',views.horarios_por_ambiente),
+    path('filtrar_ambientes_por_edificio/', views.filtrar_ambientes_por_edificio, name='filtrar_ambientes_por_edificio')
 ]

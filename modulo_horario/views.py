@@ -4,9 +4,9 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from datetime import date, datetime, timedelta
 from modulo_curso.models import escuela , plan_estudio, curso
-from modulo_horario.models import escuela_ambiente, grupo_horario,dia_semana,horario,escuela_ambiente,horario
+from modulo_horario.models import escuela_ambiente, grupo_horario,dia_semana,horario,escuela_ambiente,horario, ciclo_academico
 from modulo_docente.models import disponibilidad_docente, docente, docente_grupo
-from modulo_ambiente.models import ambiente
+from modulo_ambiente.models import ambiente, edificio, tipo_ambiente
 from pulp import LpMinimize, LpProblem, LpVariable, lpSum
 from ortools.sat.python import cp_model
 from datetime import datetime, time
@@ -506,3 +506,109 @@ def horarioXCiclo(request):
         'ciclos': listaCiclos,
         'grupos': listaGrupos,
     })
+
+
+
+
+
+def filtrar_ambientes_por_edificio(request):
+    if request.method == 'POST':
+        edificio_id = request.POST.get('edificio_id')
+        ambientes = ambiente.objects.filter(FKedificio_id=edificio_id)
+        ambientes_data = [{'id': amb.id, 'nombre': amb.nombre_ambiente} for amb in ambientes]
+        return JsonResponse({'ambientes': ambientes_data})
+
+
+
+#Reporte Horarios por Ambiente:
+def horarios_por_ambiente(request):
+    horario_final = None
+    ambiente_id = None
+    edificio_id = None
+    semestre_id = None
+    horarios_selected = []
+    horario_final = []
+    lista_semestres = ciclo_academico.objects.all()
+    lista_edificios = edificio.objects.all()
+    ids_ambiente = horario.objects.values_list('ambiente_id', flat=True).distinct()
+
+    #! agregado
+    horas = [time(i).strftime('%H:%M')
+             for i in range(7, 22)]  # Lista de horas de 07:00 a 22:00
+
+    
+    
+        
+    semestre_select = request.POST.get('semestre_id')
+    edificio_select = request.POST.get('edificio_id')
+    ambiente_select = request.POST.get('ambiente_id')
+    lista_ambientes = ambiente.objects.filter(id__in=ids_ambiente)
+
+    
+    if request.method == 'POST':
+        
+
+        if edificio_select:
+            edif = edificio.objects.get(id=edificio_select)
+            print ('edificio_select: ', edificio_select)
+            print ('edif: ', edif.nombre_edificio)
+            
+            if ambiente_select and semestre_select:
+                try:
+                
+                    amb = ambiente.objects.get(id=ambiente_select)
+                    grupo_h_semestre = grupo_horario.objects.filter(fk_ciclo_id=semestre_select)
+                    horarios = horario.objects.filter(ambiente_id=ambiente_select, fk_grupo_horario__in=grupo_h_semestre)
+                    print(amb.nombre_ambiente)
+                    for hor in horarios:
+                        print ('hor: ', hor.día_id)
+                        dia_nombre = hor.día_id
+                        dia_nombre_f=dia_semana.objects.get(id=dia_nombre)
+                        
+                        hora_inicio = hor.hora_de_inicio
+                        hora_de_inicio_obj = datetime.strptime(hora_inicio, '%H:%M:%S')
+                        hora_iniciof = hora_de_inicio_obj.strftime('%H:%M')
+
+                        hora_fin = hor.hora_final
+                        hora_fin_obj = datetime.strptime(hora_fin, '%H:%M:%S')
+                        hora_finf = hora_fin_obj.strftime('%H:%M')
+
+                        grupo_h = grupo_horario.objects.get(id=hor.fk_grupo_horario_id)
+                        print ('grupo_h: ', grupo_h.grupo)
+                        curso_h = curso.objects.get(id=grupo_h.fk_curso_id)
+                        print ('curso_h: ', curso_h.nombre_curso)
+
+                        horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,amb.nombre_ambiente,curso_h, grupo_h.grupo, curso_h.ciclo_curso))
+
+                except ambiente.DoesNotExist:
+                    pass
+
+                dias_semana = list(dia_semana.objects.values_list('dia_nombre', flat=True))
+                return render(request, 'horarioAmbientes.html', 
+                    {
+                    'edificios': lista_edificios,
+                    'edificio_seleccionado': int(edificio_select),
+                    'semestre_sekcionado': semestre_select,
+                    'semestres': lista_semestres,
+                    'ambientes': lista_ambientes,
+                    'horario': horario_final,
+                    'dias_semana': dias_semana,
+                    #!agregado
+                    'horas': horas,  # Pasa la lista de horas a la plantilla
+                    'ambiente_seleccionado': int(ambiente_select),
+                })
+            else:
+                return render(request, 'horarioAmbientes.html', {
+                    'edificios': lista_edificios,
+                    'semestres': lista_semestres,
+                    'ambientes': lista_ambientes,
+                })
+
+    else:
+        return render(request, 'horarioAmbientes.html', {
+                'edificios': lista_edificios,
+                'semestres': lista_semestres,
+                'ambientes': lista_ambientes,
+            })
+
+
