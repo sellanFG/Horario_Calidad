@@ -39,7 +39,28 @@ def obtenerCursosPorEscuela(request, escuela_id):
         return JsonResponse(cursos_list, safe=False)
     except escuela.DoesNotExist:
         return JsonResponse({'error': 'La escuela no existe.'}, status=404)
+#obtiene un resumen de las asignaciones de ambientes a escuelas, agrupado por ambiente y escuela, y contando el total de asignaciones.
+def obtener_resumen_asignaciones(request):
+    if request.method == 'GET':
+        resumen = escuela_ambiente.objects.values('FK_ambiente__nombre_ambiente', 'FK_escuela__nombre_escuela').annotate(total=Count('FK_ambiente'))
+        resumen_list = list(resumen)
+        return JsonResponse(resumen_list, safe=False)
+        
 
+    else:
+        return JsonResponse({'error': 'Método no permitido.'}, status=405)
+def obtener_datos_reporte(request):
+    if request.method == 'GET':
+        datos = escuela_ambiente.objects.values('FK_escuela__nombre_escuela').annotate(total=Count('FK_ambiente')).order_by('FK_escuela__nombre_escuela')
+        datos_list = list(datos)
+        return JsonResponse(datos_list, safe=False)
+        #return render(request, 'reporteAmbiente.html', JsonResponse(datos_list, safe=False))
+
+    else:
+        return JsonResponse({'error': 'Método no permitido.'}, status=405)
+def reporte_ambientes(request):
+    return render(request, 'reporteAmbiente.html')
+#Obtiene todos los edificios y, para cada uno, obtiene los ambientes relacionados mediante una clave foránea.
 
 def obtener_edificios_y_ambientes(request):
     edificios = edificio.objects.all()
