@@ -14,5 +14,8 @@ urlpatterns = [
     path('gestionarAmbiente', views.gestionarAmbiente, name='gestionarAmbiente'),
     path('agregarAmbiente', views.agregarAmbiente, name='agregarAmbiente'),
     path('modificarAmbiente/<int:ambiente_id>/', views.modificar_ambiente, name='modificarAmbiente'),
-    path('eliminarAmbiente/<int:ambiente_id>/', views.eliminar_ambiente, name='eliminarAmbiente')
+    path('eliminarAmbiente/<int:ambiente_id>/', views.eliminar_ambiente, name='eliminarAmbiente'),
+    path('resumen-asignaciones/', views.obtener_resumen_asignaciones, name='obtener_resumen_asignaciones'),
+    path('datos-reporte/', views.obtener_datos_reporte, name='obtener_datos_reporte'),
+    path('reporte-ambientes/', views.reporte_ambientes, name='reporte_ambientes')
 ]
