@@ -75,6 +75,7 @@ def obtener_edificios_y_ambientes(request):
         })
     
     return JsonResponse(data, safe=False)
+    
 def obtener_edificio_id(request, nombre):
     #edificios = edificio.objects.filter(nombre_edificio=nombre)
     #edificio_list = list(edificios.values('id'))
