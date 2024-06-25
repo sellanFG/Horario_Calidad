@@ -14,5 +14,10 @@ urlpatterns = [
     path('horarioPorDocente/',views.horarioDocente),
     path('horarioPorCiclo/',views.horarioXCiclo,name="horarioPorCiclo"),
     path('horarioPorAmbiente/',views.horarios_por_ambiente),
-    path('filtrar_ambientes_por_edificio/', views.filtrar_ambientes_por_edificio, name='filtrar_ambientes_por_edificio')
+    path('filtrar_ambientes_por_edificio/', views.filtrar_ambientes_por_edificio, name='filtrar_ambientes_por_edificio'),
+    path('gestionarGrupoHorario/', views.gestionarGrupoHorario, name="gestionarGrupoHorario"),
+    path('agregarGrupoHorario/', views.agregarGrupoHorario, name="agregarGrupoHorario"),
+    path('modificarGrupoHorario/<int:grupo_id>/', views.modificarGrupoHorario, name='modificarGrupoHorario'),
+    path('eliminarGrupoHorario/<int:grupo_id>/', views.eliminarGrupoHorario, name='eliminarGrupoHorario')
+        
 ]

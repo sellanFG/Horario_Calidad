@@ -1,6 +1,6 @@
 from pyexpat import model
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect,get_object_or_404
 from django.views.decorators.http import require_POST
 from datetime import date, datetime, timedelta
 from modulo_curso.models import escuela , plan_estudio, curso
@@ -553,3 +553,132 @@ def horarios_por_ambiente(request):
             })
 
 
+def obtenerCicloConcatenado_Obj(ciclo_seleccionado):
+    ciclo_seleccion = ciclo_academico.objects.get(
+                cic_año=ciclo_seleccionado.split(' - ')[0],
+                cic_semestre=ciclo_seleccionado.split(' - ')[1])
+    return ciclo_seleccion
+
+def listadoGrupoHorario():
+    grupos_horario = grupo_horario.objects.all()
+
+    gruposhorarioarray=[]
+
+    for grupo_obj in grupos_horario:
+                g =  grupo_obj.grupo
+                curso= grupo_obj.fk_curso
+                cap= grupo_obj.capacidad
+                ciclo= grupo_obj.fk_ciclo
+                
+                id= grupo_obj.id 
+                gruposhorarioarray.append((ciclo,g,curso,cap, id))
+
+    return gruposhorarioarray
+
+
+def gestionarGrupoHorario(request):
+    
+    gruposhorarioarray=listadoGrupoHorario()
+
+    if request.method == 'POST':
+        
+        
+        return render(request, 'gestionarGrupoHorario.html', {
+            'grupos_horario': gruposhorarioarray,
+        })    
+    else:
+        
+        return render(request, 'gestionarGrupoHorario.html', {
+            'grupos_horario': gruposhorarioarray,
+        })        
+    
+def obtenercurso():
+    cursos = curso.objects.all()
+    cursoarray = []
+    for c in cursos:
+        cursoarray.append(c.nombre_curso)
+    return cursoarray
+
+def obtenerciclo():
+    ciclos = ciclo_academico.objects.all()
+    cicloarray = []
+    for ci in ciclos:
+        cicloarray.append(f"{ci.cic_año} - {ci.cic_semestre}")
+        #cicloarray.append(ci.cic_año)
+    return cicloarray
+
+def agregarGrupoHorario(request):
+    cursos = obtenercurso()
+    ciclos = obtenerciclo()
+
+    if request.method == 'POST':
+        grupo = request.POST.get('grupo')
+        capacidad = request.POST.get('capacidad')
+        ciclo = request.POST.get('ciclo')
+        n_curso = request.POST.get('curso')
+        
+        fkcic = ciclo_academico.objects.get(cic_año=ciclo)
+        fkcur = curso.objects.get(nombre_curso=n_curso)
+
+        nuevo_grupo_horario = grupo_horario(
+            grupo=grupo,
+            capacidad=capacidad,
+            fk_ciclo=fkcic,
+            fk_curso=fkcur,
+        )
+        
+        # Guardar el nuevo grupo horario en la base de datos
+        nuevo_grupo_horario.save()
+
+        return redirect('gestionarGrupoHorario') 
+    
+    else:
+        return render(request, 'agregarGrupoHorario.html', {'cursos': cursos, 'ciclos': ciclos})
+
+
+def modificarGrupoHorario(request, grupo_id):
+    grupo_horario_obj = get_object_or_404(grupo_horario, id=grupo_id)
+    cursos = obtenercurso()
+    ciclos = obtenerciclo()
+
+    if request.method == 'POST':
+        grupo = request.POST.get('grupo')
+        capacidad = request.POST.get('capacidad')
+        ciclo = request.POST.get('ciclo')
+        n_curso = request.POST.get('curso')
+        
+        # Separar el año y el semestre del ciclo seleccionado
+        ciclo_año, ciclo_semestre = ciclo.split(' - ')
+        fkcic = ciclo_academico.objects.get(cic_año=ciclo_año, cic_semestre=ciclo_semestre)
+        fkcur = curso.objects.get(nombre_curso=n_curso)
+
+        # Actualizar el grupo horario existente
+        grupo_horario_obj.grupo = grupo
+        grupo_horario_obj.capacidad = capacidad
+        grupo_horario_obj.fk_ciclo = fkcic
+        grupo_horario_obj.fk_curso = fkcur
+        
+        # Guardar los cambios en la base de datos
+        grupo_horario_obj.save()
+
+        return redirect('gestionarGrupoHorario') 
+    
+    else:
+        return render(request, 'modificarGrupoHorario.html', {
+            'grupo_horario': grupo_horario_obj,
+            'cursos': cursos,
+            'ciclos': ciclos
+        })
+    
+
+def eliminarGrupoHorario(request, grupo_id):
+    grupo = grupo_horario.objects.get(id=grupo_id)
+    #grupo = get_object_or_404(grupo_horario, id=grupo_id)
+    
+    if request.method == 'POST':
+        respuesta = request.POST.get('respuesta')
+        if respuesta == '1':
+            grupo.delete()
+        return redirect('gestionarGrupoHorario')
+    
+    return render(request, 'eliminarGrupoHorario.html', {'grupo': grupo})
