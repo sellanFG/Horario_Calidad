@@ -164,16 +164,16 @@
               <div class="mt-3">
                 <br>
                 <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
-                  <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white" >Horario</span>
+                  <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
                 </a>
                 <div class="collapse" id="menuHorario">
                   <ul class="list-unstyled ps-4">
                     <br>
-                    <li><a href="/" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
+                    <li><a href="/" class="text-white">Gestionar horario</a></li>
                     <br>
-                    <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
+                    <li><a href="/asignacion_docente" class="text-white">Generar horario</a></li>
                     <br>
-                    <li><a href="{% url  'menu_horario' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                    <li><a href="/menuHorario" class="text-white">Reportes</a></li>
                   </ul>
                 </div>
               </div>
@@ -184,9 +184,9 @@
                 <div class="collapse" id="menuCurso">
                   <ul class="list-unstyled ps-4">
                       <br>
-                    <li><a href="/grupoHorario" class="text-white" style="font-size: 15px; text-decoration: none;">Asignar grupos horarios a cursos</a></li>
+                    <li><a href="/grupoHorario" class="text-white">Asignar grupos horarios a cursos</a></li>
                     <br>
-                    <li><a href="{% url  'menu_curso' %}" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
+                    <li><a href="/menuCurso" class="text-white">Reportes</a></li>
                     <!-- <br> -->
                     <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
                   </ul>
@@ -199,11 +199,11 @@
                 <div class="collapse" id="menuDocente">
                   <ul class="list-unstyled ps-4">
                       <br>
-                    <li><a href="/asignacionCargaLectiva" class="text-white" style="font-size: 15px; text-decoration: none;" >Asignar docentes a grupo horario</a></li>
+                    <li><a href="/asignacionCargaLectiva" class="text-white">Asignar docentes a grupo horario</a></li>
                     <br>
-                    <li><a href="/csv" class="text-white" style="font-size: 15px; text-decoration: none;">Disponibilidad docente</a></li>
+                    <li><a href="/csv" class="text-white">Disponibilidad docente</a></li>
                     <br>
-                    <li><a href="{% url  'menu_docente' %}" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                    <li><a href="/menuDocente" class="text-white">Reportes</a></li>
                   </ul>
                 </div>
               </div>
@@ -214,17 +214,17 @@
                 <div class="collapse" id="menuAmbiente">
                   <ul class="list-unstyled ps-4">
                     <br>
-                    <li><a href="/asignarAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Asignar ambiente a escuela</a></li>
+                    <li><a href="/asignarAmbiente" class="text-white">Asignar ambiente a escuela</a></li>
                     <br>
-                    <li><a href="/csvAmbientes" class="text-white"  style="font-size: 15px; text-decoration: none;">Importar ambientes</a></li>
+                    <li><a href="/csvAmbientes" class="text-white">Importar ambientes</a></li>
                     <br>
-                    <li><a href="{% url  'menu_ambiente' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
+                    <li><a href="/menuAmbiente" class="text-white">Reportes</a></li>
                   </ul>
                 </div>
               </div>
               <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
               <div class="mt-3 mb-3">
-                <a class="btn shadow-none border-0 pb-3 text-white" href="/" role="button">
+                <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
                   <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
                 </a>
               </div>
@@ -272,49 +272,43 @@
 
                           <div class="row" >
                             <div class="col md-12">
-                                <div>
+                              <div>
+                                
                                     <label style="display: inline;">EDIFICIO: </label>
 
                                     <select name="edificio_id" class="form-control" id="edificio_id" style="width: 400px; display: inline;">
                                         {% for edificio in edificios %}
-                                        {% if edificio_id == edificio.id %}
-                                        <option selected value="{{ edificio.id }}">{{ edificio }}</option>
-                                        {% else %}
-                                        <option value="{{ edificio.id }}">{{ edificio }}</option>
-                                        {% endif %}
+                                        <option value="{{ edificio.id }}" {% if edificio.id == edificio_seleccionado %}selected{% endif %}>
+                                          {{ edificio.nombre_edificio }}
                                         {% endfor %}
                                     </select>
 
                                     <label style="display: inline;">AMBIENTE: </label>
                                     <select name="ambiente_id" class="form-control" id="ambiente_id" style="width: 400px; display: inline;">
                                         {% for ambiente in ambientes %}
-                                        {% if ambiente_id == ambiente.id %}
-                                        <option selected value="{{ ambiente.id }}">{{ ambiente }}</option>
-                                        {% else %}
-                                        <option value="{{ ambiente.id }}">{{ ambiente }}</option>
-                                        {% endif %}
+                                      <option value="{{ ambiente.id }}" {% if ambiente.id == ambiente_seleccionado %}selected{% endif %}>
+                                        {{ ambiente.nombre_ambiente }} 
                                         {% endfor %}
                                     </select>
-
-
-                                </div>
+                              </div>
                               
-                              
+                              <div style="height: 10px;"></div>
 
-                              
-                              <label style="display: inline;">SEMESTRE: </label>
-                              <select name="semestre_id" class="form-control" style="width: 400px; display: inline;">
-                                {% for ciclo_academico in semestres %}
-                                {% if semestre_id == ciclo_academico.id %}
-                                <option selected value="{{ ciclo_academico.id }}">{{ ciclo_academico }}</option>
-                                {% else %}
-                                <option value="{{ ciclo_academico.id }}">{{ ciclo_academico }}</option>
-                                {% endif %}
-                                {% endfor %}
-                              </select>
-    
-                              <button type="submit" class="btnVer" style="display: inline;">Ver Horario</button>
+                              <div>
 
+                                    <label style="display: inline;">SEMESTRE: </label>
+                                    <select name="semestre_id" class="form-control" style="width: 400px; display: inline;">
+                                      {% for ciclo_academico in semestres %}
+                                      {% if semestre_id == ciclo_academico.id %}
+                                      <option selected value="{{ ciclo_academico.id }}">{{ ciclo_academico }}</option>
+                                      {% else %}
+                                      <option value="{{ ciclo_academico.id }}">{{ ciclo_academico }}</option>
+                                      {% endif %}
+                                      {% endfor %}
+                                    </select>
+
+                                    <button type="submit" class="btnVer" style="display: inline;">Ver Horario</button>
+                              
                             </div>
                           </div>
                           
@@ -427,32 +421,45 @@ $(document).ready(function() {
 
 
 <script>
+  //Actualizar la lista de ambientes cada vez que se cambia el edificio.
   $(document).ready(function() {
-    $('#edificio_id').change(function() {
-      var edificioId = $(this).val();
-      var csrfToken = '{{ csrf_token }}';
+    function actualizarAmbientes(selectedAmbienteId = null) {
+        var edificioId = $('#edificio_id').val();
+        var csrfToken = '{{ csrf_token }}';
 
-      $.ajax({
-        type: 'POST',
-        url: '{% url "filtrar_ambientes_por_edificio" %}',
-        data: {
-          'edificio_id': edificioId,
-          'csrfmiddlewaretoken': csrfToken
-        },
-        success: function(response) {
-          var ambienteSelect = $('#ambiente_id');
-          ambienteSelect.empty();
-          
-          response.ambientes.forEach(function(ambiente) {
-            var option = $('<option>', {
-              value: ambiente.id,
-              text: ambiente.nombre
-            });
-            ambienteSelect.append(option);
+        if (edificioId) {
+          $.ajax({
+            type: 'POST',
+            url: '{% url "filtrar_ambientes_por_edificio" %}',
+            data: {
+              'edificio_id': edificioId,
+              'csrfmiddlewaretoken': csrfToken
+            },
+            success: function(response) {
+              var ambienteSelect = $('#ambiente_id');
+              ambienteSelect.empty();
+              
+              response.ambientes.forEach(function(ambiente) {
+                var option = $('<option>', {
+                  value: ambiente.id,
+                  text: ambiente.nombre
+                });
+
+                if (selectedAmbienteId && ambiente.id == selectedAmbienteId) {
+                  option.attr('selected', 'selected');
+                }
+                ambienteSelect.append(option);
+              });
+            }
           });
         }
-      });
-    });
+      }
+
+      // Actualizar ambientes cuando cambia el edificio
+      $('#edificio_id').change(actualizarAmbientes);
+
+      // Actualizar ambientes cuando se carga la página
+      actualizarAmbientes('{{ ambiente_seleccionado }}');
   });
 </script>
 </body>
