@@ -39,7 +39,51 @@ def obtenerCursosPorEscuela(request, escuela_id):
         return JsonResponse(cursos_list, safe=False)
     except escuela.DoesNotExist:
         return JsonResponse({'error': 'La escuela no existe.'}, status=404)
+def obtener_resumen_asignaciones(request):
+    if request.method == 'GET':
+        resumen = escuela_ambiente.objects.values('FK_ambiente__nombre_ambiente', 'FK_escuela__nombre_escuela').annotate(total=Count('FK_ambiente'))
+        resumen_list = list(resumen)
+        return JsonResponse(resumen_list, safe=False)
+        
 
+    else:
+        return JsonResponse({'error': 'Método no permitido.'}, status=405)
+def obtener_datos_reporte(request):
+    if request.method == 'GET':
+        datos = escuela_ambiente.objects.values('FK_escuela__nombre_escuela').annotate(total=Count('FK_ambiente')).order_by('FK_escuela__nombre_escuela')
+        datos_list = list(datos)
+        return JsonResponse(datos_list, safe=False)
+        #return render(request, 'reporteAmbiente.html', JsonResponse(datos_list, safe=False))
+
+    else:
+        return JsonResponse({'error': 'Método no permitido.'}, status=405)
+def reporte_ambientes(request):
+    return render(request, 'reporteAmbiente.html')
+def obtener_datos_reporte_ambiente_curso(request):
+     if request.method == 'GET':
+    # Obtener los cursos con sus IDs de ambiente
+        cursos = curso.objects.values('nombre_curso', 'amb').annotate(total=Count('amb')).order_by('nombre_curso')
+        
+        # Obtener los IDs de ambientes únicos
+        ambiente_ids = set(item['amb'] for item in cursos)
+        
+        # Obtener los nombres de ambientes usando los IDs
+        ambientes = ambiente.objects.filter(id__in=ambiente_ids).values('id', 'nombre_ambiente')
+        ambiente_dict = {amb['id']: amb['nombre_ambiente'] for amb in ambientes}
+
+        # Reemplazar los IDs de ambiente con los nombres correspondientes
+        datos_list = []
+        for item in cursos:
+            item['nombre_ambiente'] = ambiente_dict.get(item['amb'], 'Desconocido')
+            datos_list.append(item)
+        
+        return JsonResponse(datos_list, safe=False)
+     else:
+        return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+def reporte_ambiente_curso(request):
+    return render(request, 'reporte_ambiente_curso.html')
+#Obtiene todos los edificios y, para cada uno, obtiene los ambientes relacionados mediante una clave foránea.
 
 def obtener_edificios_y_ambientes(request):
     edificios = edificio.objects.all()

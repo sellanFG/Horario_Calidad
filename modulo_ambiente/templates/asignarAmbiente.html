@@ -120,6 +120,9 @@ h5 {
     font-weight: 400;
     
 }
+.list-group-item {
+        font-size: 14px;
+    }
 
     </style>
 
@@ -174,7 +177,7 @@ h5 {
                               <br>
                               <li><a href="/asignacion_docente" class="text-white">Generar horario</a></li>
                               <br>
-                                <li><a  href="{% url  'menu_horario' %}"  class="text-white">Reportes</a></li>
+                              <li><a href="/menuHorario" class="text-white">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -187,7 +190,8 @@ h5 {
                                 <br>
                               <li><a href="/grupoHorario" class="text-white">Asignar grupos horarios a cursos</a></li>
                               <br>
-                               <li><a  href="{% url  'menu_curso' %}"  class="text-white">Reportes</a></li>                              <!-- <br> -->
+                              <li><a href="/menuCurso" class="text-white">Reportes</a></li>
+                              <!-- <br> -->
                               <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
                             </ul>
                           </div>
@@ -203,7 +207,7 @@ h5 {
                               <br>
                               <li><a href="/csv" class="text-white">Disponibilidad docente</a></li>
                               <br>
-                                <li><a  href="{% url  'menu_docente' %}"  class="text-white">Reportes</a></li>
+                              <li><a href="/menuDocente" class="text-white">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -218,7 +222,7 @@ h5 {
                               <br>
                               <li><a href="/csvAmbientes" class="text-white">Importar ambientes</a></li>
                               <br>
-                                <li><a  href="{% url  'menu_ambiente' %}"  class="text-white">Reportes</a></li>
+                              <li><a href="/menuAmbiente" class="text-white">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -306,12 +310,65 @@ h5 {
                                                                 <div class="botones">
                                                                     <div class="d-flex justify-content-end gap-2">
                                                                         <button type="button"
-                                                                            class="btn btn-secondary" style="background-color: #181B22;">Cancelar</button>
+                                                                            class="btn btn-secondary btnCancelar" style="background-color: #181B22;">Cancelar</button>
 
                                                                         <button type="button"
-                                                                            class="btn btn-success btnGuardar">Guardar</button>
+                                                                            class="btn btn-success btnGuardar" >Guardar</button>
 
 
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <h3>Resumen de Aulas Asignadas</h3>
+                                                                        <div style="overflow-x:auto; max-height:300px; overflow-y:auto;">
+                                                                            <table id="resumenAsignaciones" class="table table-striped table-bordered">
+                                                                                <!-- Aquí se añadirá dinámicamente la tabla -->
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <!--
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <h3>Gráfico de Ambientes por Escuela</h3>
+                                                                        <canvas id="ambientesPorEscuelaChart"></canvas>
+                                                                    </div>
+                                                                </div>-->
+                                                                
+                                                                <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Por favor, seleccione un ambiente y escuela para antes de la asignacion.
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Modal de Confirmación -->
+                                                                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body" id="successModalBody">
+                                                                                Proceso guardado correctamente.
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
 
@@ -338,7 +395,6 @@ h5 {
 
     </div>
 
-
     <style>
         select {
             width: auto;
@@ -351,6 +407,14 @@ h5 {
             border: 1px solid #ced4da;
             border-radius: 5px;
         }
+        #resumenAsignacionesTabla tbody tr {
+    background-color: white; /* Cambia el color según tus necesidades */
+}
+
+#resumenAsignacionesTabla tbody tr:nth-child(even) {
+    background-color: white; /* Elimina el efecto de zebra striping */
+}
+
 
         /*#listasContenido{
         width: 100%; 
@@ -365,7 +429,7 @@ h5 {
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
 
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 
@@ -377,7 +441,7 @@ h5 {
     let ambientesSeleccionados = [];
 
     document.addEventListener('DOMContentLoaded', function () {
-
+        
         fetch('/obtener-semestre/')
             .then(response => response.json())
             .then(data => {
@@ -391,7 +455,7 @@ h5 {
             })
             .catch(error => console.error('Error fetching data:', error));
 
-
+        fetchResumenAsignaciones();
         fetch('/obtener-escuelas/')
             .then(response => response.json())
             .then(data => {
@@ -407,7 +471,38 @@ h5 {
 
         document.getElementById('listSemestre').addEventListener('change', fetchAmbientes);
         document.getElementById('listEscuelaProfesional').addEventListener('change', fetchAmbientes);
+/*fetch('/datos-reporte/')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(item => item.FK_escuela__nombre_escuela);
+                const valores = data.map(item => item.total);
 
+                const ctx = document.getElementById('ambientesPorEscuelaChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Número de Ambientes',
+                            data: valores,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+  
+       
+    })*/
 
         fetch('/obtener-edificios-ambientes/')
             .then(response => response.json())
@@ -498,146 +593,216 @@ h5 {
             .catch(error => console.error('Error fetching data:', error));
 
 
-
-
-
-
     });
+    
+    function fetchResumenAsignaciones() {
+    fetch('/resumen-asignaciones/')
+        .then(response => response.json())
+        .then(data => {
+            const resumenTable = document.getElementById('resumenAsignaciones');
+            resumenTable.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos elementos
 
-    function manejarEventosAmbiente() {
+            // Estructurar los datos por escuela
+            const escuelas = {};
+            data.forEach(item => {
+                const escuelaNombre = item['FK_escuela__nombre_escuela'];
+                const ambienteNombre = item['FK_ambiente__nombre_ambiente'];
 
-        const botonesAmbiente = document.querySelectorAll('.btnAmbiente');
-        botonesAmbiente.forEach(boton => {
-            boton.addEventListener('click', function () {
-                const idAmbiente = this.parentNode.querySelector('.id').textContent;
-
-
-                // Cambiar contenido y clases del botón
-                if (this.classList.contains('btn-success')) {
-                    ambientesSeleccionados.push(idAmbiente);
-                    console.log(ambientesSeleccionados);
-                    this.textContent = '-';
-                    this.classList.remove('btn-success');
-                    this.classList.add('btn-danger');
-                } else {
-                    const index = ambientesSeleccionados.indexOf(idAmbiente);
-                    ambientesSeleccionados.splice(index, 1);
-                    console.log(ambientesSeleccionados);
-                    this.textContent = '+';
-                    this.classList.remove('btn-danger');
-                    this.classList.add('btn-success');
+                if (!escuelas[escuelaNombre]) {
+                    escuelas[escuelaNombre] = [];
                 }
-
-                // Aquí puedes almacenar el ID en una lista temporal o realizar cualquier otra acción que desees
+                escuelas[escuelaNombre].push(ambienteNombre);
             });
+
+            // Crear el encabezado de la tabla
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            Object.keys(escuelas).forEach(escuelaNombre => {
+                const th = document.createElement('th');
+                th.textContent = escuelaNombre;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            resumenTable.appendChild(thead);
+
+            // Crear el cuerpo de la tabla
+            const tbody = document.createElement('tbody');
+            const maxAmbientes = Math.max(...Object.values(escuelas).map(aulas => aulas.length));
+
+            for (let i = 0; i < maxAmbientes; i++) {
+                const row = document.createElement('tr');
+                Object.keys(escuelas).forEach(escuelaNombre => {
+                    const td = document.createElement('td');
+                    td.textContent = escuelas[escuelaNombre][i] || '';
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            }
+            resumenTable.appendChild(tbody);
+        })
+        .catch(error => console.error('Error fetching resumen:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Añadir evento click al botón de guardar
+    document.querySelector('.btnGuardar').addEventListener('click', function () {
+        if (ambientesSeleccionados.length === 0) {
+            // Mostrar el modal de error si no hay ambientes seleccionados
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        } else {
+            // Aquí se puede añadir la lógica para guardar los ambientes seleccionados
+            console.log('Ambientes seleccionados:', ambientesSeleccionados);
+        }
+    });
+});
+
+function manejarEventosAmbiente() {
+    const botonesAmbiente = document.querySelectorAll('.btnAmbiente');
+    botonesAmbiente.forEach(boton => {
+        boton.addEventListener('click', function () {
+            const idAmbiente = this.parentNode.querySelector('.id').textContent;
+            if (this.classList.contains('btn-success')) {
+                ambientesSeleccionados.push(idAmbiente);
+                this.textContent = '-';
+                this.classList.remove('btn-success');
+                this.classList.add('btn-danger');
+                btnGuardar.disabled = false;
+            } else {
+                const index = ambientesSeleccionados.indexOf(idAmbiente);
+                ambientesSeleccionados.splice(index, 1);
+                this.textContent = '+';
+                this.classList.remove('btn-danger');
+                this.classList.add('btn-success');
+            }
         });
-    }
+    });
+}
 
     function mostrarContenido(idContenido, boton) {
-        var contenidos = document.getElementsByClassName('contenido');
-        for (var i = 0; i < contenidos.length; i++) {
-            contenidos[i].style.display = 'none';
-        }
-
-        var contenidoMostrar = document.getElementById(idContenido);
-        if (contenidoMostrar) {
-            contenidoMostrar.style.display = 'block';
-        }
-
-        var botones = document.querySelectorAll('.nav-link');
-        for (var i = 0; i < botones.length; i++) {
-            botones[i].classList.remove('active');
-        }
-        boton.classList.add('active');
+    var contenidos = document.getElementsByClassName('contenido');
+    for (var i = 0; i < contenidos.length; i++) {
+        contenidos[i].style.display = 'none';
     }
+
+    var contenidoMostrar = document.getElementById(idContenido);
+    if (contenidoMostrar) {
+        contenidoMostrar.style.display = 'block';
+    }
+
+    var botones = document.querySelectorAll('.nav-link');
+    for (var i = 0; i < botones.length; i++) {
+        botones[i].classList.remove('active');
+    }
+    boton.classList.add('active');
+}
+function desmarcarTarjetas() {
+    // Vaciamos la lista de ambientes seleccionados
+    ambientesSeleccionados = [];
+    // Seleccionamos todos los botones de ambiente
+    const botones = document.querySelectorAll('.btnAmbiente');
+    // Iteramos sobre cada botón
+    botones.forEach(boton => {
+        // Si el botón está marcado (en rojo), lo cambiamos a verde
+        if (boton.classList.contains('btn-danger')) {
+            boton.classList.remove('btn-danger');
+            boton.classList.add('btn-success');
+            boton.textContent = '+';
+        }
+    });
+    
+}
+
+document.querySelector('.btnCancelar').addEventListener('click', desmarcarTarjetas);
 
     function fetchAmbientes() {
-        const semestre = document.getElementById('listSemestre').value;
-        const escuela = document.getElementById('listEscuelaProfesional').value;
-        if (semestre !== '0' && escuela !== '0') {
-            fetch('/obtener-edificios-ambientes-selected/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({ semestre: semestre, escuela: escuela })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const navTabs = document.getElementById('navTabs');
-                    const listasContenido = document.getElementById('listasContenido');
-                    navTabs.innerHTML = '';
-                    listasContenido.innerHTML = '';
-                    data.forEach((edificio, index) => {
-                        const li = document.createElement('li');
-                        li.classList.add('nav-item');
-                        const a = document.createElement('a');
-                        a.classList.add('nav-link');
-                        if (index === 0) a.classList.add('active');
-                        a.href = '#';
-                        a.textContent = edificio.nombre_edificio;
-                        a.onclick = function () {
-                            mostrarContenido(`contenidoList${index + 1}`, this);
-                        };
-                        li.appendChild(a);
-                        navTabs.appendChild(li);
-                        const contenidoDiv = document.createElement('div');
-                        contenidoDiv.id = `contenidoList${index + 1}`;
-                        contenidoDiv.classList.add('contenido');
-                        contenidoDiv.style.display = index === 0 ? 'block' : 'none';
-                        const pisos = {};
-                        edificio.ambientes.forEach(ambiente => {
-                            if (!pisos[ambiente.piso]) pisos[ambiente.piso] = [];
-                            pisos[ambiente.piso].push(ambiente);
-                        });
-                        Object.keys(pisos).forEach(piso => {
-                            const pisoDiv = document.createElement('div');
-                            pisoDiv.classList.add(`piso${piso}`, 'mb-3', 'mt-2');
-                            const pisoTitle = document.createElement('h5');
-                            pisoTitle.classList.add('card-title');
-                            pisoTitle.textContent = `Piso ${piso}:`;
-                            pisoDiv.appendChild(pisoTitle);
-                            const listaDiv = document.createElement('div');
-                            listaDiv.classList.add('lista', 'd-flex', 'flex-wrap', 'gap-2');
-                            pisos[piso].forEach(ambiente => {
-                                const ambienteDiv = document.createElement('div');
-                                ambienteDiv.classList.add('border', 'p-2', 'd-flex', 'justify-content-center', 'flex-column', 'ambiente');
-                                const id = document.createElement('h5');
-                                id.classList.add('id', 'd-none');
-                                id.textContent = ambiente.id;
-                                ambienteDiv.appendChild(id);
-                                const nombre = document.createElement('h5');
-                                nombre.classList.add('nombre');
-                                nombre.textContent = ambiente.nombre_ambiente;
-                                ambienteDiv.appendChild(nombre);
-                                const capacidad = document.createElement('p');
-                                capacidad.classList.add('capacidad', 'rounded', 'bg-primary', 'text-white', 'p-1', 'text-center');
-                                capacidad.textContent = `Aforo (${ambiente.capacidad_ambiente})`;
-                                ambienteDiv.appendChild(capacidad);
-                                const button = document.createElement('button');
-                                button.classList.add('btnAmbiente', 'btn', 'btn-success');
-                                button.type = 'button';
-                                if (ambiente.estado === 'ocupado') {
-                                    button.classList.remove('btn-success');
-                                    button.classList.add('btn-danger');
-                                    button.textContent = '-';
-                                } else {
-                                    button.textContent = '+';
-                                }
-                                ambienteDiv.appendChild(button);
-                                listaDiv.appendChild(ambienteDiv);
-                            });
-                            pisoDiv.appendChild(listaDiv);
-                            contenidoDiv.appendChild(pisoDiv);
-                        });
-                        listasContenido.appendChild(contenidoDiv);
+    const semestre = document.getElementById('listSemestre').value;
+    const escuela = document.getElementById('listEscuelaProfesional').value;
+    if (semestre !== '0' && escuela !== '0') {
+        fetch('/obtener-edificios-ambientes-selected/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ semestre: semestre, escuela: escuela })
+        })
+            .then(response => response.json())
+            .then(data => {
+                const navTabs = document.getElementById('navTabs');
+                const listasContenido = document.getElementById('listasContenido');
+                navTabs.innerHTML = '';
+                listasContenido.innerHTML = '';
+                data.forEach((edificio, index) => {
+                    const li = document.createElement('li');
+                    li.classList.add('nav-item');
+                    const a = document.createElement('a');
+                    a.classList.add('nav-link');
+                    if (index === 0) a.classList.add('active');
+                    a.href = '#';
+                    a.textContent = edificio.nombre_edificio;
+                    a.onclick = function () {
+                        mostrarContenido(`contenidoList${index + 1}`, this);
+                    };
+                    li.appendChild(a);
+                    navTabs.appendChild(li);
+                    const contenidoDiv = document.createElement('div');
+                    contenidoDiv.id = `contenidoList${index + 1}`;
+                    contenidoDiv.classList.add('contenido');
+                    contenidoDiv.style.display = index === 0 ? 'block' : 'none';
+                    const pisos = {};
+                    edificio.ambientes.forEach(ambiente => {
+                        if (!pisos[ambiente.piso]) pisos[ambiente.piso] = [];
+                        pisos[ambiente.piso].push(ambiente);
                     });
-                    manejarEventosAmbiente();
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
+                    Object.keys(pisos).forEach(piso => {
+                        const pisoDiv = document.createElement('div');
+                        pisoDiv.classList.add(`piso${piso}`, 'mb-3', 'mt-2');
+                        const pisoTitle = document.createElement('h5');
+                        pisoTitle.classList.add('card-title');
+                        pisoTitle.textContent = `Piso ${piso}:`;
+                        pisoDiv.appendChild(pisoTitle);
+                        const listaDiv = document.createElement('div');
+                        listaDiv.classList.add('lista', 'd-flex', 'flex-wrap', 'gap-2');
+                        pisos[piso].forEach(ambiente => {
+                            const ambienteDiv = document.createElement('div');
+                            ambienteDiv.classList.add('border', 'p-2', 'd-flex', 'justify-content-center', 'flex-column', 'ambiente');
+                            const id = document.createElement('h5');
+                            id.classList.add('id', 'd-none');
+                            id.textContent = ambiente.id;
+                            ambienteDiv.appendChild(id);
+                            const nombre = document.createElement('h5');
+                            nombre.classList.add('nombre');
+                            nombre.textContent = ambiente.nombre_ambiente;
+                            ambienteDiv.appendChild(nombre);
+                            const capacidad = document.createElement('p');
+                            capacidad.classList.add('capacidad', 'rounded', 'bg-primary', 'text-white', 'p-1', 'text-center');
+                            capacidad.textContent = `Aforo (${ambiente.capacidad_ambiente})`;
+                            ambienteDiv.appendChild(capacidad);
+                            const button = document.createElement('button');
+                            button.classList.add('btnAmbiente', 'btn', 'btn-success');
+                            button.type = 'button';
+                            if (ambiente.estado === 'ocupado') {
+                                button.classList.remove('btn-success');
+                                button.classList.add('btn-danger');
+                                button.textContent = '-';
+                                
+                            } else {
+                                button.textContent = '+';
+                            }
+                            ambienteDiv.appendChild(button);
+                            listaDiv.appendChild(ambienteDiv);
+                        });
+                        pisoDiv.appendChild(listaDiv);
+                        contenidoDiv.appendChild(pisoDiv);
+                    });
+                    listasContenido.appendChild(contenidoDiv);
+                });
+                manejarEventosAmbiente();
+            })
+            .catch(error => console.error('Error fetching data:', error));
     }
+}
 
     function getCookie(name) {
         let cookieValue = null;
@@ -653,15 +818,6 @@ h5 {
         }
         return cookieValue;
     }
-
-
-</script>
-
-
-
-<script>
-
-
 
 
 
@@ -715,9 +871,11 @@ h5 {
                     // Aquí puedes manejar la respuesta del servidor
                     if (data.status === 'success') {
                         fetchAmbientes();
-                        alert('Proceso guardado correctamente');
+                        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                        fetchResumenAsignaciones();
                     } else {
-                        alert(`Error: ${data.message}`);
+                        
                     }
                 })
 
@@ -725,6 +883,7 @@ h5 {
 
 
         });
+        
 
     }
 
@@ -739,6 +898,7 @@ h5 {
 
             if (button.classList.contains('btn-success')) {
                 buttonClasses = 'success';
+                
             } else if (button.classList.contains('btn-danger')) {
                 buttonClasses = 'danger';
             }
@@ -747,6 +907,22 @@ h5 {
         });
         return listambientesSeleccionados;
     }
+    desmarcarTarjetas()
+    function verificarSeleccion() {
+        const button = ambienteDiv.querySelector('.btnAmbiente');    
+        const semestreSeleccionado = document.getElementById('listSemestre').value !== '0';
+            const escuelaSeleccionada = document.getElementById('listEscuelaProfesional').value == 'Medicina';
+            const ambienteSeleccionado = button.classList.contains('btn-success');
+
+            const btnGuardar = document.querySelector('.btnGuardar');
+            if (escuelaSeleccionada) {
+                btnGuardar.disabled = false;
+            } else {
+                btnGuardar.disabled = true;
+            }
+        }
+
+       
 
 </script>
 
