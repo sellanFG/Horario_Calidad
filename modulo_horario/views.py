@@ -606,8 +606,7 @@ def obtenerciclo():
     ciclos = ciclo_academico.objects.all()
     cicloarray = []
     for ci in ciclos:
-        cicloarray.append(f"{ci.cic_año} - {ci.cic_semestre}")
-        #cicloarray.append(ci.cic_año)
+        cicloarray.append((f"{ci.cic_año} - {ci.cic_semestre}"))
     return cicloarray
 
 def obtenerDocente():
@@ -627,7 +626,8 @@ def agregarGrupoHorario(request):
         ciclo = request.POST.get('ciclo')
         n_curso = request.POST.get('curso')
         
-        fkcic = ciclo_academico.objects.get(cic_año=ciclo)
+        ciclo_año, ciclo_semestre = ciclo.split(' - ')
+        fkcic = ciclo_academico.objects.get(cic_año=ciclo_año, cic_semestre=ciclo_semestre)
         fkcur = curso.objects.get(nombre_curso=n_curso)
 
         nuevo_grupo_horario = grupo_horario(
