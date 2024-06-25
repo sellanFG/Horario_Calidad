@@ -10,6 +10,7 @@ from .models import edificio
 from .models import tipo_ambiente
 from django.contrib import messages
 import csv, io, openpyxl
+from django.db.models import Count
 # Create your views here.
 
 

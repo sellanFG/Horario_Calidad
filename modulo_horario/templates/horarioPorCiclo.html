@@ -159,87 +159,74 @@
 
       <div class="row vh-100 overflow-auto">
 
-        <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger"
-          style="width: 230px;">
-          <div id="sidebar-nav"
-            class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
-            <ul
-              class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start"
-              id="menu">
+        <div id="sidebar" class="collapse collapse-horizontal show col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-danger" style="width: 230px;">
+          <div id="sidebar-nav" class="flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white sticky-top">
+            <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
               <div class="mt-3">
                 <br>
-                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario"
-                  role="button" aria-expanded="false" aria-controls="menuHorario">
-                  <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span
-                    class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
+                  <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white" >Horario</span>
                 </a>
                 <div class="collapse" id="menuHorario">
                   <ul class="list-unstyled ps-4">
                     <br>
-                    <li><a href="/" class="text-white">Gestionar horario</a></li>
+                    <li><a href="/" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
                     <br>
-                    <li><a href="/asignacion_docente" class="text-white">Generar horario</a></li>
+                    <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
                     <br>
-                    <li><a href="/menuHorario" class="text-white">Reportes</a></li>
+                    <li><a href="{% url  'menu_horario' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                   </ul>
                 </div>
               </div>
               <div class="mt-3">
-                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuCurso" role="button"
-                  aria-expanded="false" aria-controls="menuCurso">
-                  <i class="fs-4 my-0 py-0 fa fa-book me-2"></i><span
-                    class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuCurso" role="button" aria-expanded="false" aria-controls="menuCurso">
+                  <i class="fs-4 my-0 py-0 fa fa-book me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Curso</span>
                 </a>
                 <div class="collapse" id="menuCurso">
                   <ul class="list-unstyled ps-4">
+                      <br>
+                    <li><a href="/grupoHorario" class="text-white" style="font-size: 15px; text-decoration: none;">Asignar grupos horarios a cursos</a></li>
                     <br>
-                    <li><a href="/grupoHorario" class="text-white">Asignar grupos horarios a cursos</a></li>
-                    <br>
-                    <li><a href="/menuCurso" class="text-white">Reportes</a></li>
+                    <li><a href="{% url  'menu_curso' %}" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
                     <!-- <br> -->
                     <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
                   </ul>
                 </div>
               </div>
               <div class="mt-3">
-                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuDocente"
-                  role="button" aria-expanded="false" aria-controls="menuDocente">
-                  <i class="fs-4 my-0 py-0 fa fa-users me-2"></i><span
-                    class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuDocente" role="button" aria-expanded="false" aria-controls="menuDocente">
+                  <i class="fs-4 my-0 py-0 fa fa-users me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Docente</span>
                 </a>
                 <div class="collapse" id="menuDocente">
                   <ul class="list-unstyled ps-4">
+                      <br>
+                    <li><a href="/asignacionCargaLectiva" class="text-white" style="font-size: 15px; text-decoration: none;" >Asignar docentes a grupo horario</a></li>
                     <br>
-                    <li><a href="/asignacionCargaLectiva" class="text-white">Asignar docentes a grupo horario</a></li>
+                    <li><a href="/csv" class="text-white" style="font-size: 15px; text-decoration: none;">Disponibilidad docente</a></li>
                     <br>
-                    <li><a href="/csv" class="text-white">Disponibilidad docente</a></li>
-                    <br>
-                    <li><a href="/menuDocente" class="text-white">Reportes</a></li>
+                    <li><a href="{% url  'menu_docente' %}" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                   </ul>
                 </div>
               </div>
               <div class="mt-3">
-                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuAmbiente"
-                  role="button" aria-expanded="false" aria-controls="menuAmbiente">
-                  <i class="fs-4 my-0 py-0 fa fa-building me-2"></i><span
-                    class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
+                <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuAmbiente" role="button" aria-expanded="false" aria-controls="menuAmbiente">
+                  <i class="fs-4 my-0 py-0 fa fa-building me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Ambiente</span>
                 </a>
                 <div class="collapse" id="menuAmbiente">
                   <ul class="list-unstyled ps-4">
                     <br>
-                    <li><a href="/asignarAmbiente" class="text-white">Asignar ambiente a escuela</a></li>
+                    <li><a href="/asignarAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Asignar ambiente a escuela</a></li>
                     <br>
-                    <li><a href="/csvAmbientes" class="text-white">Importar ambientes</a></li>
+                    <li><a href="/csvAmbientes" class="text-white"  style="font-size: 15px; text-decoration: none;">Importar ambientes</a></li>
                     <br>
-                    <li><a href="/menuAmbiente" class="text-white">Reportes</a></li>
+                    <li><a href="{% url  'menu_ambiente' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                   </ul>
                 </div>
               </div>
               <hr class="solid w-100 d-flex h-100 border border-1 bg-white dropdown-divider mt-5" color="white">
               <div class="mt-3 mb-3">
-                <a class="btn shadow-none border-0 pb-3 text-white" href="#" role="button">
-                  <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span
-                    class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
+                <a class="btn shadow-none border-0 pb-3 text-white" href="/" role="button">
+                  <i class="fs-4 my-0 py-0 fa fa-sign-out me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Salir</span>
                 </a>
               </div>
             </ul>

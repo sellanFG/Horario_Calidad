@@ -168,16 +168,16 @@ h5 {
                         <div class="mt-3">
                           <br>
                           <a class="btn shadow-none border-0 text-white" data-bs-toggle="collapse" href="#menuHorario" role="button" aria-expanded="false" aria-controls="menuHorario">
-                            <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white">Horario</span>
+                            <i class="fs-4 my-0 py-0 fa fa-calendar me-2"></i><span class="my-auto ms-2 d-none d-sm-inline text-white" >Horario</span>
                           </a>
                           <div class="collapse" id="menuHorario">
                             <ul class="list-unstyled ps-4">
                               <br>
-                              <li><a href="/inicio" class="text-white">Gestionar horario</a></li>
+                              <li><a href="/" class="text-white"  style="font-size: 15px; text-decoration: none;">Gestionar horario</a></li>
                               <br>
-                              <li><a href="/asignacion_docente" class="text-white">Generar horario</a></li>
+                              <li><a href="/asignacion_docente" class="text-white"  style="font-size: 15px; text-decoration: none;">Generar horario</a></li>
                               <br>
-                              <li><a href="/menuHorario" class="text-white">Reportes</a></li>
+                              <li><a href="{% url  'menu_horario' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -188,9 +188,9 @@ h5 {
                           <div class="collapse" id="menuCurso">
                             <ul class="list-unstyled ps-4">
                                 <br>
-                              <li><a href="/grupoHorario" class="text-white">Asignar grupos horarios a cursos</a></li>
+                              <li><a href="/grupoHorario" class="text-white" style="font-size: 15px; text-decoration: none;">Asignar grupos horarios a cursos</a></li>
                               <br>
-                              <li><a href="/menuCurso" class="text-white">Reportes</a></li>
+                              <li><a href="{% url  'menu_curso' %}" class="text-white" style="font-size: 15px; text-decoration: none;" >Reportes</a></li>
                               <!-- <br> -->
                               <!-- <li><a href="#" class="text-white">Submenú 3</a></li> -->
                             </ul>
@@ -203,11 +203,11 @@ h5 {
                           <div class="collapse" id="menuDocente">
                             <ul class="list-unstyled ps-4">
                                 <br>
-                              <li><a href="/asignacionCargaLectiva" class="text-white">Asignar docentes a grupo horario</a></li>
+                              <li><a href="/asignacionCargaLectiva" class="text-white" style="font-size: 15px; text-decoration: none;" >Asignar docentes a grupo horario</a></li>
                               <br>
-                              <li><a href="/csv" class="text-white">Disponibilidad docente</a></li>
+                              <li><a href="/csv" class="text-white" style="font-size: 15px; text-decoration: none;">Disponibilidad docente</a></li>
                               <br>
-                              <li><a href="/menuDocente" class="text-white">Reportes</a></li>
+                              <li><a href="{% url  'menu_docente' %}" class="text-white" style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -218,11 +218,11 @@ h5 {
                           <div class="collapse" id="menuAmbiente">
                             <ul class="list-unstyled ps-4">
                               <br>
-                              <li><a href="/asignarAmbiente" class="text-white">Asignar ambiente a escuela</a></li>
+                              <li><a href="/asignarAmbiente" class="text-white"  style="font-size: 15px; text-decoration: none;">Asignar ambiente a escuela</a></li>
                               <br>
-                              <li><a href="/csvAmbientes" class="text-white">Importar ambientes</a></li>
+                              <li><a href="/csvAmbientes" class="text-white"  style="font-size: 15px; text-decoration: none;">Importar ambientes</a></li>
                               <br>
-                              <li><a href="/menuAmbiente" class="text-white">Reportes</a></li>
+                              <li><a href="{% url  'menu_ambiente' %}" class="text-white"  style="font-size: 15px; text-decoration: none;">Reportes</a></li>
                             </ul>
                           </div>
                         </div>
@@ -284,7 +284,7 @@ h5 {
                                                             <div class="card-body">
                                                                 
                                                                 <hr>
-                                                                <div class="container mt-5">
+                                                                <div class="container mt-5" style="width: 1000px;">
                                                                     <h1>Reporte de Ambientes por Curso</h1>
                                                                     <canvas id="ambientesPorCursoChart"></canvas>
                                                                 </div>
