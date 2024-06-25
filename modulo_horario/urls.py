@@ -11,13 +11,16 @@ urlpatterns = [
     path('inicio/menuDocente/', views.menuDocente,  name="menu_docente"),
     path('inicio/menuAmbiente/', views.menuAmbiente,  name="menu_ambiente"),
     path('asignacion_docente/', views.asignacion_docente, name="asignacion_docente"),
-    path('horarioPorDocente/',views.horarioDocente),
+    path('horarioPorDocente/',views.horarioDocente, name="horarioDocente"),
     path('horarioPorCiclo/',views.horarioXCiclo,name="horarioPorCiclo"),
     path('horarioPorAmbiente/',views.horarios_por_ambiente),
     path('filtrar_ambientes_por_edificio/', views.filtrar_ambientes_por_edificio, name='filtrar_ambientes_por_edificio'),
     path('gestionarGrupoHorario/', views.gestionarGrupoHorario, name="gestionarGrupoHorario"),
     path('agregarGrupoHorario/', views.agregarGrupoHorario, name="agregarGrupoHorario"),
     path('modificarGrupoHorario/<int:grupo_id>/', views.modificarGrupoHorario, name='modificarGrupoHorario'),
-    path('eliminarGrupoHorario/<int:grupo_id>/', views.eliminarGrupoHorario, name='eliminarGrupoHorario')
+    path('eliminarGrupoHorario/<int:grupo_id>/', views.eliminarGrupoHorario, name='eliminarGrupoHorario'),
+    # path('gestionarHorario/', views.prueba, name="gestionarHorario")
+    path('eliminarHorario/<int:horario_id>/', views.eliminarHorario, name='eliminarHorario'),
+    path('parametros/', views.parametros, name='parametros'),
         
 ]

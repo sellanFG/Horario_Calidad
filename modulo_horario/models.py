@@ -7,6 +7,7 @@ from modulo_ambiente.models import ambiente
 # Create your models here.
 class dia_semana(models.Model):
     dia_nombre = models.CharField(max_length=9)
+    estado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.dia_nombre

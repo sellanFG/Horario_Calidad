@@ -59,15 +59,12 @@ def obtenerGruposHorariosDocentes(docente_seleccionado):
 
 def horarioDocente(request):
     ids_docente = docente_grupo.objects.values_list('FKdocente_id', flat=True).distinct()
-    docentes = docente.objects.filter(id__in=ids_docente)
+    docentes = docente.objects.filter(id__in=ids_docente).order_by('doc_nombres')
     horario_final = None
     docente_id = None
     ghs=[]
     horario_final = []
-
-    #! agregado
-    horas = [time(i).strftime('%H:%M')
-             for i in range(7, 22)]  # Lista de horas de 07:00 a 22:00
+    horas = [(time(i).strftime('%H:%M'), i) for i in range(7, 22)]
 
     if request.method == 'POST':
         docente_id = request.POST.get('docente_sel')
@@ -82,6 +79,8 @@ def horarioDocente(request):
                     dia_nombre = disp.día_id
                     dia_nombre_f=dia_semana.objects.get(id=dia_nombre)
                     
+                    hor_id = disp.id
+
                     hora_inicio = disp.hora_de_inicio
                     hora_de_inicio_obj = datetime.strptime(hora_inicio, '%H:%M:%S')
                     hora_iniciof = hora_de_inicio_obj.strftime('%H:%M')
@@ -93,7 +92,7 @@ def horarioDocente(request):
                     amb= disp.ambiente
                     curgh=grupo_horario.objects.get(id=gh[3])
 
-                    horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,amb.nombre_ambiente,curgh.fk_curso, curgh.grupo, curgh.fk_curso.ciclo_curso))
+                    horario_final.append((dia_nombre_f.dia_nombre, hora_iniciof, hora_finf,amb.nombre_ambiente,curgh.fk_curso, curgh.grupo, curgh.fk_curso.ciclo_curso,hor_id))
 
         except docente.DoesNotExist:
             pass
@@ -114,6 +113,19 @@ def horarioDocente(request):
             'docentes': docentes,
         })
 
+
+def parametros(request):
+    dias = dia_semana.objects.all()
+    if request.method == 'POST':
+        for dia in dia_semana.objects.all():
+            estado_dia = request.POST.get(f'dia_{dia.id}', 'False') == 'True'
+            dia.estado = estado_dia  # Asumiendo que 'estado' es el campo a cambiar
+            dia.save()
+        return redirect('asignacion_docente') 
+
+    else:
+        
+        return render(request, 'parametros.html', {'dias': dias})
 
 def asignacion_docente(request):
 
@@ -174,17 +186,8 @@ def asignacion_docente(request):
                 obj_disp.ddo_horafin = hora_inicio + i + 1  # Asignar la hora de fin actual
                 obj_disp.FKdiasemana_id = disponibilidad.FKdiasemana_id
                 disponibilidades.append(obj_disp)
-
-        # Días 
-        dias_seleccionados = request.POST.getlist('dias')  # Obtener días seleccionados
-        
-        if not dias_seleccionados:
-            # Manejar el caso en que no se selecciona ningún día
-            error = "Debes seleccionar al menos un día."
-            return render(request, 'asignacion.html', {'dias': dias, 'error': error})  
-
-        dias = dia_semana.objects.filter(dia_nombre__in=dias_seleccionados)
-        print(dias)
+ 
+        dias = dia_semana.objects.filter(estado=True)
 
         horas = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
 
@@ -607,6 +610,13 @@ def obtenerciclo():
         #cicloarray.append(ci.cic_año)
     return cicloarray
 
+def obtenerDocente():
+    docentes = docente.objects.all()
+    docentearray = []
+    for d in docentes:
+        docentearray.append(d.doc_nombres)
+    return docentearray
+
 def agregarGrupoHorario(request):
     cursos = obtenercurso()
     ciclos = obtenerciclo()
@@ -682,3 +692,17 @@ def eliminarGrupoHorario(request, grupo_id):
         return redirect('gestionarGrupoHorario')
     
     return render(request, 'eliminarGrupoHorario.html', {'grupo': grupo})
+
+
+def eliminarHorario(request, horario_id):
+    horarios = horario.objects.get(id=horario_id)
+    gru  = horarios.fk_grupo_horario
+    nom = gru.fk_curso.nombre_curso
+    
+    if request.method == 'POST':
+        respuesta = request.POST.get('respuesta')
+        if respuesta == '1':
+            horarios.delete()
+        return redirect('horarioDocente')
+    
+    return render(request, 'eliminarHorario.html', {'horario': horarios, 'nombre_curso': nom})

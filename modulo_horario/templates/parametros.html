@@ -132,32 +132,31 @@ overflow-x: hidden;">
 
 
         <!-- TÍTULO -->
-    
+            
         <div class="box-tittle">
             <button type="button" class="regresarBtn">
                 <a href="/inicio"><img id="closeicon" src="{% static 'iconos/regresar.PNG' %}" width="32px" height="27px"></a>
             </button>
             <h3 id="titulo" style="margin-left: 20px;">GENERAR HORARIO</h3>
         </div>
-    
-    
+
+
         <section class="content-info" style="margin-top: 20px; margin-bottom: 20px">
             <div class="container">
                 <div class="row">
-
-                  <div>
-                    <p>Disponibilidad docente {{ d }}</p> 
-                    <p>Ambientes asignados a la escuela {{ a }}</p>
-                    <!-- <p>Días laborales seleccionados</p> <p>{{ dl }}</p> -->
-                  </div>
-                    <form method="POST" action="{% url 'asignacion_docente' %}">
-                      
-                        {% csrf_token %}
-                    <br>
-                        <input type="submit" value="Generar">
+                    <form method="post">
+                      {% csrf_token %}
+                      <ul>
+                        {% for dia in dias %}
+                          <li>
+                            <label>
+                              <input type="checkbox" name="dia_{{ dia.id }}" value="True" {% if dia.estado %}checked{% endif %}> {{ dia.dia_nombre }}
+                            </label>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                      <button type="submit">Guardar cambios</button>
                     </form>
-
-
                 </div>
                 
             </div>

@@ -279,49 +279,6 @@
                           <br>
                           <br>                             
                         
-                         <!--
-                          <form class="row g-3" method="post" autocomplete="off">
-  
-                            {% csrf_token %}
-                            <div class="col-md-6">
-                                <label for="nombre" class="form-label">Grupo Horario:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre"
-                                    value="{{ grupoHorario.0.0 }}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="capacidad" class="form-label">Capacidad:</label>
-                                <input type="capacidad" class="form-control" id="capacidad"
-                                    name="capacidad" value="{{ grupoHorario.0.1 }}">
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <label for="ciclo" class="form-label">Ciclo: </label>
-                                <select class="form-select" id="ciclo" name="ciclo" required>
-                                    {% for ci in cic %}
-                                    <option value="{{ ci }}" {% if  ci  == grupoHorario.0.2 %}selected{% endif %}>{{ ci }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="curso" class="form-label">Curso: </label>
-                                <select class="form-select" id="curso" name="curso" required>
-                                    {% for cu in cur %}
-                                    <option value="{{ cu }}" {% if  cu  == grupoHorario.0.3 %}selected{% endif %}>{{ cu }}
-                                    </option>
-                                    {% endfor %}                             
-                                </select>
-                            </div>
-
-                              <div class="col-12" style="text-align: right;">
-                                <br>
-                                <button class="btnCancel" style="margin-right: 5px;" onclick="window.location.href='{% url 'gestionarGrupoHorario' %}'">Cancelar</button>
-                                <button type="submit" class="btnVer">Modificar</button>
-                              </div>
-              
-                          </form>
-                        -->
                         <form class="row g-3" method="post" autocomplete="off">
   
                           {% csrf_token %}

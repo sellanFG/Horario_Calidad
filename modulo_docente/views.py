@@ -232,7 +232,7 @@ def asignacionCargaLectiva(request):
         return render(request, 'asignacionCargaLectiva.html', datos)
 
 def disponibilidadDocente(request):
-    docentes = docente.objects.all()
+    docentes = docente.objects.all().order_by('doc_nombres')
     horario_final = None
     docente_id = None
     #! agregado

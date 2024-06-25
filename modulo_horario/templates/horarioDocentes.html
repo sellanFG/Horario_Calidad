@@ -265,30 +265,30 @@
                           </div>
 
                           
-                        <form method="post">
-                          {% csrf_token %}
-                          <br>
-
-                          <div class="row" >
-                            <div class="col md-12">
-                              <label style="display: inline;">Docente: </label>
-
-                              <select name="docente_sel" class="form-control" style="width: 400px; display: inline;">
-                                {% for docente in docentes %}
-                                {% if docente_id == docente.id %}
-                                <option selected value="{{ docente.id }}">{{ docente }}</option>
-                                {% else %}
-                                <option value="{{ docente.id }}">{{ docente }}</option>
-                                {% endif %}
-                                {% endfor %}
-                              </select>
-    
-                              <button type="submit" class="btnVer" style="display: inline;">Ver Horario</button>
-
-                            </div>
-                          </div>
-
+                          <form method="POST" action="{% url 'horarioDocente' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label style="display: inline;">Docente:</label>
+                                    <select name="docente_sel" class="form-control" style="width: 400px; display: inline;">
+                                      {% if horas_sin_asignar %}
+                                        {% for curso, horas in horas_sin_asignar.items %}
+                                            {% if curso in cursos_sin_horario %}
+                                            <li>{{ curso.nombre_curso }} (Horas sin asignar: {{ horas }})</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                        {% for docente in docentes %}
+                                            <option value="{{ docente.id }}" {% if docente_id == docente.id %}selected{% endif %}>
+                                                {{ docente.doc_nombres }} {{ docente.doc_apellidos }}  
+                                            </option>
+                                        {% endfor %}
+                                    </select>
                         
+                                    <input type="hidden" name="docente_id" value="{{ docente_id|default_if_none:'' }}">
+                                    <button type="submit" class="btnVer" style="display: inline;">Ver Horario</button>
+                                </div>
+                            </div>
                         </form>
                     
                         {% if horario %}
@@ -302,7 +302,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            {% for hora in horas %}  
+                            {% for hora, hora_id in horas %}  
                             <tr>
                               <td class="horario-cell" style="width: 10;background-color: #e8ebf1; color: blue;font-size: 14px; padding: 0px; align-items: center; justify-content: center;">
                                 <div class="hora-container" style="margin-bottom: 90px;">
@@ -317,7 +317,7 @@
                                 {% for disp in horario %}
                                 {% if disp.0 == dia and disp.1 <= hora and disp.2 > hora %}
 
-                                <div style="background-color: rgb(241, 225, 14); width: 100%; height: 100%; box-sizing: border-box;  margin: 0px;">
+                                <div style="background-color: rgb(241, 225, 14); width: 100%; height: 100%; box-sizing: border-box;  margin: 0px;" data-horario-id="{{ disp.7 }}">
                                   <p style="font-size: 12px;  margin: 0px;"> 
                                     <br>
                                     {{ disp.4 }} 
@@ -361,6 +361,26 @@
     </div>
 
   </div>
+  <!-- Modal -->
+<div class="modal fade" id="accionModal" tabindex="-1" role="dialog" aria-labelledby="accionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="accionModalLabel">Acción Requerida</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Desea eliminar o modificar?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="eliminarBtn">Eliminar</button>
+        <button type="button" class="btn btn-primary" id="modificarBtn">Modificar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
     integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
@@ -393,6 +413,27 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('.horario-cell div').click(function() { 
+        $('#accionModal').modal('show');
+        var horarioId = $(this).data('horario-id'); 
+        $('#eliminarBtn').data('horario-id', horarioId);
+        // Puedes agregar aquí más acciones para mostrar información en el modal
+    });
+
+    $('#eliminarBtn').click(function() {
+        var horarioId = $(this).data('horario-id');
+        // Redirigir a la URL de eliminación
+        window.location.href = '/eliminarHorario/' + horarioId;
+    });
+
+  // Manejar clic en botón Modificar
+  $('#modificarBtn').click(function() {
+    // Lógica para modificar
+    console.log('Modificar');
+    $('#accionModal').modal('hide');
+  });
+});
     </script>
 
 </body>
