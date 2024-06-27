@@ -17,7 +17,6 @@ urlpatterns = [
     path('eliminarAmbiente/<int:ambiente_id>/', views.eliminar_ambiente, name='eliminarAmbiente'),
     path('resumen-asignaciones/', views.obtener_resumen_asignaciones, name='obtener_resumen_asignaciones'),
     path('datos-reporte/', views.obtener_datos_reporte, name='obtener_datos_reporte'),
-    path('reporte-ambientes/', views.reporte_ambientes, name='reporte_ambientes'),
     path('datos-reporte-ambiente-curso/', views.obtener_datos_reporte_ambiente_curso, name='obtener_datos_reporte_ambiente_curso'),
     path('reporte-ambiente-curso/', views.reporte_ambiente_curso, name='reporte_ambiente_curso')
 ]
