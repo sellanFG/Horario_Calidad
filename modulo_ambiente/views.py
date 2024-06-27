@@ -61,7 +61,7 @@ def obtener_datos_reporte(request):
 #def reporte_ambientes(request):
     #return render(request, 'reporteAmbiente.html')
 def obtener_datos_reporte_ambiente_curso(request):
-     if request.method == 'GET':
+    if request.method == 'GET':
         # Obtener todos los cursos
         cursos = grupo_horario.objects.values('fk_curso__nombre_curso').distinct()
 
