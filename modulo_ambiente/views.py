@@ -58,8 +58,8 @@ def obtener_datos_reporte(request):
 
     else:
         return JsonResponse({'error': 'Método no permitido.'}, status=405)
-def reporte_ambientes(request):
-    return render(request, 'reporteAmbiente.html')
+#def reporte_ambientes(request):
+    #return render(request, 'reporteAmbiente.html')
 def obtener_datos_reporte_ambiente_curso(request):
      if request.method == 'GET':
     # Obtener los cursos con sus IDs de ambiente
