@@ -1,3 +1,4 @@
+from collections import defaultdict
 from pyexpat import model
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect,get_object_or_404
@@ -250,34 +251,6 @@ def asignacion_docente(request):
 
         # Restricción de disponibilidad de ambiente
 
-        for dia in dias:
-            for hora_inicio in horas:
-                for ambien in ambientes:
-                    vars_horario_ambiente = []
-                    for grupo_id, grupo_data in grupos.items():
-                        clave = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio, hora_inicio + 1)
-                        vars_horario_ambiente.append(horario_vars[clave])
-                        
-                    problema.Add(sum(vars_horario_ambiente) <= 1)
-
-        # # Restricción de ambiente preferido
-        # #start_time = tiempo.time()
-
-        # for grupo_id, grupo_data in grupos.items():
-        #     for ambien in ambientes:
-        #         for dia in dias:
-        #             for hora_inicio in horas:
-        #                 if grupo_data['ambiente_preferido'] != ambien.FKtipo_ambiente:
-        #                     clave = (grupo_data['nombre_grupo'], ambien.nombre_ambiente, dia.dia_nombre, hora_inicio, hora_inicio + 1)
-        #                     problema.Add(horario_vars[clave] == 0)
-
-        # # Restricción de ciclos preferidos
-        # horas_manana = [hora for hora in horas if hora < 12]
-        # horas_tarde = [hora for hora in horas if hora >= 12]
-
-        # Restricción adicional: no más de 3 horas de clase de un grupo por día
-        #start_time = tiempo.time()
-
         for grupo_id, grupo_data in grupos.items():
             for dia in dias:
                 for ambien in ambientes:
@@ -286,36 +259,49 @@ def asignacion_docente(request):
                         clave = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio, hora_inicio + 1)
                         vars_horario_grupo_dia.append(horario_vars[clave])
                 
-                    tiene_clases = problema.NewBoolVar(f'tiene_clases_{grupo.id}_{dia.dia_nombre}')
-                    problema.Add(sum(vars_horario_grupo_dia) >= 2).OnlyEnforceIf(tiene_clases)
-                    problema.Add(sum(vars_horario_grupo_dia) <= 3).OnlyEnforceIf(tiene_clases)
-                    problema.Add(sum(vars_horario_grupo_dia) == 0).OnlyEnforceIf(tiene_clases.Not())
+                    tiene_clases = problema.NewBoolVar(f'tiene_clases_{grupo_id}_{dia.dia_nombre}')
+                    if grupo_data['horas_totales'] == 6 or grupo_data['horas_totales'] == 3:
+                        problema.Add(sum(vars_horario_grupo_dia) == 3).OnlyEnforceIf(tiene_clases)
+                        problema.Add(sum(vars_horario_grupo_dia) == 0).OnlyEnforceIf(tiene_clases.Not())
+                    if grupo_data['horas_totales'] == 4 or grupo_data['horas_totales'] == 2:
+                        problema.Add(sum(vars_horario_grupo_dia) == 2).OnlyEnforceIf(tiene_clases)
+                        problema.Add(sum(vars_horario_grupo_dia) == 0).OnlyEnforceIf(tiene_clases.Not())
+                    if grupo_data['horas_totales'] == 5:
+                        problema.Add(sum(vars_horario_grupo_dia) >= 2).OnlyEnforceIf(tiene_clases)
+                        problema.Add(sum(vars_horario_grupo_dia) <= 3).OnlyEnforceIf(tiene_clases)
+                        problema.Add(sum(vars_horario_grupo_dia) == 0).OnlyEnforceIf(tiene_clases.Not())
+
+
+        size_bloques = defaultdict(list)
+        for clave, var in horario_vars.items():
+            grupo_id, _, dia, _, _ = clave
+            size_bloques[(grupo_id, dia)].append(var)
+
+        for (grupo_id, dia), vars in size_bloques.items():
+            tiene_clases = problema.NewBoolVar(f'tiene_clases_{grupo_id}_{dia}')
+            problema.Add(sum(vars) >= 2).OnlyEnforceIf(tiene_clases)
+            problema.Add(sum(vars) <= 3).OnlyEnforceIf(tiene_clases)
+            problema.Add(sum(vars) == 0).OnlyEnforceIf(tiene_clases.Not())
 
         #Restricción para generar horarios de grupo juntos
-        costo_huecos = 0
-        for grupo_id, grupo_data in grupos.items():
+        horas_vinculadas_totales = [[7, 8, 9],[10, 11],[13, 14, 15],[16,17],[18,19],[20, 21]]
+        h = 0
+        for horas_vinculadas in horas_vinculadas_totales:
             for ambien in ambientes:
                 for dia in dias:
-                    for i in range(len(horas) - 1):
-                        hora_inicio1 = horas[i]
-                        hora_inicio2 = horas[i + 1]
-                        clave1 = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio1, hora_inicio1 + 1)
-                        clave2 = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio2, hora_inicio2 + 1)
-                        
-                        # Variable para el costo del hueco
-                        costo_hueco = problema.NewIntVar(0, hora_inicio2 - hora_inicio1 - 1, f'costo_hueco_{grupo_id}{ambien.nombre_ambiente}{dia.dia_nombre}{hora_inicio1}{hora_inicio2}')
-
-                        # Restricciones para calcular el costo del hueco
-                        problema.Add(costo_hueco == 0).OnlyEnforceIf([horario_vars[clave1], horario_vars[clave2]])  # Ambas clases programadas
-                        problema.Add(costo_hueco == hora_inicio2 - hora_inicio1 - 1).OnlyEnforceIf([horario_vars[clave1].Not(), horario_vars[clave2].Not()])  # Ninguna clase programada
-                        problema.Add(costo_hueco == 0).OnlyEnforceIf([horario_vars[clave1], horario_vars[clave2].Not()])  # Solo la primera clase programada
-                        problema.Add(costo_hueco == 0).OnlyEnforceIf([horario_vars[clave1].Not(), horario_vars[clave2]])  # Solo la segunda clase programada
-
-                        # Acumular el costo
-                        costo_huecos += costo_hueco
-
-        # Minimizar directamente el costo total
-        problema.Minimize(costo_huecos)
+                    vars_por_grupo = defaultdict(list)
+                    for hora_inicio in horas_vinculadas:
+                        for grupo_id, grupo_data in grupos.items():
+                            clave = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio, hora_inicio + 1)
+                            vars_por_grupo[grupo_id].append(horario_vars[clave])
+                    
+                    # Añadir restricciones para asegurar que el mismo grupo es asignado a las horas vinculadas
+                    for grupo_id, vars in vars_por_grupo.items():
+                        asignado_todas_horas = problema.NewBoolVar(f'asignado_todas_horas_{ambien.nombre_ambiente}{dia.dia_nombre}{grupo_id}_{h}')
+                        # La suma de las variables debe ser igual al número de horas vinculadas si el grupo está asignado a todas ellas
+                        problema.Add(sum(vars) == len(horas_vinculadas)).OnlyEnforceIf(asignado_todas_horas)
+                        problema.Add(sum(vars) == 0).OnlyEnforceIf(asignado_todas_horas.Not())
+            h += 1
 
         #Restriccion para que no se crucen horarios del mismo grupo y denominacion
 
@@ -341,7 +327,6 @@ def asignacion_docente(request):
                         clave = (grupo_id, ambien.nombre_ambiente, dia.dia_nombre, hora_inicio, hora_inicio + 1)
                         # Agregar la variable de horario al grupo correspondiente
                         vars_por_denominacion[(grupo_data['nombre_grupo'], grupo_data['ciclo'], dia.dia_nombre, hora_inicio)].append(horario_vars[clave])
-
 
 
         solver = cp_model.CpSolver()
