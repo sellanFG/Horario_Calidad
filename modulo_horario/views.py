@@ -691,3 +691,178 @@ def eliminarHorario(request, horario_id):
         return redirect('horarioDocente')
     
     return render(request, 'eliminarHorario.html', {'horario': horarios, 'nombre_curso': nom})
+
+
+# Funciones útiles
+
+def obtenerCicloConcatenado_Obj(ciclo_seleccionado):
+    ciclo_seleccion = ciclo_academico.objects.get(
+                cic_año=ciclo_seleccionado.split(' - ')[0],
+                cic_semestre=ciclo_seleccionado.split(' - ')[1])
+    return ciclo_seleccion
+
+def obtenerGruposHorariosDocentePorEscuelaCiclo(escuela_seleccion, ciclo_seleccion):
+    
+    enviar=[]
+    docentes=[]
+    
+    planes = plan_estudio.objects.filter(fk_escuela=escuela_seleccion)
+
+    for plan_estudio_obj in planes:
+        cursos_filtrados = curso.objects.filter(
+            FKplan_estudio_id=plan_estudio_obj)
+
+        for curso_obj in cursos_filtrados:
+            gh = grupo_horario.objects.filter(
+                fk_ciclo=ciclo_seleccion.id, fk_curso=curso_obj)
+            
+            
+            for grupo_obj in gh:
+                
+                g_id = grupo_obj.id
+                nombre = grupo_obj.fk_curso
+                g_nombre = grupo_obj.grupo
+
+                ghdocente= docente_grupo.objects.filter(FKgrupo=g_id)
+
+                if not ghdocente:
+                    enviar.append((curso_obj.codigo_curso, curso_obj.ciclo_curso,nombre, g_nombre, "No tiene docente asignado",g_id))
+
+                else:
+
+                    docentes = [ghdobj.FKdocente for ghdobj in ghdocente]
+                    docentes_str = ', '.join(str(doc) for doc in sorted(docentes, key=lambda x: x.id))
+
+                    enviar.append((curso_obj.codigo_curso, curso_obj.ciclo_curso,nombre, g_nombre, docentes_str,g_id))
+    
+    return enviar
+
+
+
+
+def obtenerHorariosDocentePorEscuelaCiclo(escuela_seleccion, ciclo_seleccion):
+    
+    enviar=[]
+    docentes=[]
+    plandoc=[]
+
+    planes = plan_estudio.objects.filter(fk_escuela=escuela_seleccion)
+
+    for plan_estudio_obj in planes:
+        cursos_filtrados = curso.objects.filter(
+            FKplan_estudio_id=plan_estudio_obj)
+
+        for curso_obj in cursos_filtrados:
+            gh = grupo_horario.objects.filter(
+                fk_ciclo=ciclo_seleccion.id, fk_curso=curso_obj)
+            
+            
+            for grupo_obj in gh:
+
+                horarioo= horario.objects.filter(fk_grupo_horario_id=grupo_obj.id)
+
+                for hor in horarioo:
+                   hor_id= hor.id
+                   g_id= hor.fk_grupo_horario_id
+                   gcur= grupo_obj.fk_curso.nombre_curso
+                   gcic= grupo_obj.fk_curso.ciclo_curso
+
+                   ghs = docente_grupo.objects.filter(FKgrupo_id=g_id)
+
+                   for gh in ghs:
+                       
+                       enviar.append((g_id, gcur,gcic,grupo_obj.grupo,hor.ambiente,gh.FKdocente.doc_nombres,hor.hora_de_inicio, hor.hora_final,hor.día,hor_id))
+
+    
+    return enviar
+
+
+
+def obtenerDocentesPorEstado(estado):
+    
+    enviardoc=[]
+    
+    docentes = docente.objects.filter(doc_estado=estado)
+    
+    for docente_obj in docentes:
+                nombre = docente_obj.doc_nombres
+                id= docente_obj.id
+                enviardoc.append((nombre,id))
+
+    return enviardoc
+
+def obtenerDocentesAsignados(id):
+
+    enviar=[]
+
+    ghdocente= docente_grupo.objects.filter(FKgrupo=id)
+
+    if not ghdocente:
+            enviar.append(("No hay asignados"))
+    else:
+        
+        for ghdobj in ghdocente:
+            
+            objeto=docente.objects.get(doc_nombres=ghdobj.FKdocente)
+            enviar.append((objeto.id,objeto.doc_nombres))
+
+    return enviar
+
+def prueba(request):
+    ciclos = ciclo_academico.objects.all()
+    escuelas = escuela.objects.all()
+    ciclo_seleccionado = request.POST.get('ciclo_ac')
+    escuela_seleccionada = request.POST.get('esc')
+    enviar = []
+    enviardoc = []
+
+    if request.method == 'POST':
+        if ciclo_seleccionado and escuela_seleccionada:
+            ciclo_seleccion = obtenerCicloConcatenado_Obj(ciclo_seleccionado)
+            escuela_seleccion = escuela.objects.get(nombre_escuela=escuela_seleccionada)
+            enviar = obtenerHorariosDocentePorEscuelaCiclo(escuela_seleccion, ciclo_seleccion)
+            enviardoc = obtenerDocentesPorEstado('D')
+            ambientess = ambiente.objects.all()
+            ddias = dia_semana.objects.all()
+
+            datos = {
+                'ciclo_select': ciclos,
+                'escuela_select': escuelas,
+                'ciclo_seleccionado': ciclo_seleccion,
+                'escuela_seleccionada': escuela_seleccionada,
+                'cursos': enviar,
+                'docentes': enviardoc,
+                'amb': ambientess,
+                'dias': ddias
+            }
+
+            return render(request, 'gestionarHorario.html', datos)
+            
+        
+        if request.POST.get('horid'):
+                df = horario.objects.get(id=request.POST.get('horid'))
+                hi = request.POST.get('hini')
+                hf = request.POST.get('hfin')
+                amb = request.POST.get('ambid')
+                dia = request.POST.get('diaid')
+                gh = request.POST.get('grid')
+
+                # Actualizar los datos del horario
+                df.hora_de_inicio = hi
+                df.hora_final = hf
+                df.motivo_cambio = "null"
+                df.ambiente = amb
+                fktp = dia_semana.objects.get(dia_nombre=dia)
+                df.día = fktp
+                df.fk_grupo_horario = gh
+                df.save()
+        return render(request, 'gestionarHorario.html')
+
+        
+    else:
+        datos = {
+            'ciclo_select': ciclos,
+            'escuela_select': escuelas
+        }
+    
+    return render(request, 'gestionarHorario.html', datos)

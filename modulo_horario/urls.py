@@ -19,7 +19,7 @@ urlpatterns = [
     path('agregarGrupoHorario/', views.agregarGrupoHorario, name="agregarGrupoHorario"),
     path('modificarGrupoHorario/<int:grupo_id>/', views.modificarGrupoHorario, name='modificarGrupoHorario'),
     path('eliminarGrupoHorario/<int:grupo_id>/', views.eliminarGrupoHorario, name='eliminarGrupoHorario'),
-    # path('gestionarHorario/', views.prueba, name="gestionarHorario")
+    path('gestionarHorario/', views.prueba, name="gestionarHorario"),
     path('eliminarHorario/<int:horario_id>/', views.eliminarHorario, name='eliminarHorario'),
     path('parametros/', views.parametros, name='parametros'),
         
